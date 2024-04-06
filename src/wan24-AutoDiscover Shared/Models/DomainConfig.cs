@@ -22,13 +22,24 @@ namespace wan24.AutoDiscover.Models
         /// Accepted domain names
         /// </summary>
         [ItemRegularExpression(@"^[a-z|-|\.]{1,256}$")]
-        public HashSet<string>? AcceptedDomains { get; init; }
+        public IReadOnlyList<string>? AcceptedDomains { get; init; }
 
         /// <summary>
         /// Protocols
         /// </summary>
         [CountLimit(1, int.MaxValue)]
-        public required virtual HashSet<Protocol> Protocols { get; init; }
+        public required IReadOnlyList<Protocol> Protocols { get; init; }
+
+        /// <summary>
+        /// Login name mapping (key is the email address or alias, value the mapped login name)
+        /// </summary>
+        [RequiredIf(nameof(LoginNameMappingRequired), true)]
+        public IReadOnlyDictionary<string, string>? LoginNameMapping { get; init; }
+
+        /// <summary>
+        /// If a successfule login name mapping is required (if no mapping was possible, the email address will be used as login name)
+        /// </summary>
+        public bool LoginNameMappingRequired { get; init; }
 
         /// <summary>
         /// Create XML
@@ -38,7 +49,7 @@ namespace wan24.AutoDiscover.Models
         /// <param name="emailParts">Splitted email parts</param>
         public virtual void CreateXml(XmlDocument xml, XmlNode account, string[] emailParts)
         {
-            foreach (Protocol protocol in Protocols) protocol.CreateXml(xml, account, emailParts);
+            foreach (Protocol protocol in Protocols) protocol.CreateXml(xml, account, emailParts, this);
         }
     }
 }

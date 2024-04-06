@@ -11,25 +11,25 @@ if (args.Length > 0)
     await Bootstrap.Async().DynamicContext();
     Translation.Current = Translation.Dummy;
     Settings.AppId = "wan24-AutoDiscover";
-    Settings.ProcessId = "webservice";
+    Settings.ProcessId = "cli";
     Logging.Logger = new VividConsoleLogger();
-    CliApi.HelpHeader = "wan24-AutoDiscover";
+    CliApi.HelpHeader = "wan24-AutoDiscover - (c) 2024 Andreas Zimmermann, wan24.de";
     return await CliApi.RunAsync(args, exportedApis: [typeof(CliHelpApi), typeof(CommandLineInterface)]).DynamicContext();
 }
 
 // Load the configuration
 string configFile = Path.Combine(ENV.AppFolder, "appsettings.json");
-(IConfigurationRoot Config, DiscoveryConfig Discovery) LoadConfig()
+IConfigurationRoot  LoadConfig()
 {
     ConfigurationBuilder configBuilder = new();
     configBuilder.AddJsonFile(configFile, optional: false);
     IConfigurationRoot config = configBuilder.Build();
-    DiscoveryConfig discovery = config.GetRequiredSection("DiscoveryConfig").Get<DiscoveryConfig>()
+    DiscoveryConfig.Current = config.GetRequiredSection("DiscoveryConfig").Get<DiscoveryConfig>()
         ?? throw new InvalidDataException($"Failed to get a {typeof(DiscoveryConfig)} from the \"DiscoveryConfig\" section");
-    DomainConfig.Registered = discovery.GetDiscoveryConfig(config);
-    return (config, discovery);
+    DomainConfig.Registered = DiscoveryConfig.Current.GetDiscoveryConfig(config);
+    return config;
 }
-(IConfigurationRoot config, DiscoveryConfig discovery) = LoadConfig();
+IConfigurationRoot config = LoadConfig();
 
 // Initialize wan24-Core
 await Bootstrap.Async().DynamicContext();
@@ -37,7 +37,7 @@ Translation.Current = Translation.Dummy;
 Settings.AppId = "wan24-AutoDiscover";
 Settings.ProcessId = "webservice";
 Settings.LogLevel = config.GetValue<LogLevel>("Logging:LogLevel:Default");
-Logging.Logger = discovery.LogFile is string logFile && !string.IsNullOrWhiteSpace(logFile)
+Logging.Logger = DiscoveryConfig.Current.LogFile is string logFile && !string.IsNullOrWhiteSpace(logFile)
     ? await FileLogger.CreateAsync(logFile, next: new VividConsoleLogger()).DynamicContext()
     : new VividConsoleLogger();
 ErrorHandling.ErrorHandler = (e) => Logging.WriteError($"{e.Info}: {e.Exception}");
@@ -108,14 +108,14 @@ builder.Logging.ClearProviders()
 if (ENV.IsLinux)
     builder.Logging.AddSystemdConsole();
 builder.Services.AddControllers();
-builder.Services.AddSingleton(typeof(XmlDocumentInstances), services => new XmlDocumentInstances(capacity: discovery.PreForkResponses))
+builder.Services.AddSingleton(typeof(XmlDocumentInstances), services => new XmlDocumentInstances(capacity: DiscoveryConfig.Current.PreForkResponses))
     .AddHostedService(services => services.GetRequiredService<XmlDocumentInstances>())
     .AddExceptionHandler<ExceptionHandler>()
     .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders);
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardLimit = 2;
-    options.KnownProxies.AddRange(discovery.KnownProxies);
+    options.KnownProxies.AddRange(DiscoveryConfig.Current.KnownProxies);
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 });
 WebApplication app = builder.Build();

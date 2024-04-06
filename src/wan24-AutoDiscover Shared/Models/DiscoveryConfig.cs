@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json.Serialization;
 using wan24.Core;
-using wan24.ObjectValidation;
 
 namespace wan24.AutoDiscover.Models
 {
@@ -18,6 +17,11 @@ namespace wan24.AutoDiscover.Models
         /// Constructor
         /// </summary>
         public DiscoveryConfig() { }
+
+        /// <summary>
+        /// Current configuration
+        /// </summary>
+        public static DiscoveryConfig Current { get; set; } = null!;
 
         /// <summary>
         /// Logfile path
@@ -49,14 +53,14 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Known http proxies
         /// </summary>
-        public HashSet<IPAddress> KnownProxies { get; init; } = [];
+        public IReadOnlySet<IPAddress> KnownProxies { get; init; } = new HashSet<IPAddress>();
 
         /// <summary>
         /// Get the discovery configuration
         /// </summary>
         /// <param name="config">Configuration</param>
         /// <returns>Discovery configuration</returns>
-        public FrozenDictionary<string, DomainConfig> GetDiscoveryConfig(IConfigurationRoot config)
+        public virtual IReadOnlyDictionary<string, DomainConfig> GetDiscoveryConfig(IConfigurationRoot config)
         {
             Type discoveryType = DiscoveryType;
             if (!typeof(IDictionary).IsAssignableFrom(discoveryType))

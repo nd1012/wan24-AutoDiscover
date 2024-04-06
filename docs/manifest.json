@@ -1,0 +1,238 @@
+{
+  "source_base_path": "/home/runner/work/wan24-AutoDiscover/wan24-AutoDiscover/src/wan24-AutoDiscover Docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "api/toc.json"
+        },
+        ".html": {
+          "relative_path": "api/toc.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Constants.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Constants.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Controllers.DiscoveryController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Controllers.DiscoveryController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Controllers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Controllers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Models.DiscoveryConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Models.DiscoveryConfig.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Models.DomainConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Models.DomainConfig.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Models.Protocol.LoginName_Delegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Models.Protocol.LoginName_Delegate.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Models.Protocol.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Models.Protocol.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Models.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Services.CommandLineInterface.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Services.CommandLineInterface.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChange_Delegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChange_Delegate.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Services.ExceptionHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Services.ExceptionHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Services.XmlDocumentInstances.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Services.XmlDocumentInstances.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Services.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "articles/toc.json"
+        },
+        ".html": {
+          "relative_path": "articles/toc.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "toc.json"
+        },
+        ".html": {
+          "relative_path": "toc.html"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

@@ -84,6 +84,12 @@ For serving a request, the `DomainConfig` will be looked up
 
 Any unmatched `DomainConfig` will cause a `Bad request` http response.
 
+Documentation references:
+
+- [`DiscoveryConfig`](https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.DiscoveryConfig.html)
+- [`DomainConfig`](https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.DomainConfig.html)
+- [`Protocol`](https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.Protocol.html)
+
 ### Apache2 proxy setup
 
 Create the file `/etc/apache2/sites-available/autodiscover.conf`:

@@ -1,5 +1,4 @@
-﻿using System.Collections.Frozen;
-using System.Xml;
+﻿using System.Xml;
 using wan24.ObjectValidation;
 
 namespace wan24.AutoDiscover.Models
@@ -17,7 +16,7 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Registered domains (key is the served domain name)
         /// </summary>
-        public static FrozenDictionary<string, DomainConfig> Registered { get; set; } = null!;
+        public static IReadOnlyDictionary<string, DomainConfig> Registered { get; set; } = null!;
 
         /// <summary>
         /// Accepted domain names

@@ -101,6 +101,16 @@ automatic configuration information for an email account.</p>
 <p>It was created using .NET 8 and ASP.NET. You find a published release build
 for each published release on GitHub as ZIP download for self-hosting.</p>
 <h2 id="usage">Usage</h2>
+<h3 id="pre-requirements">Pre-requirements</h3>
+<p>This app is a .NET 8 app and needs the ASP.NET runtime environment.</p>
+<h3 id="how-to-get-it">How to get it</h3>
+<p>For example on a Debian Linux server:</p>
+<pre><code class="lang-bash">mkdir /home/autodiscover
+cd /home/autodiscover
+wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.0.0/wan24-AutoDiscover.v1.0.0.zip
+unzip wan24-AutoDiscover.v1.0.0.zip
+rm wan24-AutoDiscover.v1.0.0.zip
+</code></pre>
 <h3 id="appsettingsjson"><code>appsettings.json</code></h3>
 <p>The <code>appsettings.json</code> file contains the  webservice configuration. The
 <code>DiscoveryConfig</code> is a <code>wan24.AutoDiscovery.Models.DiscoveryConfig</code> object. An
@@ -176,6 +186,14 @@ section.</p>
 <li><a href="https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.DomainConfig.html"><code>DomainConfig</code></a></li>
 <li><a href="https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.Protocol.html"><code>Protocol</code></a></li>
 </ul>
+<h3 id="run-as-systemd-service">Run as systemd service</h3>
+<p>On a Debian Linux host you can run the <code>wan24-AutoDiscover</code> microservice using
+systemd:</p>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover systemd &gt; /etc/systemd/system/autodiscover.service
+systemctl enable autodiscover
+systemctl start autodiscover
+systemctl status autodiscover
+</code></pre>
 <h3 id="apache2-proxy-setup">Apache2 proxy setup</h3>
 <p>Create the file <code>/etc/apache2/sites-available/autodiscover.conf</code>:</p>
 <pre><code class="lang-txt">&lt;VirtualHost [IP]:443&gt;
@@ -194,22 +212,6 @@ domain name which you'd like to use for serving autodiscover.</p>
 <pre><code class="lang-bash">a2enmod proxy
 a2ensite autodiscover
 systemctl restart apache2
-</code></pre>
-<h3 id="run-as-systemd-service">Run as systemd service</h3>
-<p>On a Debian Linux host you can run the <code>wan24-AutoDiscover</code> microservice using
-systemd:</p>
-<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover systemd &gt; /etc/systemd/system/autodiscover.service
-systemctl enable autodiscover
-systemctl start autodiscover
-systemctl status autodiscover
-</code></pre>
-<h3 id="required-dns-configuration">Required DNS configuration</h3>
-<p>In order to make autodiscover working in an email client, you'll need to
-create a SRV record for your email domain - example:</p>
-<pre><code class="lang-txt">_autodiscover._tcp      1D IN SRV 0 0 443 [MTA-DOMAIN].
-</code></pre>
-<p>The domain <code>wan24.de</code> uses this record, for example:</p>
-<pre><code class="lang-txt">_autodiscover._tcp      1D IN SRV 0 0 443 mail.wan24.de.
 </code></pre>
 <h3 id="pox-request-and-response">POX request and response</h3>
 <p>This is an example POX request to <code>/autodiscover/autodiscover.xml</code>:</p>
@@ -247,6 +249,14 @@ create a SRV record for your email domain - example:</p>
         &lt;/Account&gt;
     &lt;/Response&gt;
 &lt;/Autodiscover&gt;
+</code></pre>
+<h3 id="required-dns-configuration">Required DNS configuration</h3>
+<p>In order to make autodiscover working in an email client, you'll need to
+create a SRV record for your email domain - example:</p>
+<pre><code class="lang-txt">_autodiscover._tcp      1D IN SRV 0 0 443 [MTA-DOMAIN].
+</code></pre>
+<p>The domain <code>wan24.de</code> uses this record, for example:</p>
+<pre><code class="lang-txt">_autodiscover._tcp      1D IN SRV 0 0 443 mail.wan24.de.
 </code></pre>
 <h3 id="cli-api">CLI API</h3>
 <p>The <code>wan24-AutoDiscover</code> has a small built in CLI API, which can do some

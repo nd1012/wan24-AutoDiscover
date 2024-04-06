@@ -99,6 +99,48 @@ using FileSystemWatcher fsw = new(ENV.AppFolder, "appsettings.json")
 };
 fsw.Changed += ReloadConfig;
 fsw.Created += ReloadConfig;
+string? emailMappings = DiscoveryConfig.Current.EmailMappings is null
+    ? null
+    : Path.GetFullPath(DiscoveryConfig.Current.EmailMappings);
+void ReloadEmailMappings(object sender, FileSystemEventArgs e)
+{
+    try
+    {
+        Logging.WriteDebug($"Detected email mappings change {e.ChangeType}");
+        if (File.Exists(emailMappings))
+        {
+            if (fswThrottle.IsThrottling)
+            {
+                Logging.WriteTrace("Skipping email mappings change event due too many events");
+            }
+            else if (fswThrottle.Raise())
+            {
+                Logging.WriteTrace("Email mappings change event has been raised");
+            }
+        }
+        else
+        {
+            Logging.WriteTrace($"Email mappings file \"{emailMappings}\" doesn't exist");
+        }
+    }
+    catch (Exception ex)
+    {
+        Logging.WriteWarning($"Failed to handle email mappings change of \"{emailMappings}\": {ex}");
+    }
+}
+using FileSystemWatcher? emailMappingsFsw = emailMappings is null
+    ? null
+    : new(Path.GetDirectoryName(emailMappings)!, Path.GetFileName(emailMappings))
+    {
+        NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime,
+        IncludeSubdirectories = false,
+        EnableRaisingEvents = true
+    };
+if (emailMappingsFsw is not null)
+{
+    emailMappingsFsw.Changed += ReloadEmailMappings;
+    emailMappingsFsw.Created += ReloadEmailMappings;
+}
 
 // Build and run the app
 Logging.WriteInfo("Autodiscovery service app startup");

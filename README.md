@@ -218,6 +218,12 @@ things for you:
 dotnet wan24AutoDiscover.dll autodiscover systemd > /etc/systemd/system/autodiscover.service
 ```
 
+#### Parse a Postfix virtual configuration file
+
+```bash
+dotnet wan24AutoDiscover.dll autodiscover postfix < /etc/postfix/virtual > /home/autodiscover/postfix.json
+```
+
 ## Login name mapping
 
 If the login name isn't the email address or the alias of the given email 
@@ -225,3 +231,29 @@ address, you can create a login name mapping per domain and/or protocol, by
 defining a mapping from the email address or alias to the login name. During 
 lookup the protocol mapping and then the domain mapping will be used by trying 
 the email address and then the alias as key.
+
+### Automatic email address to login user mapping with Postfix
+
+If your Postfix virtual email mappings are stored in a hash text file, you can 
+create an email mapping from is using
+
+```bash
+dotnet wan24AutoDiscover.dll autodiscover postfix < /etc/postfix/virtual > /home/autodiscover/postfix.json
+```
+
+Then you can add the `postix.json` to your `appsettings.json`:
+
+```json
+{
+	...
+  "DiscoveryConfig": {
+	...
+	"EmailMappings": "/home/autodiscover/postfix.json",
+	...
+  }
+}
+```
+
+The configuration will be reloaded, if the `postfix.json` file changed, so be 
+sure to re-create the `postfix.json` file as soon as the `virtual` file was 
+changed.

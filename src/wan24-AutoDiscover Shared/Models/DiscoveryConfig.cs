@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Frozen;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Text.Json.Serialization;
 using wan24.Core;
+using wan24.ObjectValidation;
 
 namespace wan24.AutoDiscover.Models
 {
@@ -43,6 +45,11 @@ namespace wan24.AutoDiscover.Models
             ? typeof(Dictionary<string, DomainConfig>)
             : TypeHelper.Instance.GetType(DiscoveryTypeName)
                 ?? throw new InvalidDataException($"Discovery type {DiscoveryTypeName.ToQuotedLiteral()} not found");
+
+        /// <summary>
+        /// Known http proxies
+        /// </summary>
+        public HashSet<IPAddress> KnownProxies { get; init; } = [];
 
         /// <summary>
         /// Get the discovery configuration

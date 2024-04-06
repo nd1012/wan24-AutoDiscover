@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.HttpOverrides;
 using wan24.AutoDiscover.Models;
 using wan24.AutoDiscover.Services;
 using wan24.CLI;
@@ -36,7 +38,7 @@ Settings.AppId = "wan24-AutoDiscover";
 Settings.ProcessId = "webservice";
 Settings.LogLevel = config.GetValue<LogLevel>("Logging:LogLevel:Default");
 Logging.Logger = discovery.LogFile is string logFile && !string.IsNullOrWhiteSpace(logFile)
-    ? await FileLogger.CreateAsync(logFile).DynamicContext()
+    ? await FileLogger.CreateAsync(logFile, next: new VividConsoleLogger()).DynamicContext()
     : new VividConsoleLogger();
 ErrorHandling.ErrorHandler = (e) => Logging.WriteError($"{e.Info}: {e.Exception}");
 Logging.WriteInfo($"Using configuration \"{configFile}\"");
@@ -101,16 +103,42 @@ fsw.Created += ReloadConfig;
 // Build and run the app
 Logging.WriteInfo("Autodiscovery service app startup");
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders()
+    .AddConsole();
+if (ENV.IsLinux)
+    builder.Logging.AddSystemdConsole();
 builder.Services.AddControllers();
 builder.Services.AddSingleton(typeof(XmlDocumentInstances), services => new XmlDocumentInstances(capacity: discovery.PreForkResponses))
     .AddHostedService(services => services.GetRequiredService<XmlDocumentInstances>())
-    .AddExceptionHandler<ExceptionHandler>();
+    .AddExceptionHandler<ExceptionHandler>()
+    .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders);
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardLimit = 2;
+    options.KnownProxies.AddRange(discovery.KnownProxies);
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
 WebApplication app = builder.Build();
 try
 {
     await using (app.DynamicContext())
     {
-        app.UseExceptionHandler(b => { });// .NET 8 bugfix :(
+        app.UseForwardedHeaders();
+        if (app.Environment.IsDevelopment())
+        {
+            if (Logging.Trace)
+                Logging.WriteTrace("Using development environment");
+            app.UseHttpLogging();
+        }
+        app.UseExceptionHandler(builder => { });// .NET 8 bugfix :(
+        if (!app.Environment.IsDevelopment())
+        {
+            if (Logging.Trace)
+                Logging.WriteTrace("Using production environment");
+            app.UseHsts();
+            app.UseHttpsRedirection();
+            app.UseAuthorization();
+        }
         app.MapControllers();
         Logging.WriteInfo("Autodiscovery service app starting");
         await app.RunAsync().DynamicContext();

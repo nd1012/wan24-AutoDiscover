@@ -2,7 +2,6 @@
   "profiles": {
     "http": {
       "commandName": "Project",
-      "commandLineArgs": "autodiscover systemd",
       "launchBrowser": true,
       "launchUrl": "autodiscover/autodiscover.xml",
       "environmentVariables": {

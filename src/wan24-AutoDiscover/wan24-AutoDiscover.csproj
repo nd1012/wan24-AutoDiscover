@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\wan24-AutoDiscover Shared\wan24-AutoDiscover Shared.csproj" />
+    <ProjectReference Include="..\wan24-AutoDiscover.ServiceDefaults\wan24-AutoDiscover.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

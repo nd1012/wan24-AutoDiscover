@@ -103,6 +103,7 @@ fsw.Created += ReloadConfig;
 // Build and run the app
 Logging.WriteInfo("Autodiscovery service app startup");
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+builder.AddServiceDefaults();
 builder.Logging.ClearProviders()
     .AddConsole();
 if (ENV.IsLinux)
@@ -123,6 +124,7 @@ try
 {
     await using (app.DynamicContext())
     {
+        app.MapDefaultEndpoints();
         app.UseForwardedHeaders();
         if (app.Environment.IsDevelopment())
         {

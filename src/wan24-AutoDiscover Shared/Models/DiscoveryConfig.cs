@@ -92,7 +92,7 @@ namespace wan24.AutoDiscover.Models
                 Enumerable.Range(0, discovery.Count).Select(i => new KeyValuePair<string, DomainConfig>((string)keys[i], (DomainConfig)values[i]))
                 );
             // Apply email mappings
-            if (EmailMappings is not null)
+            if (!string.IsNullOrWhiteSpace(EmailMappings))
                 if (File.Exists(EmailMappings))
                 {
                     Logging.WriteInfo($"Loading email mappings from \"{EmailMappings}\"");

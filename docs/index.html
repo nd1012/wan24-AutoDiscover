@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>wan24-AutoDiscover | wan24-AutoDiscover </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="wan24-AutoDiscover | wan24-AutoDiscover ">
+      <meta name="generator" content="docfx ">
+  
+      <link rel="shortcut icon" href="favicon.ico">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/night-owl.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" integrity="sha384-EvBWSlnoFgZlXJvpzS+MAUEjvN7+gcCwH+qh7GRFOGgZO0PuwOFro7qPOJnLfe7l" crossorigin="anonymous">
+      <link rel="stylesheet" href="styles/config.css">
+      <link rel="stylesheet" href="styles/singulink.css">
+      <link rel="stylesheet" href="styles/main.css">
+      <meta property="docfx:navrel" content="toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+  
+  <meta property="docfx:rel" content="">
+  <meta property="docfx:newtab" content="true">
+    </head>
+    <body>
+        <!-- Header required for docfx anchor scroll to work -->
+        <header id="head"></header>
+        <div class="top-navbar">
+            <a class="burger-icon" onclick="toggleMenu()">
+                <svg name="Hamburger" style="vertical-align: middle;" width="34" height="34" viewbox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M20 6H4V9H20V6ZM4 10.999H20V13.999H4V10.999ZM4 15.999H20V18.999H4V15.999Z"></path></svg>
+            </a>
+
+
+            <a class="brand" href="index.html">
+              <img src="logo.svg" alt="" class="logomark">
+              <span class="brand-title"></span>
+            </a>        </div>
+
+        <div class="body-content">
+            <div id="blackout" class="blackout" onclick="toggleMenu()"></div>
+
+            <nav id="sidebar" role="navigation">
+                <div class="sidebar">
+
+                    <div>
+                      <div class="mobile-hide">
+
+                        <a class="brand" href="index.html">
+                          <img src="logo.svg" alt="" class="logomark">
+                          <span class="brand-title"></span>
+                        </a>                      </div>
+
+                      <div class="sidesearch">
+                        <form id="search" role="search" class="search">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" id="search-query" placeholder="Search" autocomplete="off">
+                        </form>
+                      </div>
+
+                      <div id="navbar">
+                      </div>
+                    </div>                    <div class="sidebar-item-separator"></div>
+                </div>
+                <div class="footer">
+  (c) 2024 Andreas Zimmermann, wan24.de
+  
+                </div>            </nav>
+
+            <main class="main-panel">
+
+                <div id="search-results" style="display: none;">
+                  <h1 class="search-list">Search Results for <span></span></h1>
+                  <div class="sr-items">
+                    <p><i class="bi bi-hourglass-split index-loading"></i></p>
+                  </div>
+                  <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+                </div>
+ 
+
+                <div role="main" class="hide-when-search">
+
+                        <div class="subnav navbar navbar-default">
+                          <div class="container hide-when-search" id="breadcrumb">
+                            <ul class="breadcrumb">
+                              <li></li>
+                            </ul>
+                          </div>
+                        </div>
+
+                         <div id="contribution">
+                               <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover Docs/index.md/#L1" class="contribution-link">Edit this page</a>
+                         </div>
+
+                    <article class="content wrap" id="_content" data-uid="">
+<h1 id="wan24-autodiscover">wan24-AutoDiscover</h1>
+
+<p>This is a micro-webservice which supports a small part of the Microsoft
+Exchange POX autodiscover standard, which allows email clients to receive
+automatic configuration information for an email account.</p>
+<p>It was created using .NET 8 and ASP.NET. You find a published release build
+for each published release on GitHub as ZIP download for self-hosting.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="appsettingsjson"><code>appsettings.json</code></h3>
+<p>The <code>appsettings.json</code> file contains the  webservice configuration. The
+<code>DiscoveryConfig</code> is a <code>wan24.AutoDiscovery.Models.DiscoveryConfig</code> object. An
+example:</p>
+<pre><code class="lang-json">{
+  &quot;Logging&quot;: {
+    &quot;LogLevel&quot;: {
+      &quot;Default&quot;: &quot;Information&quot;,
+      &quot;Microsoft.AspNetCore&quot;: &quot;Warning&quot;
+    }
+  },
+  &quot;Kestrel&quot;: {
+    &quot;Endpoints&quot;: {
+      &quot;AutoDiscover&quot;: {
+        &quot;Url&quot;: &quot;http://localhost:5000&quot;
+      }
+    }
+  },
+  &quot;AllowedHosts&quot;: &quot;*&quot;,
+  &quot;DiscoveryConfig&quot;: {
+    &quot;PreForkResponses&quot;: 10,
+    &quot;Discovery&quot;: {
+      &quot;localhost&quot;: {
+        &quot;AcceptedDomains&quot;: [
+          &quot;wan24.de&quot;,
+          &quot;wan-solutions.de&quot;
+        ],
+        &quot;Protocols&quot;: [
+          {
+            &quot;Type&quot;: &quot;IMAP&quot;,
+            &quot;Server&quot;: &quot;imap.wan24.de&quot;,
+            &quot;Port&quot;: 993
+          },
+          {
+            &quot;Type&quot;: &quot;SMTP&quot;,
+            &quot;Server&quot;: &quot;smtp.wan24.de&quot;,
+            &quot;Port&quot;: 587
+          }
+        ]
+      }
+    }
+  }
+}
+</code></pre>
+<p>Since the webservice should only listen local and be proxied by a real
+webserver (like Apache2), there is a <code>wan24.AutoDiscover.Models.DomainConfig</code>
+for <code>localhost</code>, which produces POX response for the allowed domains
+<code>wan24.de</code> and <code>wan-solutions.de</code> in this example (you should use your own
+domain names instead).</p>
+<p>The email client configuration will get an <code>IMAP</code> and a <code>SMTP</code> server pre-
+configuration, which contains the alias of the requested email address as
+login name and has all the other defaults from a
+<code>wan24.AutoDiscover.Models.Protocol</code> instance.</p>
+<p>With the <code>PreForkResponses</code> value you can define a number of pre-forked POX
+response XML documents to serve faster responses.</p>
+<p>Any change to this file will cause an automatic reload of the <code>DomainConfig</code>
+section.</p>
+<p>For serving a request, the <code>DomainConfig</code> will be looked up</p>
+<ol>
+<li>by the email address domain part</li>
+<li>by the served request hostname</li>
+<li>by any <code>DomainConfig</code> which has the email address domain part in the
+<code>AcceptedDomains</code> property, which contains a list of accepted domain names</li>
+<li>by the <code>DomainConfig</code> with an empty domain name as key</li>
+</ol>
+<p>Any unmatched <code>DomainConfig</code> will cause a <code>Bad request</code> http response.</p>
+<h3 id="apache2-proxy-setup">Apache2 proxy setup</h3>
+<p>Create the file <code>/etc/apache2/sites-available/autodiscover.conf</code>:</p>
+<pre><code class="lang-txt">&lt;VirtualHost [IP]:443&gt;
+        ServerName [DOMAIN]
+        SSLEngine on
+        SSLCertificateFile /etc/letsencrypt/live/[DOMAIN]/fullchain.pem
+        SSLCertificateKeyFile /etc/letsencrypt/[DOMAIN]/privkey.pem
+        ProxyPreserveHost On
+        ProxyPass / http://localhost:5000/
+        ProxyPassReverse / http://localhost:5000/
+        RewriteEngine on
+        RewriteCond %{SERVER_NAME} =[DOMAIN]
+        RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+&lt;/VirtualHost&gt;
+</code></pre>
+<p>Replace <code>[IP]</code> with your servers public IP address and <code>[DOMAIN]</code> with your
+domain name which you'd like to use for serving autodiscover.</p>
+<p>Then activate the proxy:</p>
+<pre><code class="lang-bash">a2enmod rewrite proxy
+a2ensite autodiscover
+systemctl restart apache2
+</code></pre>
+<h3 id="run-as-systemd-service">Run as systemd service</h3>
+<p>On a Debian Linux host you can run the <code>wan24-AutoDiscover</code> microservice using
+systemd:</p>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover systemd &gt; /etc/systemd/system/autodiscover.service
+systemctl enable autodiscover
+systemctl start autodiscover
+systemctl status autodiscover
+</code></pre>
+<h3 id="required-dns-configuration">Required DNS configuration</h3>
+<p>In order to make autodiscover working in an email client, you'll need to
+create a SRV record for your email domain - example:</p>
+<pre><code class="lang-txt">_autodiscover._tcp      1D IN SRV 0 0 443 [MTA-DOMAIN].
+</code></pre>
+<p>The domain <code>wan24.de</code> uses this record, for example:</p>
+<pre><code class="lang-txt">_autodiscover._tcp      1D IN SRV 0 0 443 mail.wan24.de.
+</code></pre>
+<h3 id="pox-request-and-response">POX request and response</h3>
+<p>This is an example POX request to <code>/autodiscover/autodiscover.xml</code>:</p>
+<pre><code class="lang-xml">&lt;Autodiscover xmlns=&quot;https://schemas.microsoft.com/exchange/autodiscover/outlook/requestschema/2006&quot;&gt;
+   &lt;Request&gt;
+     &lt;EMailAddress&gt;alias@wan24.de&lt;/EMailAddress&gt;
+     &lt;AcceptableResponseSchema&gt;https://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&lt;/AcceptableResponseSchema&gt;
+   &lt;/Request&gt;
+ &lt;/Autodiscover&gt;
+</code></pre>
+<p>The response with the demo <code>appsettings.json</code>:</p>
+<pre><code class="lang-xml">&lt;Autodiscover xmlns=&quot;http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006&quot;&gt;
+    &lt;Response xmlns=&quot;https://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&quot;&gt;
+        &lt;Account&gt;
+            &lt;AccountType&gt;email&lt;/AccountType&gt;
+            &lt;Action&gt;settings&lt;/Action&gt;
+            &lt;Protocol&gt;
+                &lt;Type&gt;IMAP&lt;/Type&gt;
+                &lt;Server&gt;imap.wan24.de&lt;/Server&gt;
+                &lt;Port&gt;993&lt;/Port&gt;
+                &lt;LoginName&gt;alias&lt;/LoginName&gt;
+                &lt;SPA&gt;off&lt;/SPA&gt;
+                &lt;SSL&gt;on&lt;/SSL&gt;
+                &lt;AuthRequired&gt;on&lt;/AuthRequired&gt;
+            &lt;/Protocol&gt;
+            &lt;Protocol&gt;
+                &lt;Type&gt;SMTP&lt;/Type&gt;
+                &lt;Server&gt;smtp.wan24.de&lt;/Server&gt;
+                &lt;Port&gt;587&lt;/Port&gt;
+                &lt;LoginName&gt;alias&lt;/LoginName&gt;
+                &lt;SPA&gt;off&lt;/SPA&gt;
+                &lt;SSL&gt;on&lt;/SSL&gt;
+                &lt;AuthRequired&gt;on&lt;/AuthRequired&gt;
+            &lt;/Protocol&gt;
+        &lt;/Account&gt;
+    &lt;/Response&gt;
+&lt;/Autodiscover&gt;
+</code></pre>
+<h3 id="cli-api">CLI API</h3>
+<p>The <code>wan24-AutoDiscover</code> has a small built in CLI API, which can do some
+things for you:</p>
+<h4 id="create-a-systemd-service-file">Create a systemd service file</h4>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover systemd &gt; /etc/systemd/system/autodiscover.service
+</code></pre>
+
+</article>
+                </div>
+
+                <div class="copyright-footer">
+                    <span>(c) 2024 Andreas Zimmermann, wan24.de</span>
+                </div>
+            </main>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script type="text/javascript" src="styles/jquery.twbsPagination.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/jquery.mark.min.js"></script>
+        <script type="text/javascript" src="styles/url.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/anchor-js@5.0.0/anchor.min.js"></script>
+        <script type="text/javascript" src="styles/docfx.js"></script>
+        <script type="text/javascript" src="styles/main.js"></script>
+        <script type="text/javascript" src="styles/singulink.js"></script>    </body>
+</html>

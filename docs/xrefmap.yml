@@ -181,6 +181,19 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfig
   nameWithType: DiscoveryConfig.GetDiscoveryConfig
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.KnownProxies
+  name: KnownProxies
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_KnownProxies
+  commentId: P:wan24.AutoDiscover.Models.DiscoveryConfig.KnownProxies
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.KnownProxies
+  nameWithType: DiscoveryConfig.KnownProxies
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.KnownProxies*
+  name: KnownProxies
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_KnownProxies_
+  commentId: Overload:wan24.AutoDiscover.Models.DiscoveryConfig.KnownProxies
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.KnownProxies
+  nameWithType: DiscoveryConfig.KnownProxies
 - uid: wan24.AutoDiscover.Models.DiscoveryConfig.LogFile
   name: LogFile
   href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_LogFile

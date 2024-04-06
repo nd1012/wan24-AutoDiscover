@@ -26,13 +26,16 @@ example:
   "Kestrel": {
     "Endpoints": {
       "AutoDiscover": {
-        "Url": "http://localhost:5000"
+        "Url": "http://127.0.0.1:5000"
       }
     }
   },
   "AllowedHosts": "*",
   "DiscoveryConfig": {
     "PreForkResponses": 10,
+    "KnownProxies": [
+      "127.0.0.1"
+    ],
     "Discovery": {
       "localhost": {
         "AcceptedDomains": [
@@ -98,14 +101,11 @@ Create the file `/etc/apache2/sites-available/autodiscover.conf`:
 <VirtualHost [IP]:443>
         ServerName [DOMAIN]
         SSLEngine on
-        SSLCertificateFile /etc/letsencrypt/live/[DOMAIN]/fullchain.pem
-        SSLCertificateKeyFile /etc/letsencrypt/[DOMAIN]/privkey.pem
+        SSLCertificateFile /path/to/fullchain.pem
+        SSLCertificateKeyFile /path/to/privkey.pem
         ProxyPreserveHost On
-        ProxyPass / http://localhost:5000/
-        ProxyPassReverse / http://localhost:5000/
-        RewriteEngine on
-        RewriteCond %{SERVER_NAME} =[DOMAIN]
-        RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+        ProxyPass / http://127.0.0.1:5000/
+        ProxyPassReverse / http://127.0.0.1:5000/
 </VirtualHost>
 ```
 
@@ -115,7 +115,7 @@ domain name which you'd like to use for serving autodiscover.
 Then activate the proxy:
 
 ```bash
-a2enmod rewrite proxy
+a2enmod proxy
 a2ensite autodiscover
 systemctl restart apache2
 ```

@@ -115,13 +115,16 @@ example:</p>
   &quot;Kestrel&quot;: {
     &quot;Endpoints&quot;: {
       &quot;AutoDiscover&quot;: {
-        &quot;Url&quot;: &quot;http://localhost:5000&quot;
+        &quot;Url&quot;: &quot;http://127.0.0.1:5000&quot;
       }
     }
   },
   &quot;AllowedHosts&quot;: &quot;*&quot;,
   &quot;DiscoveryConfig&quot;: {
     &quot;PreForkResponses&quot;: 10,
+    &quot;KnownProxies&quot;: [
+      &quot;127.0.0.1&quot;
+    ],
     &quot;Discovery&quot;: {
       &quot;localhost&quot;: {
         &quot;AcceptedDomains&quot;: [
@@ -178,20 +181,17 @@ section.</p>
 <pre><code class="lang-txt">&lt;VirtualHost [IP]:443&gt;
         ServerName [DOMAIN]
         SSLEngine on
-        SSLCertificateFile /etc/letsencrypt/live/[DOMAIN]/fullchain.pem
-        SSLCertificateKeyFile /etc/letsencrypt/[DOMAIN]/privkey.pem
+        SSLCertificateFile /path/to/fullchain.pem
+        SSLCertificateKeyFile /path/to/privkey.pem
         ProxyPreserveHost On
-        ProxyPass / http://localhost:5000/
-        ProxyPassReverse / http://localhost:5000/
-        RewriteEngine on
-        RewriteCond %{SERVER_NAME} =[DOMAIN]
-        RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+        ProxyPass / http://127.0.0.1:5000/
+        ProxyPassReverse / http://127.0.0.1:5000/
 &lt;/VirtualHost&gt;
 </code></pre>
 <p>Replace <code>[IP]</code> with your servers public IP address and <code>[DOMAIN]</code> with your
 domain name which you'd like to use for serving autodiscover.</p>
 <p>Then activate the proxy:</p>
-<pre><code class="lang-bash">a2enmod rewrite proxy
+<pre><code class="lang-bash">a2enmod proxy
 a2ensite autodiscover
 systemctl restart apache2
 </code></pre>

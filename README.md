@@ -217,3 +217,11 @@ things for you:
 ```bash
 dotnet wan24AutoDiscover.dll autodiscover systemd > /etc/systemd/system/autodiscover.service
 ```
+
+## Login name mapping
+
+If the login name isn't the email address or the alias of the given email 
+address, you can create a login name mapping per domain and/or protocol, by 
+defining a mapping from the email address or alias to the login name. During 
+lookup the protocol mapping and then the domain mapping will be used by trying 
+the email address and then the alias as key.

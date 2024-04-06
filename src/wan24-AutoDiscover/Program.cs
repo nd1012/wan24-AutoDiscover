@@ -19,17 +19,17 @@ if (args.Length > 0)
 
 // Load the configuration
 string configFile = Path.Combine(ENV.AppFolder, "appsettings.json");
-IConfigurationRoot  LoadConfig()
+async Task<IConfigurationRoot> LoadConfigAsync()
 {
     ConfigurationBuilder configBuilder = new();
     configBuilder.AddJsonFile(configFile, optional: false);
     IConfigurationRoot config = configBuilder.Build();
     DiscoveryConfig.Current = config.GetRequiredSection("DiscoveryConfig").Get<DiscoveryConfig>()
         ?? throw new InvalidDataException($"Failed to get a {typeof(DiscoveryConfig)} from the \"DiscoveryConfig\" section");
-    DomainConfig.Registered = DiscoveryConfig.Current.GetDiscoveryConfig(config);
+    DomainConfig.Registered = await DiscoveryConfig.Current.GetDiscoveryConfigAsync(config).DynamicContext();
     return config;
 }
-IConfigurationRoot config = LoadConfig();
+IConfigurationRoot config = await LoadConfigAsync().DynamicContext();
 
 // Initialize wan24-Core
 await Bootstrap.Async().DynamicContext();
@@ -45,7 +45,7 @@ Logging.WriteInfo($"Using configuration \"{configFile}\"");
 
 // Watch configuration changes
 using ConfigChangeEventThrottle fswThrottle = new();
-ConfigChangeEventThrottle.OnConfigChange += () =>
+ConfigChangeEventThrottle.OnConfigChange += async () =>
 {
     try
     {
@@ -53,7 +53,7 @@ ConfigChangeEventThrottle.OnConfigChange += () =>
         if (File.Exists(configFile))
         {
             Logging.WriteInfo($"Auto-reloading changed configuration from \"{configFile}\"");
-            LoadConfig();
+            await LoadConfigAsync().DynamicContext();
         }
         else
         {

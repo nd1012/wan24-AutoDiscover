@@ -108,16 +108,7 @@ namespace wan24.AutoDiscover.Controllers
             if (Logging.Debug)
                 Logging.WriteDebug($"Creating POX response for {emailAddress.ToQuotedLiteral()} request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}");
             XmlDocument xml = await Responses.GetOneAsync(HttpContext.RequestAborted).DynamicContext();
-            if (
-                !DomainConfig.Registered.TryGetValue(emailParts[1], out DomainConfig? config) &&
-                !DomainConfig.Registered.TryGetValue(HttpContext.Request.Host.Host, out config) &&
-                !DomainConfig.Registered.TryGetValue(
-                    DomainConfig.Registered.Where(kvp => kvp.Value.AcceptedDomains?.Contains(emailParts[1], StringComparer.OrdinalIgnoreCase) ?? false)
-                        .Select(kvp => kvp.Key)
-                        .FirstOrDefault() ?? string.Empty,
-                    out config
-                    )
-                )
+            if (DomainConfig.GetConfig(HttpContext.Request.Host.Host,emailParts) is not DomainConfig config)
                 throw new BadHttpRequestException($"Unknown request domain name \"{HttpContext.Request.Host.Host}\"/{emailParts[1].ToQuotedLiteral()}");
             config.CreateXml(xml, xml.SelectSingleNode(ACCOUNT_NODE_XPATH) ?? throw new InvalidProgramException("Missing response XML account node"), emailParts);
             return new()

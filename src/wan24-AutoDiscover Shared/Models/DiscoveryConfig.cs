@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Frozen;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Net.Mail;
 using System.Text.Json.Serialization;
 using wan24.Core;
 
@@ -56,11 +57,16 @@ namespace wan24.AutoDiscover.Models
         public IReadOnlySet<IPAddress> KnownProxies { get; init; } = new HashSet<IPAddress>();
 
         /// <summary>
+        /// JSON file path which contains the email mappings list
+        /// </summary>
+        public string? EmailMappings { get; init; }
+
+        /// <summary>
         /// Get the discovery configuration
         /// </summary>
         /// <param name="config">Configuration</param>
         /// <returns>Discovery configuration</returns>
-        public virtual IReadOnlyDictionary<string, DomainConfig> GetDiscoveryConfig(IConfigurationRoot config)
+        public virtual async Task<IReadOnlyDictionary<string, DomainConfig>> GetDiscoveryConfigAsync(IConfigurationRoot config)
         {
             Type discoveryType = DiscoveryType;
             if (!typeof(IDictionary).IsAssignableFrom(discoveryType))
@@ -82,9 +88,45 @@ namespace wan24.AutoDiscover.Models
                 values = new object[discovery.Count];
             discovery.Keys.CopyTo(keys, index: 0);
             discovery.Values.CopyTo(values, index: 0);
-            return new Dictionary<string, DomainConfig>(
+            Dictionary<string, DomainConfig> discoveryDomains = new(
                 Enumerable.Range(0, discovery.Count).Select(i => new KeyValuePair<string, DomainConfig>((string)keys[i], (DomainConfig)values[i]))
-                ).ToFrozenDictionary();
+                );
+            // Apply email mappings
+            if (EmailMappings is not null)
+                if (File.Exists(EmailMappings))
+                {
+                    Logging.WriteInfo($"Loading email mappings from \"{EmailMappings}\"");
+                    FileStream fs = FsHelper.CreateFileStream(EmailMappings, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    await using (fs.DynamicContext())
+                    {
+                        EmailMapping[] mappings = await JsonHelper.DecodeAsync<EmailMapping[]>(fs).DynamicContext()
+                            ?? throw new InvalidDataException("Invalid email mappings");
+                        foreach(EmailMapping mapping in mappings)
+                        {
+                            if (!mapping.Email.Contains('@'))
+                                continue;
+                            string email = mapping.Email.ToLower();
+                            if (
+                                !MailAddress.TryCreate(mapping.Email, out MailAddress? emailAddress) ||
+                                (emailAddress.User.Length == 1 && (emailAddress.User[0] == '*' || emailAddress.User[0] == '@')) ||
+                                EmailMapping.GetLoginUser(mappings, email) is not string loginUser
+                                )
+                                continue;
+                            string[] emailParts = mapping.Email.ToLower().Split('@', 2);
+                            if (emailParts.Length != 2 || DomainConfig.GetConfig(string.Empty, emailParts) is not DomainConfig domain)
+                                continue;
+                            if (Logging.Debug)
+                                Logging.WriteDebug($"Mapping email address \"{email}\" to login user \"{loginUser}\"");
+                            domain.LoginNameMapping ??= [];
+                            domain.LoginNameMapping[email] = loginUser;
+                        }
+                    }
+                }
+                else
+                {
+                    Logging.WriteWarning($"Email mappings file \"{EmailMappings}\" not found");
+                }
+            return discoveryDomains.ToFrozenDictionary();
         }
     }
 }

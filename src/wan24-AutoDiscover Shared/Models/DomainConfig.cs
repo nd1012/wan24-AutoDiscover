@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Net.Http;
+using System.Xml;
 using wan24.ObjectValidation;
 
 namespace wan24.AutoDiscover.Models
@@ -34,7 +35,7 @@ namespace wan24.AutoDiscover.Models
         /// Login name mapping (key is the email address or alias, value the mapped login name)
         /// </summary>
         [RequiredIf(nameof(LoginNameMappingRequired), true)]
-        public IReadOnlyDictionary<string, string>? LoginNameMapping { get; init; }
+        public Dictionary<string, string>? LoginNameMapping { get; set; }
 
         /// <summary>
         /// If a successfule login name mapping is required (if no mapping was possible, the email address will be used as login name)
@@ -51,5 +52,22 @@ namespace wan24.AutoDiscover.Models
         {
             foreach (Protocol protocol in Protocols) protocol.CreateXml(xml, account, emailParts, this);
         }
+
+        /// <summary>
+        /// Get a domain configuration which matches an email address
+        /// </summary>
+        /// <param name="host">Hostname</param>
+        /// <param name="emailParts">Splitted email parts</param>
+        /// <returns>Domain configuration</returns>
+        public static DomainConfig? GetConfig(string host, string[] emailParts)
+            => !Registered.TryGetValue(emailParts[1], out DomainConfig? config) &&
+                (host.Length == 0 || !Registered.TryGetValue(host, out config)) &&
+                !Registered.TryGetValue(
+                    Registered.Where(kvp => kvp.Value.AcceptedDomains?.Contains(emailParts[1], StringComparer.OrdinalIgnoreCase) ?? false)
+                        .Select(kvp => kvp.Key)
+                        .FirstOrDefault() ?? string.Empty,
+                    out config)
+                ? null
+                : config;
     }
 }

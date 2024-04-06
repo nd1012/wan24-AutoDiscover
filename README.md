@@ -9,6 +9,22 @@ for each published release on GitHub as ZIP download for self-hosting.
 
 ## Usage
 
+### Pre-requirements
+
+This app is a .NET 8 app and needs the ASP.NET runtime environment.
+
+### How to get it
+
+For example on a Debian Linux server:
+
+```bash
+mkdir /home/autodiscover
+cd /home/autodiscover
+wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.0.0/wan24-AutoDiscover.v1.0.0.zip
+unzip wan24-AutoDiscover.v1.0.0.zip
+rm wan24-AutoDiscover.v1.0.0.zip
+```
+
 ### `appsettings.json`
 
 The `appsettings.json` file contains the  webservice configuration. The 
@@ -93,6 +109,18 @@ Documentation references:
 - [`DomainConfig`](https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.DomainConfig.html)
 - [`Protocol`](https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.Protocol.html)
 
+### Run as systemd service
+
+On a Debian Linux host you can run the `wan24-AutoDiscover` microservice using 
+systemd:
+
+```bash
+dotnet wan24AutoDiscover.dll autodiscover systemd > /etc/systemd/system/autodiscover.service
+systemctl enable autodiscover
+systemctl start autodiscover
+systemctl status autodiscover
+```
+
 ### Apache2 proxy setup
 
 Create the file `/etc/apache2/sites-available/autodiscover.conf`:
@@ -118,33 +146,6 @@ Then activate the proxy:
 a2enmod proxy
 a2ensite autodiscover
 systemctl restart apache2
-```
-
-### Run as systemd service
-
-On a Debian Linux host you can run the `wan24-AutoDiscover` microservice using 
-systemd:
-
-```bash
-dotnet wan24AutoDiscover.dll autodiscover systemd > /etc/systemd/system/autodiscover.service
-systemctl enable autodiscover
-systemctl start autodiscover
-systemctl status autodiscover
-```
-
-### Required DNS configuration
-
-In order to make autodiscover working in an email client, you'll need to 
-create a SRV record for your email domain - example:
-
-```txt
-_autodiscover._tcp      1D IN SRV 0 0 443 [MTA-DOMAIN].
-```
-
-The domain `wan24.de` uses this record, for example:
-
-```txt
-_autodiscover._tcp      1D IN SRV 0 0 443 mail.wan24.de.
 ```
 
 ### POX request and response
@@ -189,6 +190,21 @@ The response with the demo `appsettings.json`:
         </Account>
     </Response>
 </Autodiscover>
+```
+
+### Required DNS configuration
+
+In order to make autodiscover working in an email client, you'll need to 
+create a SRV record for your email domain - example:
+
+```txt
+_autodiscover._tcp      1D IN SRV 0 0 443 [MTA-DOMAIN].
+```
+
+The domain `wan24.de` uses this record, for example:
+
+```txt
+_autodiscover._tcp      1D IN SRV 0 0 443 mail.wan24.de.
 ```
 
 ### CLI API

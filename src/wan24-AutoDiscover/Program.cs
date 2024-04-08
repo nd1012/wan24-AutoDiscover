@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
+using System.Diagnostics;
 using wan24.AutoDiscover.Models;
 using wan24.AutoDiscover.Services;
 using wan24.CLI;
@@ -18,9 +19,11 @@ if (args.Length > 0)
 }
 
 // Load the configuration
+using SemaphoreSync configSync = new();
 string configFile = Path.Combine(ENV.AppFolder, "appsettings.json");
 async Task<IConfigurationRoot> LoadConfigAsync()
 {
+    using SemaphoreSyncContext ssc = await configSync.SyncContextAsync().DynamicContext();
     ConfigurationBuilder configBuilder = new();
     configBuilder.AddJsonFile(configFile, optional: false);
     IConfigurationRoot config = configBuilder.Build();
@@ -44,18 +47,19 @@ ErrorHandling.ErrorHandler = (e) => Logging.WriteError($"{e.Info}: {e.Exception}
 Logging.WriteInfo($"Using configuration \"{configFile}\"");
 
 // Watch configuration changes
-using ConfigChangeEventThrottle fswThrottle = new();
-ConfigChangeEventThrottle.OnConfigChange += async () =>
+using MultiFileSystemEvents fsw = new();//TODO Throttle only the main service events
+fsw.OnEvents += async (s, e) =>
 {
     try
     {
-        Logging.WriteDebug("Handling configuration change");
+        if (Logging.Debug)
+            Logging.WriteDebug("Handling configuration change");
         if (File.Exists(configFile))
         {
             Logging.WriteInfo($"Auto-reloading changed configuration from \"{configFile}\"");
             await LoadConfigAsync().DynamicContext();
         }
-        else
+        else if(Logging.Trace)
         {
             Logging.WriteTrace($"Configuration file \"{configFile}\" doesn't exist");
         }
@@ -65,82 +69,57 @@ ConfigChangeEventThrottle.OnConfigChange += async () =>
         Logging.WriteWarning($"Failed to reload configuration from \"{configFile}\": {ex}");
     }
 };
-void ReloadConfig(object sender, FileSystemEventArgs e)
-{
-    try
+fsw.Add(new(ENV.AppFolder, "appsettings.json", NotifyFilters.LastWrite | NotifyFilters.CreationTime, throttle: 250, recursive: false));
+if (DiscoveryConfig.Current.WatchEmailMappings && DiscoveryConfig.Current.EmailMappings is not null)
+    fsw.Add(new(
+        Path.GetDirectoryName(Path.GetFullPath(DiscoveryConfig.Current.EmailMappings))!,
+        Path.GetFileName(DiscoveryConfig.Current.EmailMappings),
+        NotifyFilters.LastWrite | NotifyFilters.CreationTime,
+        throttle: 250,
+        recursive: false,
+        FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
+        ));
+if (DiscoveryConfig.Current.WatchFiles is not null)
+    foreach (string file in DiscoveryConfig.Current.WatchFiles)
     {
-        Logging.WriteDebug($"Detected configuration change {e.ChangeType}");
-        if (File.Exists(configFile))
-        {
-            if (fswThrottle.IsThrottling)
+        FileSystemEvents fse = new(
+            Path.GetDirectoryName(Path.GetFullPath(file))!,
+            Path.GetFileName(file),
+            NotifyFilters.LastWrite | NotifyFilters.CreationTime,
+            throttle: 250,
+            recursive: false,
+            FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
+            );
+        if (DiscoveryConfig.Current.PreReloadCommand is not null && DiscoveryConfig.Current.PreReloadCommand.Length > 0)
+            fse.OnEvents += async (s, e) =>
             {
-                Logging.WriteTrace("Skipping configuration change event due too many events");
-            }
-            else if (fswThrottle.Raise())
-            {
-                Logging.WriteTrace("Configuration change event has been raised");
-            }
-        }
-        else
-        {
-            Logging.WriteTrace($"Configuration file \"{configFile}\" doesn't exist");
-        }
+                try
+                {
+                    Logging.WriteInfo($"Executing pre-reload command on detected {file.ToQuotedLiteral()} change {string.Join('|', e.Arguments.Select(a => a.ChangeType.ToString()).Distinct())}");
+                    using Process proc = new();
+                    proc.StartInfo.FileName = DiscoveryConfig.Current.PreReloadCommand[0];
+                    if (DiscoveryConfig.Current.PreReloadCommand.Length > 1)
+                        proc.StartInfo.ArgumentList.AddRange(DiscoveryConfig.Current.PreReloadCommand[1..]);
+                    proc.StartInfo.UseShellExecute = true;
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    proc.Start();
+                    await proc.WaitForExitAsync().DynamicContext();
+                    if (proc.ExitCode != 0)
+                        Logging.WriteWarning($"Pre-reload command exit code was #{proc.ExitCode}");
+                }
+                catch(Exception ex)
+                {
+                    Logging.WriteError($"Pre-reload command execution failed exceptional: {ex}");
+                }
+                finally
+                {
+                    if (Logging.Trace)
+                        Logging.WriteTrace("Pre-reload command execution done");
+                }
+            };
+        fsw.Add(fse);
     }
-    catch (Exception ex)
-    {
-        Logging.WriteWarning($"Failed to handle configuration change of \"{configFile}\": {ex}");
-    }
-}
-using FileSystemWatcher fsw = new(ENV.AppFolder, "appsettings.json")
-{
-    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime,
-    IncludeSubdirectories = false,
-    EnableRaisingEvents = true
-};
-fsw.Changed += ReloadConfig;
-fsw.Created += ReloadConfig;
-string? emailMappings = DiscoveryConfig.Current.EmailMappings is null
-    ? null
-    : Path.GetFullPath(DiscoveryConfig.Current.EmailMappings);
-void ReloadEmailMappings(object sender, FileSystemEventArgs e)
-{
-    try
-    {
-        Logging.WriteDebug($"Detected email mappings change {e.ChangeType}");
-        if (File.Exists(emailMappings))
-        {
-            if (fswThrottle.IsThrottling)
-            {
-                Logging.WriteTrace("Skipping email mappings change event due too many events");
-            }
-            else if (fswThrottle.Raise())
-            {
-                Logging.WriteTrace("Email mappings change event has been raised");
-            }
-        }
-        else
-        {
-            Logging.WriteTrace($"Email mappings file \"{emailMappings}\" doesn't exist");
-        }
-    }
-    catch (Exception ex)
-    {
-        Logging.WriteWarning($"Failed to handle email mappings change of \"{emailMappings}\": {ex}");
-    }
-}
-using FileSystemWatcher? emailMappingsFsw = emailMappings is null
-    ? null
-    : new(Path.GetDirectoryName(emailMappings)!, Path.GetFileName(emailMappings))
-    {
-        NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime,
-        IncludeSubdirectories = false,
-        EnableRaisingEvents = true
-    };
-if (emailMappingsFsw is not null)
-{
-    emailMappingsFsw.Changed += ReloadEmailMappings;
-    emailMappingsFsw.Created += ReloadEmailMappings;
-}
 
 // Build and run the app
 Logging.WriteInfo("Autodiscovery service app startup");
@@ -153,6 +132,7 @@ if (ENV.IsLinux)
 builder.Services.AddControllers();
 builder.Services.AddSingleton(typeof(XmlDocumentInstances), services => new XmlDocumentInstances(capacity: DiscoveryConfig.Current.PreForkResponses))
     .AddHostedService(services => services.GetRequiredService<XmlDocumentInstances>())
+    .AddHostedService(services => fsw)
     .AddExceptionHandler<ExceptionHandler>()
     .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders);
 builder.Services.Configure<ForwardedHeadersOptions>(options =>

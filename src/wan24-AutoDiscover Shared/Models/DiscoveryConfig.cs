@@ -62,6 +62,21 @@ namespace wan24.AutoDiscover.Models
         public string? EmailMappings { get; init; }
 
         /// <summary>
+        /// Watch email mappings list file changes for reloading the configuration?
+        /// </summary>
+        public bool WatchEmailMappings { get; init; } = true;
+
+        /// <summary>
+        /// Additional file paths to watch for an automatic configuration reload
+        /// </summary>
+        public string[]? WatchFiles { get; init; }
+
+        /// <summary>
+        /// Command to execute (and optional arguments) before reloading the configuration when any <see cref="WatchFiles"/> file changed
+        /// </summary>
+        public string[]? PreReloadCommand { get; init; }
+
+        /// <summary>
         /// Get the discovery configuration
         /// </summary>
         /// <param name="config">Configuration</param>
@@ -78,12 +93,12 @@ namespace wan24.AutoDiscover.Models
             if (gt.Length != 2)
                 throw new InvalidDataException($"Discovery type must be a generic type with two type arguments");
             if (gt[0] != typeof(string))
-                throw new InvalidDataException($"Discovery types first generic type argument must be a {typeof(string)}");
+                throw new InvalidDataException($"Discovery types first generic type argument must be {typeof(string)}");
             if (!typeof(DomainConfig).IsAssignableFrom(gt[1]))
                 throw new InvalidDataException($"Discovery types second generic type argument must be a {typeof(DomainConfig)}");
             // Parse the discovery configuration
             IDictionary discovery = config.GetRequiredSection("DiscoveryConfig:Discovery").Get(discoveryType) as IDictionary
-                ?? throw new InvalidDataException("Failed to get discovery configuration");
+                ?? throw new InvalidDataException("Failed to get discovery configuration from the DiscoveryConfig:Discovery section");
             object[] keys = new object[discovery.Count],
                 values = new object[discovery.Count];
             discovery.Keys.CopyTo(keys, index: 0);
@@ -95,36 +110,45 @@ namespace wan24.AutoDiscover.Models
             if (!string.IsNullOrWhiteSpace(EmailMappings))
                 if (File.Exists(EmailMappings))
                 {
-                    Logging.WriteInfo($"Loading email mappings from \"{EmailMappings}\"");
+                    Logging.WriteInfo($"Loading email mappings from {EmailMappings.ToQuotedLiteral()}");
                     FileStream fs = FsHelper.CreateFileStream(EmailMappings, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    EmailMapping[] mappings;
                     await using (fs.DynamicContext())
-                    {
-                        EmailMapping[] mappings = await JsonHelper.DecodeAsync<EmailMapping[]>(fs).DynamicContext()
+                        mappings = await JsonHelper.DecodeAsync<EmailMapping[]>(fs).DynamicContext()
                             ?? throw new InvalidDataException("Invalid email mappings");
-                        foreach(EmailMapping mapping in mappings)
+                    foreach(EmailMapping mapping in mappings)
+                    {
+                        if (!mapping.Email.Contains('@'))
                         {
-                            if (!mapping.Email.Contains('@'))
-                                continue;
-                            string email = mapping.Email.ToLower();
-                            if (
-                                !MailAddress.TryCreate(mapping.Email, out MailAddress? emailAddress) ||
-                                (emailAddress.User.Length == 1 && (emailAddress.User[0] == '*' || emailAddress.User[0] == '@')) ||
-                                EmailMapping.GetLoginUser(mappings, email) is not string loginUser
-                                )
-                                continue;
-                            string[] emailParts = mapping.Email.ToLower().Split('@', 2);
-                            if (emailParts.Length != 2 || DomainConfig.GetConfig(string.Empty, emailParts) is not DomainConfig domain)
-                                continue;
                             if (Logging.Debug)
-                                Logging.WriteDebug($"Mapping email address \"{email}\" to login user \"{loginUser}\"");
-                            domain.LoginNameMapping ??= [];
-                            domain.LoginNameMapping[email] = loginUser;
+                                Logging.WriteDebug($"Skipping invalid email address {mapping.Email.ToQuotedLiteral()}");
+                            continue;
                         }
+                        string email = mapping.Email.ToLower();
+                        string[] emailParts = email.Split('@', 2);
+                        if (
+                            emailParts.Length != 2 ||
+                            !MailAddress.TryCreate(email, out MailAddress? emailAddress) ||
+                            (emailAddress.User.Length == 1 && (emailAddress.User[0] == '*' || emailAddress.User[0] == '@')) ||
+                            EmailMapping.GetLoginUser(mappings, email) is not string loginUser ||
+                            DomainConfig.GetConfig(string.Empty, emailParts) is not DomainConfig domain
+                            )
+                        {
+                            if (Logging.Debug)
+                                Logging.WriteDebug($"Mapping email address {email.ToQuotedLiteral()} to login user failed, because it seems to be a redirection to an external target, or no matching domain configuration was found");
+                            continue;
+                        }
+                        if (Logging.Debug)
+                            Logging.WriteDebug($"Mapping email address {email.ToQuotedLiteral()} to login user {loginUser.ToQuotedLiteral()}");
+                        domain.LoginNameMapping ??= [];
+                        if (Logging.Debug && domain.LoginNameMapping.ContainsKey(email))
+                            Logging.WriteDebug($"Overwriting existing email address {email.ToQuotedLiteral()} mapping");
+                        domain.LoginNameMapping[email] = loginUser;
                     }
                 }
                 else
                 {
-                    Logging.WriteWarning($"Email mappings file \"{EmailMappings}\" not found");
+                    Logging.WriteWarning($"Email mappings file {EmailMappings.ToQuotedLiteral()} not found");
                 }
             return discoveryDomains.ToFrozenDictionary();
         }

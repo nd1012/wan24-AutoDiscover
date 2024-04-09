@@ -72,7 +72,7 @@ namespace wan24.AutoDiscover.Models
         public string[]? WatchFiles { get; init; }
 
         /// <summary>
-        /// Command to execute (and optional arguments) before reloading the configuration when any <see cref="WatchFiles"/> file changed
+        /// Command to execute (and optional arguments) before reloading the configuration
         /// </summary>
         public string[]? PreReloadCommand { get; init; }
 
@@ -80,8 +80,9 @@ namespace wan24.AutoDiscover.Models
         /// Get the discovery configuration
         /// </summary>
         /// <param name="config">Configuration</param>
+        /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Discovery configuration</returns>
-        public virtual async Task<IReadOnlyDictionary<string, DomainConfig>> GetDiscoveryConfigAsync(IConfigurationRoot config)
+        public virtual async Task<IReadOnlyDictionary<string, DomainConfig>> GetDiscoveryConfigAsync(IConfigurationRoot config, CancellationToken cancellationToken = default)
         {
             Type discoveryType = DiscoveryType;
             if (!typeof(IDictionary).IsAssignableFrom(discoveryType))
@@ -98,7 +99,7 @@ namespace wan24.AutoDiscover.Models
                 throw new InvalidDataException($"Discovery types second generic type argument must be a {typeof(DomainConfig)}");
             // Parse the discovery configuration
             IDictionary discovery = config.GetRequiredSection("DiscoveryConfig:Discovery").Get(discoveryType) as IDictionary
-                ?? throw new InvalidDataException("Failed to get discovery configuration from the DiscoveryConfig:Discovery section");
+                ?? throw new InvalidDataException("Failed to get discovery configuration from the \"DiscoveryConfig:Discovery section\"");
             object[] keys = new object[discovery.Count],
                 values = new object[discovery.Count];
             discovery.Keys.CopyTo(keys, index: 0);
@@ -114,7 +115,7 @@ namespace wan24.AutoDiscover.Models
                     FileStream fs = FsHelper.CreateFileStream(EmailMappings, FileMode.Open, FileAccess.Read, FileShare.Read);
                     EmailMapping[] mappings;
                     await using (fs.DynamicContext())
-                        mappings = await JsonHelper.DecodeAsync<EmailMapping[]>(fs).DynamicContext()
+                        mappings = await JsonHelper.DecodeAsync<EmailMapping[]>(fs, cancellationToken).DynamicContext()
                             ?? throw new InvalidDataException("Invalid email mappings");
                     foreach(EmailMapping mapping in mappings)
                     {

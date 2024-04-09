@@ -20,9 +20,9 @@ For example on a Debian Linux server:
 ```bash
 mkdir /home/autodiscover
 cd /home/autodiscover
-wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.0.0/wan24-AutoDiscover.v1.0.0.zip
-unzip wan24-AutoDiscover.v1.0.0.zip
-rm wan24-AutoDiscover.v1.0.0.zip
+wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.1.0/wan24-AutoDiscover.v1.1.0.zip
+unzip wan24-AutoDiscover.v1.1.0.zip
+rm wan24-AutoDiscover.v1.1.0.zip
 ```
 
 ### `appsettings.json`
@@ -224,6 +224,40 @@ dotnet wan24AutoDiscover.dll autodiscover systemd > /etc/systemd/system/autodisc
 dotnet wan24AutoDiscover.dll autodiscover postfix < /etc/postfix/virtual > /home/autodiscover/postfix.json
 ```
 
+#### Display version number
+
+```bash
+dotnet wan24AutoDiscover.dll autodiscover version
+```
+
+#### Upgrade online
+
+Check for an available newer version only:
+
+```bash
+dotnet wan24AutoDiscover.dll autodiscover upgrade -checkOnly
+```
+
+**NOTE**: The command will exit with code #2, if an update is available online.
+
+With user interaction:
+
+```bash
+dotnet wan24AutoDiscover.dll autodiscover upgrade
+```
+
+Without user interaction:
+
+```bash
+dotnet wan24AutoDiscover.dll autodiscover upgrade -noUserInteraction
+```
+
+#### Display detailed CLI API usage instructions
+
+```bash
+dotnet wan24AutoDiscover.dll help -details
+```
+
 ## Login name mapping
 
 If the login name isn't the email address or the alias of the given email 
@@ -256,4 +290,57 @@ Then you can add the `postix.json` to your `appsettings.json`:
 
 The configuration will be reloaded, if the `postfix.json` file changed, so be 
 sure to re-create the `postfix.json` file as soon as the `virtual` file was 
-changed.
+changed. If you don't want that, set `WatchEmailMappings` to `false`.
+
+### Additionally watched files
+
+You can set a list of additionally watched file paths to `WatchFiles` in your 
+`appsettings.json` file. When any file was changed, the configuration will be 
+reloaded.
+
+### Pre-reload command execution
+
+To execute a command before reloading a changed configration, set the 
+`PreReloadCommand` value in your `appsettings.json` like this:
+
+```json
+{
+	...
+  "DiscoveryConfig": {
+	...
+	"PreReloadCommand": ["/command/to/execute", "argument1", "argument2", ...],
+	...
+  }
+}
+```
+
+## Automatic online upgrades
+
+You can upgrade `wan24-AutoDiscover` online and automatic. For this some steps 
+are recommended:
+
+1. Create sheduled task for auto-upgrade (daily, for example)
+1. Stop the service before installing the newer version
+1. Start the service after installing the newer version
+
+For that the sheduled auto-upgrade task should execute this command on a 
+Debian Linux server, for example:
+
+```bash
+dotnet /home/autodiscover/wan24AutoDiscover.dll autodiscover upgrade -noUserInteraction --preCommand systemctl stop autodiscover --postCommand systemctl start autodiscover
+```
+
+If the upgrade download failed, nothing will happen - the upgrade won't be 
+installed only and being re-tried at the next sheduled auto-upgrade time.
+
+If the upgrade installation failed, the post-upgrade command won't be 
+executed, and the autodiscover service won't run. This'll give you the chance 
+to investigate the broken upgrade and optional restore the running version 
+manually.
+
+**CAUTION**: The auto-upgrade is being performed using the GitHub repository. 
+There are no security checks at present - so if the repository was hacked, you 
+could end up with upgrading to a compromised software which could harm your 
+system!
+
+The upgrade setup should be done in less than a second, if everything was fine.

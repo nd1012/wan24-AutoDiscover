@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using System.Xml;
+﻿using System.Xml;
 using wan24.ObjectValidation;
 
 namespace wan24.AutoDiscover.Models
@@ -7,12 +6,12 @@ namespace wan24.AutoDiscover.Models
     /// <summary>
     /// Domain configuration
     /// </summary>
-    public record class DomainConfig
+    public record class DomainConfig : ValidatableRecordBase
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public DomainConfig() { }
+        public DomainConfig() : base() { }
 
         /// <summary>
         /// Registered domains (key is the served domain name)
@@ -48,7 +47,7 @@ namespace wan24.AutoDiscover.Models
         /// <param name="xml">XML</param>
         /// <param name="account">Account node</param>
         /// <param name="emailParts">Splitted email parts</param>
-        public virtual void CreateXml(XmlDocument xml, XmlNode account, string[] emailParts)
+        public virtual void CreateXml(XmlDocument xml, XmlNode account, ReadOnlyMemory<string> emailParts)
         {
             foreach (Protocol protocol in Protocols) protocol.CreateXml(xml, account, emailParts, this);
         }
@@ -59,11 +58,11 @@ namespace wan24.AutoDiscover.Models
         /// <param name="host">Hostname</param>
         /// <param name="emailParts">Splitted email parts</param>
         /// <returns>Domain configuration</returns>
-        public static DomainConfig? GetConfig(string host, string[] emailParts)
-            => !Registered.TryGetValue(emailParts[1], out DomainConfig? config) &&
+        public static DomainConfig? GetConfig(string host, ReadOnlyMemory<string> emailParts)
+            => !Registered.TryGetValue(emailParts.Span[1], out DomainConfig? config) &&
                 (host.Length == 0 || !Registered.TryGetValue(host, out config)) &&
                 !Registered.TryGetValue(
-                    Registered.Where(kvp => kvp.Value.AcceptedDomains?.Contains(emailParts[1], StringComparer.OrdinalIgnoreCase) ?? false)
+                    Registered.Where(kvp => kvp.Value.AcceptedDomains?.Contains(emailParts.Span[1], StringComparer.OrdinalIgnoreCase) ?? false)
                         .Select(kvp => kvp.Key)
                         .FirstOrDefault() ?? string.Empty,
                     out config)

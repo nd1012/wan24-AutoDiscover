@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Xml;
+using System.Xml.XPath;
 using wan24.AutoDiscover.Models;
 using wan24.AutoDiscover.Services;
 using wan24.Core;
@@ -20,17 +20,9 @@ namespace wan24.AutoDiscover.Controllers
     public class DiscoveryController(XmlDocumentInstances responses) : ControllerBase()
     {
         /// <summary>
-        /// Request XML email address node XPath selector
+        /// Max. request length in bytes
         /// </summary>
-        private const string EMAIL_NODE_XPATH = "//*[local-name()='EMailAddress']";
-        /// <summary>
-        /// Request XML acceptable response node XPath selector
-        /// </summary>
-        private const string ACCEPTABLE_RESPONSE_SCHEMA_NODE_XPATH = "//*[local-name()='AcceptableResponseSchema']";
-        /// <summary>
-        /// Response XML account node XPath selector
-        /// </summary>
-        private const string ACCOUNT_NODE_XPATH = $"//*[local-name()='{ACCOUNT_NODE_NAME}']";
+        private const int MAX_REQUEST_LEN = 1024;
         /// <summary>
         /// XML response MIME type
         /// </summary>
@@ -74,43 +66,68 @@ namespace wan24.AutoDiscover.Controllers
         private readonly XmlDocumentInstances Responses = responses;
 
         /// <summary>
-        /// Auto discovery (POX)
+        /// XPath request query
         /// </summary>
-        /// <returns>XML response</returns>
-        [HttpPost, Route("autodiscover.xml")]
+        private static readonly XPathExpression RequestQuery = XPathExpression.Compile("/*[local-name()='Autodiscover']/*[local-name()='Request']");
+        /// <summary>
+        /// XPath schema query
+        /// </summary>
+        private static readonly XPathExpression SchemaQuery = XPathExpression.Compile("./*[local-name()='AcceptableResponseSchema']");
+        /// <summary>
+        /// XPath email query
+        /// </summary>
+        private static readonly XPathExpression EmailQuery = XPathExpression.Compile("./*[local-name()='EMailAddress']");
+
+        /// <summary>
+        /// Autodiscover (POX request body required)
+        /// </summary>
+        /// <returns>POX response</returns>
+        [HttpPost, Route("autodiscover.xml"), Consumes(XML_MIME_TYPE, IsOptional = false), RequestSizeLimit(MAX_REQUEST_LEN), Produces(XML_MIME_TYPE)]
         public async Task<ContentResult> AutoDiscoverAsync()
         {
-            // Try getting the requested email address from the request
-            XmlDocument requestXml = new();
-            Stream requestBody = HttpContext.Request.Body;
-            await using (requestBody.DynamicContext())
-            using (StreamReader reader = new(requestBody, Encoding.UTF8, leaveOpen: true))
+            // Validate the request and try getting the email address
+            XPathNavigator requestNavigator,
+                requestNode,
+                acceptableResponseSchema,
+                emailNode;
+            using (MemoryPoolStream ms = new())
             {
-                string requestXmlString = await reader.ReadToEndAsync(HttpContext.RequestAborted).DynamicContext();
-                if (Logging.Debug)
-                    Logging.WriteDebug($"POX request XML body from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}: {requestXmlString.ToQuotedLiteral()}");
-                requestXml.LoadXml(requestXmlString);
+                Stream requestBody = HttpContext.Request.Body;
+                await using (requestBody.DynamicContext())
+                    await requestBody.CopyToAsync(ms, bufferSize: MAX_REQUEST_LEN, HttpContext.RequestAborted).DynamicContext();
+                ms.Position = 0;
+                try
+                {
+                    requestNavigator = new XPathDocument(ms).CreateNavigator();
+                }
+                catch (XmlException ex)
+                {
+                    throw new BadHttpRequestException("Invalid XML in request", ex);
+                }
             }
-            if (
-                requestXml.SelectSingleNode(ACCEPTABLE_RESPONSE_SCHEMA_NODE_XPATH) is XmlNode acceptableResponseSchema &&
-                acceptableResponseSchema.InnerText.Trim() != Constants.RESPONSE_NS
-                )
-                throw new BadHttpRequestException($"Unsupported response schema {acceptableResponseSchema.InnerText.ToQuotedLiteral()}");
-            if (requestXml.SelectSingleNode(EMAIL_NODE_XPATH) is not XmlNode emailNode)
-                throw new BadHttpRequestException("Missing email address in request");
-            string emailAddress = emailNode.InnerText.Trim().ToLower();
-            if (Logging.Debug)
-                Logging.WriteDebug($"POX request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort} email address {emailAddress.ToQuotedLiteral()}");
-            string[]  emailParts = emailAddress.Split('@', 2);
+            requestNode = requestNavigator.SelectSingleNode(RequestQuery)
+                ?? throw new BadHttpRequestException("Missing request node in request");
+            acceptableResponseSchema = requestNode.SelectSingleNode(SchemaQuery)
+                ?? throw new BadHttpRequestException("Missing acceptable response schema node in request");
+            emailNode = requestNode.SelectSingleNode(EmailQuery)
+                ?? throw new BadHttpRequestException("Missing email address node in request");
+            if (acceptableResponseSchema.Value.Trim() != Constants.RESPONSE_NS)
+                throw new BadHttpRequestException("Unsupported acceptable response schema in request");
+            string emailAddress = emailNode.Value.Trim().ToLower();
+            if (Logging.Trace)
+                Logging.WriteTrace($"POX request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort} email address {emailAddress.ToQuotedLiteral()}");
+            string[] emailParts = emailAddress.Split('@', 2);
             if (emailParts.Length != 2 || !MailAddress.TryCreate(emailAddress, out _))
                 throw new BadHttpRequestException("Invalid email address");
-            // Generate discovery response
-            if (Logging.Debug)
-                Logging.WriteDebug($"Creating POX response for {emailAddress.ToQuotedLiteral()} request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}");
+            // Generate the response
+            if (Logging.Trace)
+                Logging.WriteTrace($"Creating POX response for \"{emailAddress}\" request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}");
             XmlDocument xml = await Responses.GetOneAsync(HttpContext.RequestAborted).DynamicContext();
-            if (DomainConfig.GetConfig(HttpContext.Request.Host.Host,emailParts) is not DomainConfig config)
-                throw new BadHttpRequestException($"Unknown request domain name \"{HttpContext.Request.Host.Host}\"/{emailParts[1].ToQuotedLiteral()}");
-            config.CreateXml(xml, xml.SelectSingleNode(ACCOUNT_NODE_XPATH) ?? throw new InvalidProgramException("Missing response XML account node"), emailParts);
+            if (DomainConfig.GetConfig(HttpContext.Request.Host.Host, emailParts) is not DomainConfig config)
+                throw new BadHttpRequestException($"Unknown request domain name {HttpContext.Request.Host.Host} / {emailParts[1]}");
+            config.CreateXml(xml, xml.FirstChild?.FirstChild?.FirstChild ?? throw new InvalidProgramException("Missing response XML account node"), emailParts);
+            if (Logging.Trace)
+                Logging.WriteTrace($"POX response XML body to {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}: {xml.OuterXml}");
             return new()
             {
                 Content = xml.OuterXml,

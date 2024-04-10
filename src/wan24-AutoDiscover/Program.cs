@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
-using System.Diagnostics;
 using wan24.AutoDiscover;
 using wan24.AutoDiscover.Models;
 using wan24.AutoDiscover.Services;
@@ -44,15 +43,15 @@ Translation.Current = Translation.Dummy;
 Settings.AppId = "wan24-AutoDiscover";
 Settings.ProcessId = "service";
 Settings.LogLevel = config.GetValue<LogLevel>("Logging:LogLevel:Default");
-Logging.Logger ??= DiscoveryConfig.Current.LogFile is string logFile && !string.IsNullOrWhiteSpace(logFile)
-    ? await FileLogger.CreateAsync(logFile, next: new VividConsoleLogger()).DynamicContext()
+Logging.Logger ??= !string.IsNullOrWhiteSpace(DiscoveryConfig.Current.LogFile)
+    ? await FileLogger.CreateAsync(DiscoveryConfig.Current.LogFile, next: new VividConsoleLogger(), cancellationToken: cts.Token).DynamicContext()
     : new VividConsoleLogger();
 ErrorHandling.ErrorHandler = (e) => Logging.WriteError($"{e.Info}: {e.Exception}");
 Logging.WriteInfo($"wan24-AutoDiscover {VersionInfo.Current} Using configuration \"{configFile}\"");
 
 // Watch configuration changes
 using SemaphoreSync configSync = new();
-using MultiFileSystemEvents fsw = new();//TODO Throttle only the main service events
+using MultiFileSystemEvents fsw = new(throttle: 250);
 fsw.OnEvents += async (s, e) =>
 {
     try
@@ -61,7 +60,7 @@ fsw.OnEvents += async (s, e) =>
             Logging.WriteDebug("Handling configuration change");
         if (configSync.IsSynchronized)
         {
-            Logging.WriteWarning("Can't handle configuration change, because another handler is still processing (configuration reload takes too long)");
+            Logging.WriteWarning("Can't handle configuration change, because another handler is still processing (configuration reload takes too long!)");
             return;
         }
         using SemaphoreSyncContext ssc = await configSync.SyncContextAsync(cts.Token).DynamicContext();
@@ -70,32 +69,27 @@ fsw.OnEvents += async (s, e) =>
             try
             {
                 Logging.WriteInfo("Executing pre-reload command on detected configuration change");
-                using Process proc = new();
-                proc.StartInfo.FileName = DiscoveryConfig.Current.PreReloadCommand[0];
-                if (DiscoveryConfig.Current.PreReloadCommand.Length > 1)
-                    proc.StartInfo.ArgumentList.AddRange(DiscoveryConfig.Current.PreReloadCommand[1..]);
-                proc.StartInfo.UseShellExecute = true;
-                proc.StartInfo.CreateNoWindow = true;
-                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                proc.Start();
-                await proc.WaitForExitAsync(cts.Token).DynamicContext();
-                if (proc.ExitCode != 0)
-                    Logging.WriteWarning($"Pre-reload command exit code was #{proc.ExitCode}");
+                int exitCode = await ProcessHelper.GetExitCodeAsync(
+                    DiscoveryConfig.Current.PreReloadCommand[0],
+                    cancellationToken: cts.Token,
+                    args: [.. DiscoveryConfig.Current.PreReloadCommand[1..]]
+                    ).DynamicContext();
+                if (exitCode != 0)
+                    Logging.WriteWarning($"Pre-reload command exit code was #{exitCode}");
+                if (Logging.Trace)
+                    Logging.WriteTrace("Pre-reload command execution done");
             }
             catch (Exception ex)
             {
                 Logging.WriteError($"Pre-reload command execution failed exceptional: {ex}");
-            }
-            finally
-            {
-                if (Logging.Trace)
-                    Logging.WriteTrace("Pre-reload command execution done");
             }
         // Reload configuration
         if (File.Exists(configFile))
         {
             Logging.WriteInfo($"Auto-reloading changed configuration from \"{configFile}\"");
             await LoadConfigAsync().DynamicContext();
+            if (Logging.Trace)
+                Logging.WriteTrace($"Auto-reloading changed configuration from \"{configFile}\" done");
         }
         else if(Logging.Trace)
         {
@@ -104,23 +98,17 @@ fsw.OnEvents += async (s, e) =>
     }
     catch (Exception ex)
     {
-        Logging.WriteWarning($"Failed to reload configuration from \"{configFile}\": {ex}");
-    }
-    finally
-    {
-        if (Logging.Trace)
-            Logging.WriteTrace($"Auto-reloading changed configuration from \"{configFile}\" done");
+        Logging.WriteError($"Failed to reload configuration from \"{configFile}\": {ex}");
     }
 };
 fsw.Add(new(ENV.AppFolder, "appsettings.json", NotifyFilters.LastWrite | NotifyFilters.CreationTime, throttle: 250, recursive: false));
-if (DiscoveryConfig.Current.WatchEmailMappings && DiscoveryConfig.Current.EmailMappings is not null)
+if (DiscoveryConfig.Current.WatchEmailMappings && !string.IsNullOrWhiteSpace(DiscoveryConfig.Current.EmailMappings))
     fsw.Add(new(
         Path.GetDirectoryName(Path.GetFullPath(DiscoveryConfig.Current.EmailMappings))!,
         Path.GetFileName(DiscoveryConfig.Current.EmailMappings),
         NotifyFilters.LastWrite | NotifyFilters.CreationTime,
-        throttle: 250,//TODO Throttle only the main service events
         recursive: false,
-        FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
+        events: FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
         ));
 if (DiscoveryConfig.Current.WatchFiles is not null)
     foreach (string file in DiscoveryConfig.Current.WatchFiles)
@@ -128,9 +116,8 @@ if (DiscoveryConfig.Current.WatchFiles is not null)
             Path.GetDirectoryName(Path.GetFullPath(file))!,
             Path.GetFileName(file),
             NotifyFilters.LastWrite | NotifyFilters.CreationTime,
-            throttle: 250,//TODO Throttle only the main service events
             recursive: false,
-            FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
+            events: FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
             ));
 
 // Build and run the app

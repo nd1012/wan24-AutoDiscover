@@ -6,12 +6,12 @@ namespace wan24.AutoDiscover.Models
     /// <summary>
     /// Email mapping
     /// </summary>
-    public record class EmailMapping
+    public record class EmailMapping : ValidatableRecordBase
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public EmailMapping() { }
+        public EmailMapping() : base() { }
 
         /// <summary>
         /// Emailaddress
@@ -39,7 +39,8 @@ namespace wan24.AutoDiscover.Models
                 return loginName;
             HashSet<string> seen = [email];
             Queue<string> emails = [];
-            foreach (string target in mapping.Targets) emails.Enqueue(target.ToLower());
+            foreach (string target in mapping.Targets)
+                emails.Enqueue(target.ToLower());
             while(emails.TryDequeue(out string? target))
             {
                 if (
@@ -49,7 +50,8 @@ namespace wan24.AutoDiscover.Models
                     continue;
                 if (targetMapping.Targets.FirstOrDefault(t => !t.Contains('@')) is string targetLoginName)
                     return targetLoginName;
-                foreach (string subTarget in targetMapping.Targets) emails.Enqueue(subTarget.ToLower());
+                foreach (string subTarget in targetMapping.Targets)
+                    emails.Enqueue(subTarget.ToLower());
             }
             return null;
         }

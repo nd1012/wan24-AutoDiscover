@@ -6,18 +6,24 @@ using System.Net;
 using System.Net.Mail;
 using System.Text.Json.Serialization;
 using wan24.Core;
+using wan24.ObjectValidation;
 
 namespace wan24.AutoDiscover.Models
 {
     /// <summary>
     /// Discovery configuration
     /// </summary>
-    public record class DiscoveryConfig
+    public record class DiscoveryConfig : ValidatableRecordBase
     {
+        /// <summary>
+        /// Discovery configuration type
+        /// </summary>
+        protected Type? _DiscoveryType = null;
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public DiscoveryConfig() { }
+        public DiscoveryConfig() : base() { }
 
         /// <summary>
         /// Current configuration
@@ -46,7 +52,7 @@ namespace wan24.AutoDiscover.Models
         /// Discovery configuration type
         /// </summary>
         [JsonIgnore]
-        public Type DiscoveryType => DiscoveryTypeName is null
+        public virtual Type DiscoveryType => _DiscoveryType ??= string.IsNullOrWhiteSpace(DiscoveryTypeName)
             ? typeof(Dictionary<string, DomainConfig>)
             : TypeHelper.Instance.GetType(DiscoveryTypeName)
                 ?? throw new InvalidDataException($"Discovery type {DiscoveryTypeName.ToQuotedLiteral()} not found");

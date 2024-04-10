@@ -14,18 +14,14 @@ namespace wan24.AutoDiscover.Services
     public sealed class XmlDocumentInstances(in int capacity) : InstancePool<XmlDocument>(capacity, CreateXmlDocument)
     {
         /// <summary>
-        /// Constructor
-        /// </summary>
-        public XmlDocumentInstances() : this(capacity: 100) { }
-
-        /// <summary>
         /// Create an <see cref="XmlDocument"/>
         /// </summary>
         /// <param name="pool">Pool</param>
         /// <returns><see cref="XmlDocument"/></returns>
         private static XmlDocument CreateXmlDocument(IInstancePool<XmlDocument> pool)
         {
-            if (Logging.Trace) Logging.WriteTrace("Pre-forking a new POX XML response");
+            if (Logging.Trace)
+                Logging.WriteTrace("Pre-forking a new POX XML response");
             XmlDocument xml = new();
             XmlNode account = xml.AppendChild(xml.CreateNode(XmlNodeType.Element, DiscoveryController.AUTODISCOVER_NODE_NAME, DiscoveryController.AUTO_DISCOVER_NS))!
                 .AppendChild(xml.CreateNode(XmlNodeType.Element, DiscoveryController.RESPONSE_NODE_NAME, Constants.RESPONSE_NS))!

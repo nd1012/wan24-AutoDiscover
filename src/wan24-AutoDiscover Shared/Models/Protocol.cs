@@ -9,7 +9,7 @@ namespace wan24.AutoDiscover.Models
     /// <summary>
     /// Protocol (POX)
     /// </summary>
-    public record class Protocol
+    public record class Protocol : ValidatableRecordBase
     {
         /// <summary>
         /// <c>Protocol</c> node name
@@ -55,7 +55,7 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Constructor
         /// </summary>
-        public Protocol() { }
+        public Protocol() : base() { }
 
         /// <summary>
         /// Login name getter delegate
@@ -118,7 +118,7 @@ namespace wan24.AutoDiscover.Models
         /// <param name="account">Account node</param>
         /// <param name="emailParts">Splitted email parts</param>
         /// <param name="domain">Domain</param>
-        public virtual void CreateXml(XmlDocument xml, XmlNode account, string[] emailParts, DomainConfig domain)
+        public virtual void CreateXml(XmlDocument xml, XmlNode account, ReadOnlyMemory<string> emailParts, DomainConfig domain)
         {
             XmlNode protocol = account.AppendChild(xml.CreateElement(PROTOCOL_NODE_NAME, Constants.RESPONSE_NS))!;
             foreach (KeyValuePair<string, string> kvp in new Dictionary<string, string>()
@@ -143,7 +143,7 @@ namespace wan24.AutoDiscover.Models
         /// <param name="domain">Domain</param>
         /// <param name="protocol">Protocol</param>
         /// <returns>Login name</returns>
-        public delegate string LoginName_Delegate(XmlDocument xml, XmlNode account, string[] emailParts, DomainConfig domain, Protocol protocol);
+        public delegate string LoginName_Delegate(XmlDocument xml, XmlNode account, ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol);
 
         /// <summary>
         /// Default login name resolver
@@ -154,11 +154,11 @@ namespace wan24.AutoDiscover.Models
         /// <param name="domain">Domain</param>
         /// <param name="protocol">Protocol</param>
         /// <returns>Login name</returns>
-        public static string DefaultLoginName(XmlDocument xml, XmlNode account, string[] emailParts, DomainConfig domain, Protocol protocol)
+        public static string DefaultLoginName(XmlDocument xml, XmlNode account, ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol)
         {
             string emailAddress = string.Join('@', emailParts),
                 res = protocol.LoginNameIsEmailAlias
-                    ? emailParts[0]
+                    ? emailParts.Span[0]
                     : emailAddress;
             string? loginName = null;
             return (protocol.LoginNameMapping?.TryGetValue(emailAddress, out loginName) ?? false) ||

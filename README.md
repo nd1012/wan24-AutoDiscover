@@ -5,7 +5,12 @@ Exchange POX autodiscover standard, which allows email clients to receive
 automatic configuration information for an email account.
 
 It was created using .NET 8 and ASP.NET. You find a published release build 
-for each published release on GitHub as ZIP download for self-hosting.
+for each published release on GitHub as ZIP file download for self-hosting.
+
+The webservice is designed for working with dynamic MTA configurations and 
+tries to concentrate on the basics for fast request handling and response. All 
+required informations will be held in memory, so no database or filesystem 
+access is required for request handling.
 
 ## Usage
 
@@ -103,7 +108,7 @@ For serving a request, the `DomainConfig` will be looked up
 
 Any unmatched `DomainConfig` will cause a `Bad request` http response.
 
-Documentation references:
+Find the online documentation of the used types here:
 
 - [`DiscoveryConfig`](https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.DiscoveryConfig.html)
 - [`DomainConfig`](https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.DomainConfig.html)
@@ -240,13 +245,13 @@ dotnet wan24AutoDiscover.dll autodiscover upgrade -checkOnly
 
 **NOTE**: The command will exit with code #2, if an update is available online.
 
-With user interaction:
+Upgrade with user interaction:
 
 ```bash
 dotnet wan24AutoDiscover.dll autodiscover upgrade
 ```
 
-Without user interaction:
+Upgrade without user interaction:
 
 ```bash
 dotnet wan24AutoDiscover.dll autodiscover upgrade -noUserInteraction

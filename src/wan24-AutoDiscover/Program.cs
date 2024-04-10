@@ -19,7 +19,9 @@ if (args.Length > 0 && !args[0].StartsWith('-'))
     Settings.ProcessId = "cli";
     Logging.Logger ??= new VividConsoleLogger();
     CliApi.HelpHeader = $"wan24-AutoDiscover {VersionInfo.Current} - (c) 2024 Andreas Zimmermann, wan24.de";
-    return await CliApi.RunAsync(args, cts.Token, [typeof(CliHelpApi), typeof(CommandLineInterface)]).DynamicContext();
+    AboutApi.Info = "(c) 2024 Andreas Zimmermann, wan24.de";
+    AboutApi.Version = VersionInfo.Current;
+    return await CliApi.RunAsync(args, cts.Token, [typeof(CliHelpApi), typeof(CommandLineInterface), typeof(AboutApi)]).DynamicContext();
 }
 
 // Load the configuration

@@ -129,7 +129,6 @@ if (ENV.IsLinux)
     builder.Logging.AddSystemdConsole();
 builder.Services.AddControllers();
 builder.Services.AddSingleton(typeof(XmlResponseInstances), services => new XmlResponseInstances(capacity: DiscoveryConfig.Current.PreForkResponses))
-    .AddSingleton(typeof(MemoryPoolStreamPool), services => new MemoryPoolStreamPool(capacity: DiscoveryConfig.Current.StreamPoolCapacity))
     .AddSingleton(cts)
     .AddHostedService(services => services.GetRequiredService<XmlResponseInstances>())
     .AddHostedService(services => fsw)

@@ -43,12 +43,6 @@ namespace wan24.AutoDiscover.Models
         public int PreForkResponses { get; init; } = 10;
 
         /// <summary>
-        /// Stream pool capacity
-        /// </summary>
-        [Range(1, int.MaxValue)]
-        public int StreamPoolCapacity { get; init; } = 10;
-
-        /// <summary>
         /// Dicovery configuration type name
         /// </summary>
         [StringLength(byte.MaxValue, MinimumLength = 1)]

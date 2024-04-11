@@ -54,7 +54,6 @@ example:
   "AllowedHosts": "*",
   "DiscoveryConfig": {
     "PreForkResponses": 10,
-    "StreamPoolCapacity": 10,
     "KnownProxies": [
       "127.0.0.1"
     ],

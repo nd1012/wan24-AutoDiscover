@@ -33,13 +33,5 @@ namespace wan24.AutoDiscover.Services
             using (StreamWriter writer = new(stdOut, Encoding.UTF8, leaveOpen: true))
                 await writer.WriteLineAsync(new SystemdServiceFile().ToString().Trim().AsMemory(), cancellationToken).DynamicContext();
         }
-
-        /// <summary>
-        /// Version
-        /// </summary>
-        [CliApi("version", IsDefault = true)]
-        [DisplayText("Version")]
-        [Description("Display the current version string and exit")]
-        public static void Version() => Console.WriteLine(VersionInfo.Current.ToString());
     }
 }

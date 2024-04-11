@@ -21,13 +21,13 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Accepted domain names
         /// </summary>
-        [ItemRegularExpression(@"^[a-z|-|\.]{1,256}$")]
+        [CountLimit(1, int.MaxValue), ItemRegularExpression(@"^[a-z|-|\.]{1,256}$")]
         public IReadOnlyList<string>? AcceptedDomains { get; init; }
 
         /// <summary>
         /// Protocols
         /// </summary>
-        [CountLimit(1, int.MaxValue)]
+        [CountLimit(1, byte.MaxValue)]
         public required IReadOnlyList<Protocol> Protocols { get; init; }
 
         /// <summary>
@@ -45,11 +45,10 @@ namespace wan24.AutoDiscover.Models
         /// Create XML
         /// </summary>
         /// <param name="xml">XML</param>
-        /// <param name="account">Account node</param>
         /// <param name="emailParts">Splitted email parts</param>
-        public virtual void CreateXml(XmlDocument xml, XmlNode account, ReadOnlyMemory<string> emailParts)
+        public virtual void CreateXml(XmlWriter xml, ReadOnlyMemory<string> emailParts)
         {
-            foreach (Protocol protocol in Protocols) protocol.CreateXml(xml, account, emailParts, this);
+            foreach (Protocol protocol in Protocols) protocol.CreateXml(xml, emailParts, this);
         }
 
         /// <summary>

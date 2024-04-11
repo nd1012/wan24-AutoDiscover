@@ -65,7 +65,7 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Type
         /// </summary>
-        [Required]
+        [Required, StringLength(byte.MaxValue, MinimumLength = 1)]
         public required string Type { get; init; }
 
         /// <summary>
@@ -115,46 +115,43 @@ namespace wan24.AutoDiscover.Models
         /// Create XML
         /// </summary>
         /// <param name="xml">XML</param>
-        /// <param name="account">Account node</param>
         /// <param name="emailParts">Splitted email parts</param>
         /// <param name="domain">Domain</param>
-        public virtual void CreateXml(XmlDocument xml, XmlNode account, ReadOnlyMemory<string> emailParts, DomainConfig domain)
+        public virtual void CreateXml(XmlWriter xml, ReadOnlyMemory<string> emailParts, DomainConfig domain)
         {
-            XmlNode protocol = account.AppendChild(xml.CreateElement(PROTOCOL_NODE_NAME, Constants.RESPONSE_NS))!;
+            xml.WriteStartElement(PROTOCOL_NODE_NAME);
             foreach (KeyValuePair<string, string> kvp in new Dictionary<string, string>()
             {
                 {TYPE_NODE_NAME, Type },
                 {SERVER_NODE_NAME, Server },
                 {PORT_NODE_NAME, Port.ToString() },
-                {LOGINNAME_NODE_NAME, LoginName(xml, account, emailParts, domain, this) },
+                {LOGINNAME_NODE_NAME, LoginName(emailParts, domain, this) },
                 {SPA_NODE_NAME, SPA ? ON : OFF },
                 {SSL_NODE_NAME, SSL ? ON : OFF },
                 {AUTHREQUIRED_NODE_NAME, AuthRequired ? ON : OFF }
             })
-                protocol.AppendChild(xml.CreateElement(kvp.Key, Constants.RESPONSE_NS))!.InnerText = kvp.Value;
+                xml.WriteElementString(kvp.Key, kvp.Value);
+            xml.WriteEndElement();
+            xml.Flush();
         }
 
         /// <summary>
         /// Delegate for a login name resolver
         /// </summary>
-        /// <param name="xml">XML</param>
-        /// <param name="account">Account node</param>
         /// <param name="emailParts">Splitted email parts</param>
         /// <param name="domain">Domain</param>
         /// <param name="protocol">Protocol</param>
         /// <returns>Login name</returns>
-        public delegate string LoginName_Delegate(XmlDocument xml, XmlNode account, ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol);
+        public delegate string LoginName_Delegate(ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol);
 
         /// <summary>
         /// Default login name resolver
         /// </summary>
-        /// <param name="xml">XML</param>
-        /// <param name="account">Account node</param>
         /// <param name="emailParts">Splitted email parts</param>
         /// <param name="domain">Domain</param>
         /// <param name="protocol">Protocol</param>
         /// <returns>Login name</returns>
-        public static string DefaultLoginName(XmlDocument xml, XmlNode account, ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol)
+        public static string DefaultLoginName(ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol)
         {
             string emailAddress = string.Join('@', emailParts),
                 res = protocol.LoginNameIsEmailAlias

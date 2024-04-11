@@ -6,21 +6,22 @@ using wan24.AutoDiscover.Services;
 using wan24.CLI;
 using wan24.Core;
 
-// Global cancellation token source
+// Bootstrapping
 using CancellationTokenSource cts = new();
+CliConfig.Apply(new(args));
+await Bootstrap.Async(cancellationToken: cts.Token).DynamicContext();
+Translation.Current = Translation.Dummy;
+ErrorHandling.ErrorHandler = (e) => Logging.WriteError($"{e.Info}: {e.Exception}");
+Settings.AppId = "wan24-AutoDiscover";
 
 // Run the CLI API
 if (args.Length > 0 && !args[0].StartsWith('-'))
 {
-    CliConfig.Apply(new(args));
-    await Bootstrap.Async(cancellationToken: cts.Token).DynamicContext();
-    Translation.Current = Translation.Dummy;
-    Settings.AppId = "wan24-AutoDiscover";
     Settings.ProcessId = "cli";
     Logging.Logger ??= new VividConsoleLogger();
     CliApi.HelpHeader = $"wan24-AutoDiscover {VersionInfo.Current} - (c) 2024 Andreas Zimmermann, wan24.de";
-    AboutApi.Info = "(c) 2024 Andreas Zimmermann, wan24.de";
     AboutApi.Version = VersionInfo.Current;
+    AboutApi.Info = "(c) 2024 Andreas Zimmermann, wan24.de";
     return await CliApi.RunAsync(args, cts.Token, [typeof(CliHelpApi), typeof(CommandLineInterface), typeof(AboutApi)]).DynamicContext();
 }
 
@@ -39,16 +40,11 @@ async Task<IConfigurationRoot> LoadConfigAsync()
 IConfigurationRoot config = await LoadConfigAsync().DynamicContext();
 
 // Initialize wan24-Core
-CliConfig.Apply(new(args));
-await Bootstrap.Async().DynamicContext();
-Translation.Current = Translation.Dummy;
-Settings.AppId = "wan24-AutoDiscover";
 Settings.ProcessId = "service";
 Settings.LogLevel = config.GetValue<LogLevel>("Logging:LogLevel:Default");
 Logging.Logger ??= !string.IsNullOrWhiteSpace(DiscoveryConfig.Current.LogFile)
     ? await FileLogger.CreateAsync(DiscoveryConfig.Current.LogFile, next: new VividConsoleLogger(), cancellationToken: cts.Token).DynamicContext()
     : new VividConsoleLogger();
-ErrorHandling.ErrorHandler = (e) => Logging.WriteError($"{e.Info}: {e.Exception}");
 Logging.WriteInfo($"wan24-AutoDiscover {VersionInfo.Current} Using configuration \"{configFile}\"");
 
 // Watch configuration changes
@@ -114,13 +110,14 @@ if (DiscoveryConfig.Current.WatchEmailMappings && !string.IsNullOrWhiteSpace(Dis
         ));
 if (DiscoveryConfig.Current.WatchFiles is not null)
     foreach (string file in DiscoveryConfig.Current.WatchFiles)
-        fsw.Add(new(
-            Path.GetDirectoryName(Path.GetFullPath(file))!,
-            Path.GetFileName(file),
-            NotifyFilters.LastWrite | NotifyFilters.CreationTime,
-            recursive: false,
-            events: FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
-            ));
+        if (!string.IsNullOrWhiteSpace(file))
+            fsw.Add(new(
+                Path.GetDirectoryName(Path.GetFullPath(file))!,
+                Path.GetFileName(file),
+                NotifyFilters.LastWrite | NotifyFilters.CreationTime,
+                recursive: false,
+                events: FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
+                ));
 
 // Build and run the app
 Logging.WriteInfo("Autodiscovery service app startup");
@@ -131,8 +128,10 @@ builder.Logging.ClearProviders()
 if (ENV.IsLinux)
     builder.Logging.AddSystemdConsole();
 builder.Services.AddControllers();
-builder.Services.AddSingleton(typeof(XmlDocumentInstances), services => new XmlDocumentInstances(capacity: DiscoveryConfig.Current.PreForkResponses))
-    .AddHostedService(services => services.GetRequiredService<XmlDocumentInstances>())
+builder.Services.AddSingleton(typeof(XmlResponseInstances), services => new XmlResponseInstances(capacity: DiscoveryConfig.Current.PreForkResponses))
+    .AddSingleton(typeof(MemoryPoolStreamPool), services => new MemoryPoolStreamPool(capacity: DiscoveryConfig.Current.StreamPoolCapacity))
+    .AddSingleton(cts)
+    .AddHostedService(services => services.GetRequiredService<XmlResponseInstances>())
     .AddHostedService(services => fsw)
     .AddExceptionHandler<ExceptionHandler>()
     .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders);
@@ -147,6 +146,11 @@ try
 {
     await using (app.DynamicContext())
     {
+        app.Lifetime.ApplicationStopping.Register(() =>
+        {
+            Logging.WriteInfo("Autodiscovery service app shutdown");
+            cts.Cancel();
+        });
         app.MapDefaultEndpoints();
         app.UseForwardedHeaders();
         if (app.Environment.IsDevelopment())

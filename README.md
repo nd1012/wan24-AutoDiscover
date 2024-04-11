@@ -54,6 +54,7 @@ example:
   "AllowedHosts": "*",
   "DiscoveryConfig": {
     "PreForkResponses": 10,
+    "StreamPoolCapacity": 10,
     "KnownProxies": [
       "127.0.0.1"
     ],
@@ -328,8 +329,8 @@ are recommended:
 1. Stop the service before installing the newer version
 1. Start the service after installing the newer version
 
-For that the sheduled auto-upgrade task should execute this command on a 
-Debian Linux server, for example:
+The sheduled auto-upgrade task should execute this command on a Debian Linux 
+server, for example:
 
 ```bash
 dotnet /home/autodiscover/wan24AutoDiscover.dll autodiscover upgrade -noUserInteraction --preCommand systemctl stop autodiscover --postCommand systemctl start autodiscover
@@ -349,3 +350,20 @@ could end up with upgrading to a compromised software which could harm your
 system!
 
 The upgrade setup should be done in less than a second, if everything was fine.
+
+## Manual upgrade
+
+1. Download the latest release ZIP file from GitHub
+1. Extract the ZIP file to a temporary folder
+1. Stop the autodiscover service, if running
+1. Create a backup of your current installation
+1. Copy all extracted files/folders excluding `appsettings.json` to your 
+installation folder
+1. Remove files/folders that are no longer required and perform additional 
+upgrade steps, which are required for the new release (see upgrade 
+instructions)
+1. Start the autodiscover service
+1. Delete the previously created backup and the temporary folder
+
+These steps are being executed during an automatic upgrade like described 
+above also.

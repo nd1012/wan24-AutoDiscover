@@ -43,6 +43,12 @@ namespace wan24.AutoDiscover.Models
         public int PreForkResponses { get; init; } = 10;
 
         /// <summary>
+        /// Stream pool capacity
+        /// </summary>
+        [Range(1, int.MaxValue)]
+        public int StreamPoolCapacity { get; init; } = 10;
+
+        /// <summary>
         /// Dicovery configuration type name
         /// </summary>
         [StringLength(byte.MaxValue, MinimumLength = 1)]
@@ -65,6 +71,7 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// JSON file path which contains the email mappings list
         /// </summary>
+        [StringLength(short.MaxValue, MinimumLength = 1)]
         public string? EmailMappings { get; init; }
 
         /// <summary>
@@ -75,11 +82,13 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Additional file paths to watch for an automatic configuration reload
         /// </summary>
+        [CountLimit(1, byte.MaxValue), ItemStringLength(short.MaxValue)]
         public string[]? WatchFiles { get; init; }
 
         /// <summary>
         /// Command to execute (and optional arguments) before reloading the configuration
         /// </summary>
+        [CountLimit(1, byte.MaxValue), ItemStringLength(short.MaxValue)]
         public string[]? PreReloadCommand { get; init; }
 
         /// <summary>

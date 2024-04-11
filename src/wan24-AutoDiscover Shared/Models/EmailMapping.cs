@@ -22,7 +22,7 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Target email addresses or user names
         /// </summary>
-        [CountLimit(1, int.MaxValue)]
+        [CountLimit(1, int.MaxValue), ItemStringLength(byte.MaxValue)]
         public required IReadOnlyList<string> Targets { get; init; }
 
         /// <summary>

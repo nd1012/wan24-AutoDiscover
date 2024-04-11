@@ -1,6 +1,5 @@
 ﻿using Spectre.Console;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO.Compression;
 using System.Text;
 using wan24.CLI;
@@ -80,7 +79,7 @@ namespace wan24.AutoDiscover.Services
                 }
             }
             // Check if an upgrade is possible
-            if (!System.Version.TryParse(version, out Version? latest))
+            if (!Version.TryParse(version, out Version? latest))
             {
                 Logging.WriteError("Failed to parse received online version information");
                 return 1;
@@ -93,25 +92,25 @@ namespace wan24.AutoDiscover.Services
             }
             if (checkOnly)
             {
-                Console.WriteLine(version);
+                Console.WriteLine(latest.ToString());
                 return 2;
             }
             // Confirm upgrade
             if (!noUserInteraction)
             {
-                AnsiConsole.WriteLine($"[{CliApiInfo.HighlightColor}]You can read the release notes online: [link]{REPOSITORY_URI}[/][/]");
+                AnsiConsole.WriteLine($"[{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]You can read the release notes online: [link]{REPOSITORY_URI}[/][/]");
                 string confirmation = AnsiConsole.Prompt(
                     new TextPrompt<string>($"[{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]Perform the upgrade to version \"{version}\" now?[/] (type [{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]\"yes\"[/] or [{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]\"no\"[/] and hit enter - default is \"yes\")")
                         .AllowEmpty()
                         );
-                if (confirmation.Length != 0 && confirmation != "yes")
+                if (confirmation.Length != 0 && !confirmation.Equals("yes", StringComparison.OrdinalIgnoreCase))
                 {
                     Logging.WriteInfo("Upgrade cancelled by user");
                     return 0;
                 }
             }
             // Perform the upgrade
-            bool deleteTempDir = true;
+            bool deleteTempDir = true;// Temporary folder won't be deleted, if there was a problem during upgrade, and files have been modified already
             string tempDir = Path.Combine(Settings.TempFolder, Guid.NewGuid().ToString());
             while (Directory.Exists(tempDir))
                 tempDir = Path.Combine(Settings.TempFolder, Guid.NewGuid().ToString());
@@ -168,7 +167,7 @@ namespace wan24.AutoDiscover.Services
                         string release = (await File.ReadAllTextAsync(fn, cancellationToken).DynamicContext()).Trim();
                         if (release != version)
                         {
-                            Logging.WriteError($"Release mismatch: {release.MaxLength(byte.MaxValue).ToQuotedLiteral()}/{version}");
+                            Logging.WriteError($"Download release mismatch: {release.MaxLength(byte.MaxValue).ToQuotedLiteral()}/{version}");
                             return 1;
                         }
                         else if (Logging.Trace)
@@ -178,7 +177,7 @@ namespace wan24.AutoDiscover.Services
                     }
                     else
                     {
-                        Logging.WriteError("Missing release information in update setup");
+                        Logging.WriteError("Missing release information in update");
                         return 1;
                     }
                 }
@@ -186,18 +185,14 @@ namespace wan24.AutoDiscover.Services
                 if (preCommand is not null && preCommand.Length > 0)
                 {
                     Logging.WriteInfo("Executing pre-update command");
-                    using Process proc = new();
-                    proc.StartInfo.FileName = preCommand[0];
-                    if (preCommand.Length > 1)
-                        proc.StartInfo.ArgumentList.AddRange(preCommand[1..]);
-                    proc.StartInfo.UseShellExecute = true;
-                    proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    proc.Start();
-                    await proc.WaitForExitAsync(cancellationToken).DynamicContext();
-                    if (proc.ExitCode != 0)
+                    int exitCode = await ProcessHelper.GetExitCodeAsync(
+                        preCommand[0],
+                        cancellationToken: cancellationToken,
+                        args: [.. preCommand[1..]]
+                        ).DynamicContext();
+                    if (exitCode != 0)
                     {
-                        Logging.WriteError($"Pre-update command failed to execute with exit code #{proc.ExitCode}");
+                        Logging.WriteError($"Pre-update command failed to execute with exit code #{exitCode}");
                         return 1;
                     }
                 }
@@ -268,6 +263,7 @@ namespace wan24.AutoDiscover.Services
                                     }
                                     );
                             // Open/create the target file
+                            bool exists = File.Exists(targetFn);
                             Stream target = FsHelper.CreateFileStream(
                                 targetFn,
                                 FileMode.OpenOrCreate,
@@ -278,7 +274,7 @@ namespace wan24.AutoDiscover.Services
                             await using (target.DynamicContext())
                             {
                                 // Create a backup of the existing file, first
-                                if (File.Exists(targetFn))
+                                if (exists)
                                 {
                                     deleteTempDir = false;
                                     string backupFn = $"{file}.backup";
@@ -303,24 +299,21 @@ namespace wan24.AutoDiscover.Services
                 }
                 // Execute post-upgrade
                 Logging.WriteInfo("Executing post-update command");
-                using (Process proc = new())
                 {
-                    proc.StartInfo.FileName = "dotnet";
-                    proc.StartInfo.ArgumentList.AddRange(
-                        "wan24AutoDiscover.dll",
-                        "autodiscover",
-                        "post-upgrade",
-                        VersionInfo.Current.ToString(),
-                        version
-                        );
-                    proc.StartInfo.UseShellExecute = true;
-                    proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    proc.Start();
-                    await proc.WaitForExitAsync(cancellationToken).DynamicContext();
-                    if (proc.ExitCode != 0)
+                    int exitCode = await ProcessHelper.GetExitCodeAsync(
+                        "dotnet",
+                        cancellationToken: cancellationToken,
+                        args: [
+                            "wan24AutoDiscover.dll",
+                            "autodiscover",
+                            "post-upgrade",
+                            VersionInfo.Current.ToString(),
+                            version
+                            ]
+                        ).DynamicContext();
+                    if (exitCode != 0)
                     {
-                        Logging.WriteError($"Post-upgrade acion failed to execute with exit code #{proc.ExitCode}");
+                        Logging.WriteError($"Post-upgrade acion failed to execute with exit code #{exitCode}");
                         return 1;
                     }
                 }
@@ -328,18 +321,14 @@ namespace wan24.AutoDiscover.Services
                 if (postCommand is not null && postCommand.Length > 0)
                 {
                     Logging.WriteInfo("Executing post-update command");
-                    using Process proc = new();
-                    proc.StartInfo.FileName = postCommand[0];
-                    if (postCommand.Length > 1)
-                        proc.StartInfo.ArgumentList.AddRange(postCommand[1..]);
-                    proc.StartInfo.UseShellExecute = true;
-                    proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    proc.Start();
-                    await proc.WaitForExitAsync(cancellationToken).DynamicContext();
-                    if (proc.ExitCode != 0)
+                    int exitCode = await ProcessHelper.GetExitCodeAsync(
+                        postCommand[0],
+                        cancellationToken: cancellationToken,
+                        args: [.. postCommand[1..]]
+                        ).DynamicContext();
+                    if (exitCode != 0)
                     {
-                        Logging.WriteError($"Post-update command failed to execute with exit code #{proc.ExitCode}");
+                        Logging.WriteError($"Post-update command failed to execute with exit code #{exitCode}");
                         return 1;
                     }
                 }
@@ -351,11 +340,11 @@ namespace wan24.AutoDiscover.Services
             {
                 if (deleteTempDir)
                 {
-                    Logging.WriteError($"Update failed: {ex}");
+                    Logging.WriteError($"Update failed (temporary folder will be removed): {ex}");
                 }
                 else
                 {
-                    Logging.WriteError($"Update failed (won't delete temporary folder \"{tempDir}\" 'cause is may contain backup files): {ex}");
+                    Logging.WriteError($"Update failed (won't delete temporary folder \"{tempDir}\" 'cause it may contain backup files): {ex}");
                 }
                 return 1;
             }

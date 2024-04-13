@@ -644,9 +644,6 @@
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
     </div>
     <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
-    </div>
-    <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
     </div>
     <div>
@@ -659,7 +656,7 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[ApiController]
 [Route(&quot;autodiscover&quot;)]
-public class DiscoveryController : ControllerBase</code></pre>
+public sealed class DiscoveryController : ControllerBase</code></pre>
   </div>
   <h5 id="wan24_AutoDiscover_Controllers_DiscoveryController_remarks"><strong>Remarks</strong></h5>
   <div class="markdown level0 remarks"><p>Constructor</p>
@@ -668,19 +665,19 @@ public class DiscoveryController : ControllerBase</code></pre>
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController__ctor_wan24_AutoDiscover_Services_XmlDocumentInstances_.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.%23ctor(wan24.AutoDiscover.Services.XmlDocumentInstances)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController__ctor_wan24_Core_InstancePool_wan24_AutoDiscover_XmlResponse__.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.%23ctor(wan24.Core.InstancePool%7Bwan24.AutoDiscover.XmlResponse%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L19">View Source</a>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L18">View Source</a>
   </span>
   <a id="wan24_AutoDiscover_Controllers_DiscoveryController__ctor_" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.#ctor*"></a>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController__ctor_wan24_AutoDiscover_Services_XmlDocumentInstances_" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.#ctor(wan24.AutoDiscover.Services.XmlDocumentInstances)">DiscoveryController(XmlDocumentInstances)</h4>
+  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController__ctor_wan24_Core_InstancePool_wan24_AutoDiscover_XmlResponse__" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.#ctor(wan24.Core.InstancePool{wan24.AutoDiscover.XmlResponse})">DiscoveryController(InstancePool&lt;XmlResponse&gt;)</h4>
   <div class="markdown level1 summary"><p>Discovery controller</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public DiscoveryController(XmlDocumentInstances responses)</code></pre>
+    <pre><code class="lang-csharp hljs">public DiscoveryController(InstancePool&lt;XmlResponse&gt; responses)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -693,258 +690,16 @@ public class DiscoveryController : ControllerBase</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="wan24.AutoDiscover.Services.XmlDocumentInstances.html">XmlDocumentInstances</a></td>
+        <td><span class="xref">InstancePool</span>&lt;<a class="xref" href="wan24.AutoDiscover.XmlResponse.html">XmlResponse</a>&gt;</td>
         <td><span class="parametername">responses</span></td>
         <td><p>Responses</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <h5 id="wan24_AutoDiscover_Controllers_DiscoveryController__ctor_wan24_AutoDiscover_Services_XmlDocumentInstances__remarks">Remarks</h5>
+  <h5 id="wan24_AutoDiscover_Controllers_DiscoveryController__ctor_wan24_Core_InstancePool_wan24_AutoDiscover_XmlResponse___remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Constructor</p>
 </div>
-  <h3 id="fields">Fields
-</h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNTTYPE.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L61">View Source</a>
-  </span>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNTTYPE" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE">ACCOUNTTYPE</h4>
-  <div class="markdown level1 summary"><p>Account type</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const string ACCOUNTTYPE = &quot;email&quot;</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNTTYPE_NODE_NAME.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE_NODE_NAME%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L57">View Source</a>
-  </span>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNTTYPE_NODE_NAME" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE_NODE_NAME">ACCOUNTTYPE_NODE_NAME</h4>
-  <div class="markdown level1 summary"><p><code>AccountType</code> node name</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const string ACCOUNTTYPE_NODE_NAME = &quot;AccountType&quot;</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNT_NODE_NAME.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNT_NODE_NAME%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L53">View Source</a>
-  </span>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNT_NODE_NAME" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNT_NODE_NAME">ACCOUNT_NODE_NAME</h4>
-  <div class="markdown level1 summary"><p><code>Account</code> node name</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const string ACCOUNT_NODE_NAME = &quot;Account&quot;</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_ACTION.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.ACTION%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L69">View Source</a>
-  </span>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_ACTION" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.ACTION">ACTION</h4>
-  <div class="markdown level1 summary"><p>Action</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const string ACTION = &quot;settings&quot;</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_ACTION_NODE_NAME.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.ACTION_NODE_NAME%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L65">View Source</a>
-  </span>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_ACTION_NODE_NAME" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.ACTION_NODE_NAME">ACTION_NODE_NAME</h4>
-  <div class="markdown level1 summary"><p><code>Action</code> node name</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const string ACTION_NODE_NAME = &quot;Action&quot;</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_AUTODISCOVER_NODE_NAME.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.AUTODISCOVER_NODE_NAME%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L45">View Source</a>
-  </span>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_AUTODISCOVER_NODE_NAME" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.AUTODISCOVER_NODE_NAME">AUTODISCOVER_NODE_NAME</h4>
-  <div class="markdown level1 summary"><p><code>Autodiscover</code> node name</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const string AUTODISCOVER_NODE_NAME = &quot;Autodiscover&quot;</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_AUTO_DISCOVER_NS.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.AUTO_DISCOVER_NS%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L41">View Source</a>
-  </span>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_AUTO_DISCOVER_NS" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.AUTO_DISCOVER_NS">AUTO_DISCOVER_NS</h4>
-  <div class="markdown level1 summary"><p>Auto discovery XML namespace</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const string AUTO_DISCOVER_NS = &quot;http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006&quot;</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_RESPONSE_NODE_NAME.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.RESPONSE_NODE_NAME%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L49">View Source</a>
-  </span>
-  <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_RESPONSE_NODE_NAME" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.RESPONSE_NODE_NAME">RESPONSE_NODE_NAME</h4>
-  <div class="markdown level1 summary"><p><code>Response</code> node name</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const string RESPONSE_NODE_NAME = &quot;Response&quot;</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="methods">Methods
 </h3>
   <span class="small pull-right mobile-hide">
@@ -952,18 +707,20 @@ public class DiscoveryController : ControllerBase</code></pre>
     <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Controllers_DiscoveryController_AutoDiscoverAsync.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Controllers.DiscoveryController.AutoDiscoverAsync%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L80">View Source</a>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Controllers/DiscoveryController.cs/#L68">View Source</a>
   </span>
   <a id="wan24_AutoDiscover_Controllers_DiscoveryController_AutoDiscoverAsync_" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.AutoDiscoverAsync*"></a>
   <h4 id="wan24_AutoDiscover_Controllers_DiscoveryController_AutoDiscoverAsync" data-uid="wan24.AutoDiscover.Controllers.DiscoveryController.AutoDiscoverAsync">AutoDiscoverAsync()</h4>
-  <div class="markdown level1 summary"><p>Auto discovery (POX)</p>
+  <div class="markdown level1 summary"><p>Autodiscover (POX request body required)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[HttpPost]
-[Route(&quot;autodiscover.xml&quot;)]
-public Task&lt;ContentResult&gt; AutoDiscoverAsync()</code></pre>
+    <pre><code class="lang-csharp hljs">[HttpPost(&quot;autodiscover.xml&quot;)]
+[Consumes(&quot;application/xml&quot;, new string[] { }, IsOptional = false)]
+[RequestSizeLimit(510)]
+[Produces(&quot;application/xml&quot;, new string[] { })]
+public Task AutoDiscoverAsync()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-condensed">
@@ -975,8 +732,8 @@ public Task&lt;ContentResult&gt; AutoDiscoverAsync()</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.mvc.contentresult">ContentResult</a>&gt;</td>
-        <td><p>XML response</p>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td><p>POX response</p>
 </td>
       </tr>
     </tbody>

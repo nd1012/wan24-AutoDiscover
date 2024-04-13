@@ -11,6 +11,46 @@
       }
     },
     {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.Hosting.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.Hosting.Extensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.Hosting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.Hosting.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Projects.wan24_AutoDiscover.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Projects.wan24_AutoDiscover.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Projects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Projects.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
@@ -85,6 +125,16 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.Models.EmailMapping.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.Models.EmailMapping.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/wan24.AutoDiscover.Models.Protocol.LoginName_Delegate.yml",
       "output": {
         ".html": {
@@ -125,26 +175,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChange_Delegate.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChange_Delegate.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/wan24.AutoDiscover.Services.ExceptionHandler.yml",
       "output": {
         ".html": {
@@ -155,20 +185,30 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/wan24.AutoDiscover.Services.XmlDocumentInstances.yml",
+      "source_relative_path": "api/wan24.AutoDiscover.Services.yml",
       "output": {
         ".html": {
-          "relative_path": "api/wan24.AutoDiscover.Services.XmlDocumentInstances.html"
+          "relative_path": "api/wan24.AutoDiscover.Services.html"
         }
       },
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/wan24.AutoDiscover.Services.yml",
+      "source_relative_path": "api/wan24.AutoDiscover.VersionInfo.yml",
       "output": {
         ".html": {
-          "relative_path": "api/wan24.AutoDiscover.Services.html"
+          "relative_path": "api/wan24.AutoDiscover.VersionInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/wan24.AutoDiscover.XmlResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/wan24.AutoDiscover.XmlResponse.html"
         }
       },
       "version": ""

@@ -93,7 +93,6 @@
                         </div>
 
                          <div id="contribution">
-                               <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Services_CommandLineInterface.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Services.CommandLineInterface%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Edit this page</a>
                          </div>
 
                     <article class="content wrap" id="_content" data-uid="wan24.AutoDiscover.Services.CommandLineInterface">
@@ -124,9 +123,6 @@
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
     </div>
     <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
-    </div>
-    <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
     </div>
     <div>
@@ -138,7 +134,8 @@
   <h5 id="wan24_AutoDiscover_Services_CommandLineInterface_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[CliApi(&quot;autodiscover&quot;, false)]
-public class CommandLineInterface</code></pre>
+[DisplayText(&quot;wan24-AutoDiscover API&quot;)]
+public sealed class CommandLineInterface</code></pre>
   </div>
   <h3 id="constructors">Constructors
 </h3>
@@ -147,7 +144,7 @@ public class CommandLineInterface</code></pre>
     <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Services_CommandLineInterface__ctor.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Services.CommandLineInterface.%23ctor%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Services/CommandLineInterface.cs/#L16">View Source</a>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Services/CommandLineInterface.cs/#L19">View Source</a>
   </span>
   <a id="wan24_AutoDiscover_Services_CommandLineInterface__ctor_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.#ctor*"></a>
   <h4 id="wan24_AutoDiscover_Services_CommandLineInterface__ctor" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.#ctor">CommandLineInterface()</h4>
@@ -162,22 +159,41 @@ public class CommandLineInterface</code></pre>
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync(System.Threading.CancellationToken)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Services/CommandLineInterface.cs/#L21">View Source</a>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Services/CommandLineInterface.cs/#L25">View Source</a>
   </span>
   <a id="wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync*"></a>
-  <h4 id="wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync">CreateSystemdServiceAsync()</h4>
+  <h4 id="wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync_System_Threading_CancellationToken_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync(System.Threading.CancellationToken)">CreateSystemdServiceAsync(CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Create service information</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[CliApi(&quot;systemd&quot;, false, IsDefault = true)]
+    <pre><code class="lang-csharp hljs">[CliApi(&quot;systemd&quot;, false)]
+[DisplayText(&quot;systemd service&quot;)]
 [StdOut(&quot;/etc/systemd/system/autodiscover.service&quot;, false)]
-public static Task CreateSystemdServiceAsync()</code></pre>
+public static Task CreateSystemdServiceAsync(CancellationToken cancellationToken = default)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>Cancellation token</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-condensed">
     <thead>
@@ -190,6 +206,199 @@ public static Task CreateSystemdServiceAsync()</code></pre>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
         <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Services_CommandLineInterface_ParsePostfixEmailMappingsAsync_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync(System.Threading.CancellationToken)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Services/CommandLineInterface.Postfix.cs/#L22">View Source</a>
+  </span>
+  <a id="wan24_AutoDiscover_Services_CommandLineInterface_ParsePostfixEmailMappingsAsync_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync*"></a>
+  <h4 id="wan24_AutoDiscover_Services_CommandLineInterface_ParsePostfixEmailMappingsAsync_System_Threading_CancellationToken_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync(System.Threading.CancellationToken)">ParsePostfixEmailMappingsAsync(CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Parse Postfix email mappings</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CliApi(&quot;postfix&quot;, false)]
+[DisplayText(&quot;Postfix email mapping&quot;)]
+[StdIn(&quot;/etc/postfix/virtual&quot;, false)]
+[StdOut(&quot;/home/autodiscover/postfix.json&quot;, false)]
+public static Task ParsePostfixEmailMappingsAsync(CancellationToken cancellationToken = default)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>Cancellation token</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Services_CommandLineInterface_PostUpgradeAsync_System_String_System_String_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(System.String%2CSystem.String%2CSystem.Threading.CancellationToken)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Services/CommandLineInterface.Upgrade.cs/#L371">View Source</a>
+  </span>
+  <a id="wan24_AutoDiscover_Services_CommandLineInterface_PostUpgradeAsync_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync*"></a>
+  <h4 id="wan24_AutoDiscover_Services_CommandLineInterface_PostUpgradeAsync_System_String_System_String_System_Threading_CancellationToken_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(System.String,System.String,System.Threading.CancellationToken)">PostUpgradeAsync(string, string, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Post-upgrade actions</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CliApi(&quot;post-upgrade&quot;, false)]
+[DisplayText(&quot;Post-upgrade&quot;)]
+public static Task PostUpgradeAsync(string previousVersion, string currentVersion, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">previousVersion</span></td>
+        <td><p>Previous version</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">currentVersion</span></td>
+        <td><p>Current version</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>Cancellation token</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/new/main/apiSpec/new?filename=wan24_AutoDiscover_Services_CommandLineInterface_UpgradeAsync_System_String___System_String___System_Boolean_System_Boolean_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(System.String%5B%5D%2CSystem.String%5B%5D%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Threading.CancellationToken)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/nd1012/wan24-AutoDiscover/blob/main/src/wan24-AutoDiscover/Services/CommandLineInterface.Upgrade.cs/#L31">View Source</a>
+  </span>
+  <a id="wan24_AutoDiscover_Services_CommandLineInterface_UpgradeAsync_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync*"></a>
+  <h4 id="wan24_AutoDiscover_Services_CommandLineInterface_UpgradeAsync_System_String___System_String___System_Boolean_System_Boolean_System_Threading_CancellationToken_" data-uid="wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(System.String[],System.String[],System.Boolean,System.Boolean,System.Threading.CancellationToken)">UpgradeAsync(string[]?, string[]?, bool, bool, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Upgrade wan24-AutoDiscover online</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[CliApi(&quot;upgrade&quot;, false)]
+[DisplayText(&quot;wan24-AutoDiscover upgrade&quot;)]
+[ExitCode(2, &quot;A newer version is available online (used when the \&quot;-checkOnly\&quot; flag was given)&quot;)]
+public static Task&lt;int&gt; UpgradeAsync(string[]? preCommand = null, string[]? postCommand = null, bool noUserInteraction = false, bool checkOnly = false, CancellationToken cancellationToken = default)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</td>
+        <td><span class="parametername">preCommand</span></td>
+        <td><p>Pre-command</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</td>
+        <td><span class="parametername">postCommand</span></td>
+        <td><p>Post-command</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">noUserInteraction</span></td>
+        <td><p>No user interaction?</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">checkOnly</span></td>
+        <td><p>Check for update only</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>Cancellation token</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</td>
+        <td><p>Exit code</p>
+</td>
       </tr>
     </tbody>
   </table>

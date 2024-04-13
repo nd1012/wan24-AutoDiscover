@@ -99,7 +99,11 @@
 Exchange POX autodiscover standard, which allows email clients to receive
 automatic configuration information for an email account.</p>
 <p>It was created using .NET 8 and ASP.NET. You find a published release build
-for each published release on GitHub as ZIP download for self-hosting.</p>
+for each published release on GitHub as ZIP file download for self-hosting.</p>
+<p>The webservice is designed for working with dynamic MTA configurations and
+tries to concentrate on the basics for fast request handling and response. All
+required informations will be held in memory, so no database or filesystem
+access is required for request handling.</p>
 <h2 id="usage">Usage</h2>
 <h3 id="pre-requirements">Pre-requirements</h3>
 <p>This app is a .NET 8 app and needs the ASP.NET runtime environment.</p>
@@ -107,9 +111,9 @@ for each published release on GitHub as ZIP download for self-hosting.</p>
 <p>For example on a Debian Linux server:</p>
 <pre><code class="lang-bash">mkdir /home/autodiscover
 cd /home/autodiscover
-wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.0.0/wan24-AutoDiscover.v1.0.0.zip
-unzip wan24-AutoDiscover.v1.0.0.zip
-rm wan24-AutoDiscover.v1.0.0.zip
+wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.1.0/wan24-AutoDiscover.v1.1.0.zip
+unzip wan24-AutoDiscover.v1.1.0.zip
+rm wan24-AutoDiscover.v1.1.0.zip
 </code></pre>
 <h3 id="appsettingsjson"><code>appsettings.json</code></h3>
 <p>The <code>appsettings.json</code> file contains the  webservice configuration. The
@@ -180,7 +184,7 @@ section.</p>
 <li>by the <code>DomainConfig</code> with an empty domain name as key</li>
 </ol>
 <p>Any unmatched <code>DomainConfig</code> will cause a <code>Bad request</code> http response.</p>
-<p>Documentation references:</p>
+<p>Find the online documentation of the used types here:</p>
 <ul>
 <li><a href="https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.DiscoveryConfig.html"><code>DiscoveryConfig</code></a></li>
 <li><a href="https://nd1012.github.io/wan24-AutoDiscover/api/wan24.AutoDiscover.Models.DomainConfig.html"><code>DomainConfig</code></a></li>
@@ -264,6 +268,105 @@ things for you:</p>
 <h4 id="create-a-systemd-service-file">Create a systemd service file</h4>
 <pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover systemd &gt; /etc/systemd/system/autodiscover.service
 </code></pre>
+<h4 id="parse-a-postfix-virtual-configuration-file">Parse a Postfix virtual configuration file</h4>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover postfix &lt; /etc/postfix/virtual &gt; /home/autodiscover/postfix.json
+</code></pre>
+<h4 id="display-version-number">Display version number</h4>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover version
+</code></pre>
+<h4 id="upgrade-online">Upgrade online</h4>
+<p>Check for an available newer version only:</p>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover upgrade -checkOnly
+</code></pre>
+<p><strong>NOTE</strong>: The command will exit with code #2, if an update is available online.</p>
+<p>Upgrade with user interaction:</p>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover upgrade
+</code></pre>
+<p>Upgrade without user interaction:</p>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover upgrade -noUserInteraction
+</code></pre>
+<h4 id="display-detailed-cli-api-usage-instructions">Display detailed CLI API usage instructions</h4>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll help -details
+</code></pre>
+<h2 id="login-name-mapping">Login name mapping</h2>
+<p>If the login name isn't the email address or the alias of the given email
+address, you can create a login name mapping per domain and/or protocol, by
+defining a mapping from the email address or alias to the login name. During
+lookup the protocol mapping and then the domain mapping will be used by trying
+the email address and then the alias as key.</p>
+<h3 id="automatic-email-address-to-login-user-mapping-with-postfix">Automatic email address to login user mapping with Postfix</h3>
+<p>If your Postfix virtual email mappings are stored in a hash text file, you can
+create an email mapping from is using</p>
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover postfix &lt; /etc/postfix/virtual &gt; /home/autodiscover/postfix.json
+</code></pre>
+<p>Then you can add the <code>postix.json</code> to your <code>appsettings.json</code>:</p>
+<pre><code class="lang-json">{
+	...
+  &quot;DiscoveryConfig&quot;: {
+	...
+	&quot;EmailMappings&quot;: &quot;/home/autodiscover/postfix.json&quot;,
+	...
+  }
+}
+</code></pre>
+<p>The configuration will be reloaded, if the <code>postfix.json</code> file changed, so be
+sure to re-create the <code>postfix.json</code> file as soon as the <code>virtual</code> file was
+changed. If you don't want that, set <code>WatchEmailMappings</code> to <code>false</code>.</p>
+<h3 id="additionally-watched-files">Additionally watched files</h3>
+<p>You can set a list of additionally watched file paths to <code>WatchFiles</code> in your
+<code>appsettings.json</code> file. When any file was changed, the configuration will be
+reloaded.</p>
+<h3 id="pre-reload-command-execution">Pre-reload command execution</h3>
+<p>To execute a command before reloading a changed configration, set the
+<code>PreReloadCommand</code> value in your <code>appsettings.json</code> like this:</p>
+<pre><code class="lang-json">{
+	...
+  &quot;DiscoveryConfig&quot;: {
+	...
+	&quot;PreReloadCommand&quot;: [&quot;/command/to/execute&quot;, &quot;argument1&quot;, &quot;argument2&quot;, ...],
+	...
+  }
+}
+</code></pre>
+<h2 id="automatic-online-upgrades">Automatic online upgrades</h2>
+<p>You can upgrade <code>wan24-AutoDiscover</code> online and automatic. For this some steps
+are recommended:</p>
+<ol>
+<li>Create sheduled task for auto-upgrade (daily, for example)</li>
+<li>Stop the service before installing the newer version</li>
+<li>Start the service after installing the newer version</li>
+</ol>
+<p>The sheduled auto-upgrade task should execute this command on a Debian Linux
+server, for example:</p>
+<pre><code class="lang-bash">dotnet /home/autodiscover/wan24AutoDiscover.dll autodiscover upgrade -noUserInteraction --preCommand systemctl stop autodiscover --postCommand systemctl start autodiscover
+</code></pre>
+<p>If the upgrade download failed, nothing will happen - the upgrade won't be
+installed only and being re-tried at the next sheduled auto-upgrade time.</p>
+<p>If the upgrade installation failed, the post-upgrade command won't be
+executed, and the autodiscover service won't run. This'll give you the chance
+to investigate the broken upgrade and optional restore the running version
+manually.</p>
+<p><strong>CAUTION</strong>: The auto-upgrade is being performed using the GitHub repository.
+There are no security checks at present - so if the repository was hacked, you
+could end up with upgrading to a compromised software which could harm your
+system!</p>
+<p>The upgrade setup should be done in less than a second, if everything was fine.</p>
+<h2 id="manual-upgrade">Manual upgrade</h2>
+<ol>
+<li>Download the latest release ZIP file from GitHub</li>
+<li>Extract the ZIP file to a temporary folder</li>
+<li>Stop the autodiscover service, if running</li>
+<li>Create a backup of your current installation</li>
+<li>Copy all extracted files/folders excluding <code>appsettings.json</code> to your
+installation folder</li>
+<li>Remove files/folders that are no longer required and perform additional
+upgrade steps, which are required for the new release (see upgrade
+instructions)</li>
+<li>Start the autodiscover service</li>
+<li>Delete the previously created backup and the temporary folder</li>
+</ol>
+<p>These steps are being executed during an automatic upgrade like described
+above also.</p>
 
 </article>
                 </div>

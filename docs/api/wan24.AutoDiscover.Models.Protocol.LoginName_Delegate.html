@@ -101,14 +101,14 @@
 
 
   <h1 id="wan24_AutoDiscover_Models_Protocol_LoginName_Delegate" data-uid="wan24.AutoDiscover.Models.Protocol.LoginName_Delegate" class="text-break">Delegate Protocol.LoginName_Delegate</h1>
-  <div class="markdown level0 summary"><p>Delegate for a login name getter</p>
+  <div class="markdown level0 summary"><p>Delegate for a login name resolver</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="wan24.html">wan24</a>.<a class="xref" href="wan24.AutoDiscover.html">AutoDiscover</a>.<a class="xref" href="wan24.AutoDiscover.Models.html">Models</a></h6>
   <h6><strong>Assembly</strong>: wan24AutoDiscoverShared.dll</h6>
   <h5 id="wan24_AutoDiscover_Models_Protocol_LoginName_Delegate_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public delegate string Protocol.LoginName_Delegate(XmlDocument xml, XmlNode account, string[] emailParts, Protocol protocol)</code></pre>
+    <pre><code class="lang-csharp hljs">public delegate string Protocol.LoginName_Delegate(ReadOnlyMemory&lt;string&gt; emailParts, DomainConfig domain, Protocol protocol)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -121,21 +121,15 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.xml.xmldocument">XmlDocument</a></td>
-        <td><span class="parametername">xml</span></td>
-        <td><p>XML</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.xml.xmlnode">XmlNode</a></td>
-        <td><span class="parametername">account</span></td>
-        <td><p>Account node</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlymemory-1">ReadOnlyMemory</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
         <td><span class="parametername">emailParts</span></td>
         <td><p>Splitted email parts</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="wan24.AutoDiscover.Models.DomainConfig.html">DomainConfig</a></td>
+        <td><span class="parametername">domain</span></td>
+        <td><p>Domain</p>
 </td>
       </tr>
       <tr>

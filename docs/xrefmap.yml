@@ -1,6 +1,95 @@
 ### YamlMime:XRefMap
 sorted: true
 references:
+- uid: Microsoft.Extensions.Hosting
+  name: Microsoft.Extensions.Hosting
+  href: api/Microsoft.Extensions.Hosting.html
+  commentId: N:Microsoft.Extensions.Hosting
+  fullName: Microsoft.Extensions.Hosting
+  nameWithType: Microsoft.Extensions.Hosting
+- uid: Microsoft.Extensions.Hosting.Extensions
+  name: Extensions
+  href: api/Microsoft.Extensions.Hosting.Extensions.html
+  commentId: T:Microsoft.Extensions.Hosting.Extensions
+  fullName: Microsoft.Extensions.Hosting.Extensions
+  nameWithType: Extensions
+- uid: Microsoft.Extensions.Hosting.Extensions.AddDefaultHealthChecks(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  name: AddDefaultHealthChecks(IHostApplicationBuilder)
+  href: api/Microsoft.Extensions.Hosting.Extensions.html#Microsoft_Extensions_Hosting_Extensions_AddDefaultHealthChecks_Microsoft_Extensions_Hosting_IHostApplicationBuilder_
+  commentId: M:Microsoft.Extensions.Hosting.Extensions.AddDefaultHealthChecks(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  fullName: Microsoft.Extensions.Hosting.Extensions.AddDefaultHealthChecks(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  nameWithType: Extensions.AddDefaultHealthChecks(IHostApplicationBuilder)
+- uid: Microsoft.Extensions.Hosting.Extensions.AddDefaultHealthChecks*
+  name: AddDefaultHealthChecks
+  href: api/Microsoft.Extensions.Hosting.Extensions.html#Microsoft_Extensions_Hosting_Extensions_AddDefaultHealthChecks_
+  commentId: Overload:Microsoft.Extensions.Hosting.Extensions.AddDefaultHealthChecks
+  isSpec: "True"
+  fullName: Microsoft.Extensions.Hosting.Extensions.AddDefaultHealthChecks
+  nameWithType: Extensions.AddDefaultHealthChecks
+- uid: Microsoft.Extensions.Hosting.Extensions.AddServiceDefaults(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  name: AddServiceDefaults(IHostApplicationBuilder)
+  href: api/Microsoft.Extensions.Hosting.Extensions.html#Microsoft_Extensions_Hosting_Extensions_AddServiceDefaults_Microsoft_Extensions_Hosting_IHostApplicationBuilder_
+  commentId: M:Microsoft.Extensions.Hosting.Extensions.AddServiceDefaults(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  fullName: Microsoft.Extensions.Hosting.Extensions.AddServiceDefaults(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  nameWithType: Extensions.AddServiceDefaults(IHostApplicationBuilder)
+- uid: Microsoft.Extensions.Hosting.Extensions.AddServiceDefaults*
+  name: AddServiceDefaults
+  href: api/Microsoft.Extensions.Hosting.Extensions.html#Microsoft_Extensions_Hosting_Extensions_AddServiceDefaults_
+  commentId: Overload:Microsoft.Extensions.Hosting.Extensions.AddServiceDefaults
+  isSpec: "True"
+  fullName: Microsoft.Extensions.Hosting.Extensions.AddServiceDefaults
+  nameWithType: Extensions.AddServiceDefaults
+- uid: Microsoft.Extensions.Hosting.Extensions.ConfigureOpenTelemetry(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  name: ConfigureOpenTelemetry(IHostApplicationBuilder)
+  href: api/Microsoft.Extensions.Hosting.Extensions.html#Microsoft_Extensions_Hosting_Extensions_ConfigureOpenTelemetry_Microsoft_Extensions_Hosting_IHostApplicationBuilder_
+  commentId: M:Microsoft.Extensions.Hosting.Extensions.ConfigureOpenTelemetry(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  fullName: Microsoft.Extensions.Hosting.Extensions.ConfigureOpenTelemetry(Microsoft.Extensions.Hosting.IHostApplicationBuilder)
+  nameWithType: Extensions.ConfigureOpenTelemetry(IHostApplicationBuilder)
+- uid: Microsoft.Extensions.Hosting.Extensions.ConfigureOpenTelemetry*
+  name: ConfigureOpenTelemetry
+  href: api/Microsoft.Extensions.Hosting.Extensions.html#Microsoft_Extensions_Hosting_Extensions_ConfigureOpenTelemetry_
+  commentId: Overload:Microsoft.Extensions.Hosting.Extensions.ConfigureOpenTelemetry
+  isSpec: "True"
+  fullName: Microsoft.Extensions.Hosting.Extensions.ConfigureOpenTelemetry
+  nameWithType: Extensions.ConfigureOpenTelemetry
+- uid: Microsoft.Extensions.Hosting.Extensions.MapDefaultEndpoints(Microsoft.AspNetCore.Builder.WebApplication)
+  name: MapDefaultEndpoints(WebApplication)
+  href: api/Microsoft.Extensions.Hosting.Extensions.html#Microsoft_Extensions_Hosting_Extensions_MapDefaultEndpoints_Microsoft_AspNetCore_Builder_WebApplication_
+  commentId: M:Microsoft.Extensions.Hosting.Extensions.MapDefaultEndpoints(Microsoft.AspNetCore.Builder.WebApplication)
+  fullName: Microsoft.Extensions.Hosting.Extensions.MapDefaultEndpoints(Microsoft.AspNetCore.Builder.WebApplication)
+  nameWithType: Extensions.MapDefaultEndpoints(WebApplication)
+- uid: Microsoft.Extensions.Hosting.Extensions.MapDefaultEndpoints*
+  name: MapDefaultEndpoints
+  href: api/Microsoft.Extensions.Hosting.Extensions.html#Microsoft_Extensions_Hosting_Extensions_MapDefaultEndpoints_
+  commentId: Overload:Microsoft.Extensions.Hosting.Extensions.MapDefaultEndpoints
+  isSpec: "True"
+  fullName: Microsoft.Extensions.Hosting.Extensions.MapDefaultEndpoints
+  nameWithType: Extensions.MapDefaultEndpoints
+- uid: Projects
+  name: Projects
+  href: api/Projects.html
+  commentId: N:Projects
+  fullName: Projects
+  nameWithType: Projects
+- uid: Projects.wan24_AutoDiscover
+  name: wan24_AutoDiscover
+  href: api/Projects.wan24_AutoDiscover.html
+  commentId: T:Projects.wan24_AutoDiscover
+  fullName: Projects.wan24_AutoDiscover
+  nameWithType: wan24_AutoDiscover
+- uid: Projects.wan24_AutoDiscover.ProjectPath
+  name: ProjectPath
+  href: api/Projects.wan24_AutoDiscover.html#Projects_wan24_AutoDiscover_ProjectPath
+  commentId: P:Projects.wan24_AutoDiscover.ProjectPath
+  fullName: Projects.wan24_AutoDiscover.ProjectPath
+  nameWithType: wan24_AutoDiscover.ProjectPath
+- uid: Projects.wan24_AutoDiscover.ProjectPath*
+  name: ProjectPath
+  href: api/Projects.wan24_AutoDiscover.html#Projects_wan24_AutoDiscover_ProjectPath_
+  commentId: Overload:Projects.wan24_AutoDiscover.ProjectPath
+  isSpec: "True"
+  fullName: Projects.wan24_AutoDiscover.ProjectPath
+  nameWithType: wan24_AutoDiscover.ProjectPath
 - uid: wan24.AutoDiscover
   name: wan24.AutoDiscover
   href: api/wan24.AutoDiscover.html
@@ -13,6 +102,54 @@ references:
   commentId: T:wan24.AutoDiscover.Constants
   fullName: wan24.AutoDiscover.Constants
   nameWithType: Constants
+- uid: wan24.AutoDiscover.Constants.ACCOUNTTYPE
+  name: ACCOUNTTYPE
+  href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_ACCOUNTTYPE
+  commentId: F:wan24.AutoDiscover.Constants.ACCOUNTTYPE
+  fullName: wan24.AutoDiscover.Constants.ACCOUNTTYPE
+  nameWithType: Constants.ACCOUNTTYPE
+- uid: wan24.AutoDiscover.Constants.ACCOUNTTYPE_NODE_NAME
+  name: ACCOUNTTYPE_NODE_NAME
+  href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_ACCOUNTTYPE_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Constants.ACCOUNTTYPE_NODE_NAME
+  fullName: wan24.AutoDiscover.Constants.ACCOUNTTYPE_NODE_NAME
+  nameWithType: Constants.ACCOUNTTYPE_NODE_NAME
+- uid: wan24.AutoDiscover.Constants.ACCOUNT_NODE_NAME
+  name: ACCOUNT_NODE_NAME
+  href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_ACCOUNT_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Constants.ACCOUNT_NODE_NAME
+  fullName: wan24.AutoDiscover.Constants.ACCOUNT_NODE_NAME
+  nameWithType: Constants.ACCOUNT_NODE_NAME
+- uid: wan24.AutoDiscover.Constants.ACTION
+  name: ACTION
+  href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_ACTION
+  commentId: F:wan24.AutoDiscover.Constants.ACTION
+  fullName: wan24.AutoDiscover.Constants.ACTION
+  nameWithType: Constants.ACTION
+- uid: wan24.AutoDiscover.Constants.ACTION_NODE_NAME
+  name: ACTION_NODE_NAME
+  href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_ACTION_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Constants.ACTION_NODE_NAME
+  fullName: wan24.AutoDiscover.Constants.ACTION_NODE_NAME
+  nameWithType: Constants.ACTION_NODE_NAME
+- uid: wan24.AutoDiscover.Constants.AUTODISCOVER_NODE_NAME
+  name: AUTODISCOVER_NODE_NAME
+  href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_AUTODISCOVER_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Constants.AUTODISCOVER_NODE_NAME
+  fullName: wan24.AutoDiscover.Constants.AUTODISCOVER_NODE_NAME
+  nameWithType: Constants.AUTODISCOVER_NODE_NAME
+- uid: wan24.AutoDiscover.Constants.AUTO_DISCOVER_NS
+  name: AUTO_DISCOVER_NS
+  href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_AUTO_DISCOVER_NS
+  commentId: F:wan24.AutoDiscover.Constants.AUTO_DISCOVER_NS
+  fullName: wan24.AutoDiscover.Constants.AUTO_DISCOVER_NS
+  nameWithType: Constants.AUTO_DISCOVER_NS
+- uid: wan24.AutoDiscover.Constants.RESPONSE_NODE_NAME
+  name: RESPONSE_NODE_NAME
+  href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_RESPONSE_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Constants.RESPONSE_NODE_NAME
+  fullName: wan24.AutoDiscover.Constants.RESPONSE_NODE_NAME
+  nameWithType: Constants.RESPONSE_NODE_NAME
 - uid: wan24.AutoDiscover.Constants.RESPONSE_NS
   name: RESPONSE_NS
   href: api/wan24.AutoDiscover.Constants.html#wan24_AutoDiscover_Constants_RESPONSE_NS
@@ -31,15 +168,15 @@ references:
   commentId: T:wan24.AutoDiscover.Controllers.DiscoveryController
   fullName: wan24.AutoDiscover.Controllers.DiscoveryController
   nameWithType: DiscoveryController
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.#ctor(wan24.AutoDiscover.Services.XmlDocumentInstances)
-  name: DiscoveryController(XmlDocumentInstances)
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController__ctor_wan24_AutoDiscover_Services_XmlDocumentInstances_
-  commentId: M:wan24.AutoDiscover.Controllers.DiscoveryController.#ctor(wan24.AutoDiscover.Services.XmlDocumentInstances)
-  name.vb: New(XmlDocumentInstances)
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.DiscoveryController(wan24.AutoDiscover.Services.XmlDocumentInstances)
-  fullName.vb: wan24.AutoDiscover.Controllers.DiscoveryController.New(wan24.AutoDiscover.Services.XmlDocumentInstances)
-  nameWithType: DiscoveryController.DiscoveryController(XmlDocumentInstances)
-  nameWithType.vb: DiscoveryController.New(XmlDocumentInstances)
+- uid: wan24.AutoDiscover.Controllers.DiscoveryController.#ctor(wan24.Core.InstancePool{wan24.AutoDiscover.XmlResponse})
+  name: DiscoveryController(InstancePool<XmlResponse>)
+  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController__ctor_wan24_Core_InstancePool_wan24_AutoDiscover_XmlResponse__
+  commentId: M:wan24.AutoDiscover.Controllers.DiscoveryController.#ctor(wan24.Core.InstancePool{wan24.AutoDiscover.XmlResponse})
+  name.vb: New(InstancePool(Of XmlResponse))
+  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.DiscoveryController(wan24.Core.InstancePool<wan24.AutoDiscover.XmlResponse>)
+  fullName.vb: wan24.AutoDiscover.Controllers.DiscoveryController.New(wan24.Core.InstancePool(Of wan24.AutoDiscover.XmlResponse))
+  nameWithType: DiscoveryController.DiscoveryController(InstancePool<XmlResponse>)
+  nameWithType.vb: DiscoveryController.New(InstancePool(Of XmlResponse))
 - uid: wan24.AutoDiscover.Controllers.DiscoveryController.#ctor*
   name: DiscoveryController
   href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController__ctor_
@@ -50,48 +187,6 @@ references:
   fullName.vb: wan24.AutoDiscover.Controllers.DiscoveryController.New
   nameWithType: DiscoveryController.DiscoveryController
   nameWithType.vb: DiscoveryController.New
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE
-  name: ACCOUNTTYPE
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNTTYPE
-  commentId: F:wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE
-  nameWithType: DiscoveryController.ACCOUNTTYPE
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE_NODE_NAME
-  name: ACCOUNTTYPE_NODE_NAME
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNTTYPE_NODE_NAME
-  commentId: F:wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE_NODE_NAME
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNTTYPE_NODE_NAME
-  nameWithType: DiscoveryController.ACCOUNTTYPE_NODE_NAME
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNT_NODE_NAME
-  name: ACCOUNT_NODE_NAME
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_ACCOUNT_NODE_NAME
-  commentId: F:wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNT_NODE_NAME
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.ACCOUNT_NODE_NAME
-  nameWithType: DiscoveryController.ACCOUNT_NODE_NAME
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.ACTION
-  name: ACTION
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_ACTION
-  commentId: F:wan24.AutoDiscover.Controllers.DiscoveryController.ACTION
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.ACTION
-  nameWithType: DiscoveryController.ACTION
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.ACTION_NODE_NAME
-  name: ACTION_NODE_NAME
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_ACTION_NODE_NAME
-  commentId: F:wan24.AutoDiscover.Controllers.DiscoveryController.ACTION_NODE_NAME
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.ACTION_NODE_NAME
-  nameWithType: DiscoveryController.ACTION_NODE_NAME
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.AUTODISCOVER_NODE_NAME
-  name: AUTODISCOVER_NODE_NAME
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_AUTODISCOVER_NODE_NAME
-  commentId: F:wan24.AutoDiscover.Controllers.DiscoveryController.AUTODISCOVER_NODE_NAME
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.AUTODISCOVER_NODE_NAME
-  nameWithType: DiscoveryController.AUTODISCOVER_NODE_NAME
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.AUTO_DISCOVER_NS
-  name: AUTO_DISCOVER_NS
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_AUTO_DISCOVER_NS
-  commentId: F:wan24.AutoDiscover.Controllers.DiscoveryController.AUTO_DISCOVER_NS
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.AUTO_DISCOVER_NS
-  nameWithType: DiscoveryController.AUTO_DISCOVER_NS
 - uid: wan24.AutoDiscover.Controllers.DiscoveryController.AutoDiscoverAsync
   name: AutoDiscoverAsync()
   href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_AutoDiscoverAsync
@@ -105,12 +200,6 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Controllers.DiscoveryController.AutoDiscoverAsync
   nameWithType: DiscoveryController.AutoDiscoverAsync
-- uid: wan24.AutoDiscover.Controllers.DiscoveryController.RESPONSE_NODE_NAME
-  name: RESPONSE_NODE_NAME
-  href: api/wan24.AutoDiscover.Controllers.DiscoveryController.html#wan24_AutoDiscover_Controllers_DiscoveryController_RESPONSE_NODE_NAME
-  commentId: F:wan24.AutoDiscover.Controllers.DiscoveryController.RESPONSE_NODE_NAME
-  fullName: wan24.AutoDiscover.Controllers.DiscoveryController.RESPONSE_NODE_NAME
-  nameWithType: DiscoveryController.RESPONSE_NODE_NAME
 - uid: wan24.AutoDiscover.Models
   name: wan24.AutoDiscover.Models
   href: api/wan24.AutoDiscover.Models.html
@@ -142,6 +231,19 @@ references:
   fullName.vb: wan24.AutoDiscover.Models.DiscoveryConfig.New
   nameWithType: DiscoveryConfig.DiscoveryConfig
   nameWithType.vb: DiscoveryConfig.New
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.Current
+  name: Current
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_Current
+  commentId: P:wan24.AutoDiscover.Models.DiscoveryConfig.Current
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.Current
+  nameWithType: DiscoveryConfig.Current
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.Current*
+  name: Current
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_Current_
+  commentId: Overload:wan24.AutoDiscover.Models.DiscoveryConfig.Current
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.Current
+  nameWithType: DiscoveryConfig.Current
 - uid: wan24.AutoDiscover.Models.DiscoveryConfig.DiscoveryType
   name: DiscoveryType
   href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_DiscoveryType
@@ -168,19 +270,32 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.DiscoveryConfig.DiscoveryTypeName
   nameWithType: DiscoveryConfig.DiscoveryTypeName
-- uid: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfig(Microsoft.Extensions.Configuration.IConfigurationRoot)
-  name: GetDiscoveryConfig(IConfigurationRoot)
-  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_GetDiscoveryConfig_Microsoft_Extensions_Configuration_IConfigurationRoot_
-  commentId: M:wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfig(Microsoft.Extensions.Configuration.IConfigurationRoot)
-  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfig(Microsoft.Extensions.Configuration.IConfigurationRoot)
-  nameWithType: DiscoveryConfig.GetDiscoveryConfig(IConfigurationRoot)
-- uid: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfig*
-  name: GetDiscoveryConfig
-  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_GetDiscoveryConfig_
-  commentId: Overload:wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfig
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.EmailMappings
+  name: EmailMappings
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_EmailMappings
+  commentId: P:wan24.AutoDiscover.Models.DiscoveryConfig.EmailMappings
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.EmailMappings
+  nameWithType: DiscoveryConfig.EmailMappings
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.EmailMappings*
+  name: EmailMappings
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_EmailMappings_
+  commentId: Overload:wan24.AutoDiscover.Models.DiscoveryConfig.EmailMappings
   isSpec: "True"
-  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfig
-  nameWithType: DiscoveryConfig.GetDiscoveryConfig
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.EmailMappings
+  nameWithType: DiscoveryConfig.EmailMappings
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfigAsync(Microsoft.Extensions.Configuration.IConfigurationRoot,System.Threading.CancellationToken)
+  name: GetDiscoveryConfigAsync(IConfigurationRoot, CancellationToken)
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_GetDiscoveryConfigAsync_Microsoft_Extensions_Configuration_IConfigurationRoot_System_Threading_CancellationToken_
+  commentId: M:wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfigAsync(Microsoft.Extensions.Configuration.IConfigurationRoot,System.Threading.CancellationToken)
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfigAsync(Microsoft.Extensions.Configuration.IConfigurationRoot, System.Threading.CancellationToken)
+  nameWithType: DiscoveryConfig.GetDiscoveryConfigAsync(IConfigurationRoot, CancellationToken)
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfigAsync*
+  name: GetDiscoveryConfigAsync
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_GetDiscoveryConfigAsync_
+  commentId: Overload:wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfigAsync
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.GetDiscoveryConfigAsync
+  nameWithType: DiscoveryConfig.GetDiscoveryConfigAsync
 - uid: wan24.AutoDiscover.Models.DiscoveryConfig.KnownProxies
   name: KnownProxies
   href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_KnownProxies
@@ -220,6 +335,51 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.DiscoveryConfig.PreForkResponses
   nameWithType: DiscoveryConfig.PreForkResponses
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.PreReloadCommand
+  name: PreReloadCommand
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_PreReloadCommand
+  commentId: P:wan24.AutoDiscover.Models.DiscoveryConfig.PreReloadCommand
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.PreReloadCommand
+  nameWithType: DiscoveryConfig.PreReloadCommand
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.PreReloadCommand*
+  name: PreReloadCommand
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_PreReloadCommand_
+  commentId: Overload:wan24.AutoDiscover.Models.DiscoveryConfig.PreReloadCommand
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.PreReloadCommand
+  nameWithType: DiscoveryConfig.PreReloadCommand
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.WatchEmailMappings
+  name: WatchEmailMappings
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_WatchEmailMappings
+  commentId: P:wan24.AutoDiscover.Models.DiscoveryConfig.WatchEmailMappings
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.WatchEmailMappings
+  nameWithType: DiscoveryConfig.WatchEmailMappings
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.WatchEmailMappings*
+  name: WatchEmailMappings
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_WatchEmailMappings_
+  commentId: Overload:wan24.AutoDiscover.Models.DiscoveryConfig.WatchEmailMappings
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.WatchEmailMappings
+  nameWithType: DiscoveryConfig.WatchEmailMappings
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.WatchFiles
+  name: WatchFiles
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_WatchFiles
+  commentId: P:wan24.AutoDiscover.Models.DiscoveryConfig.WatchFiles
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.WatchFiles
+  nameWithType: DiscoveryConfig.WatchFiles
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig.WatchFiles*
+  name: WatchFiles
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig_WatchFiles_
+  commentId: Overload:wan24.AutoDiscover.Models.DiscoveryConfig.WatchFiles
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig.WatchFiles
+  nameWithType: DiscoveryConfig.WatchFiles
+- uid: wan24.AutoDiscover.Models.DiscoveryConfig._DiscoveryType
+  name: _DiscoveryType
+  href: api/wan24.AutoDiscover.Models.DiscoveryConfig.html#wan24_AutoDiscover_Models_DiscoveryConfig__DiscoveryType
+  commentId: F:wan24.AutoDiscover.Models.DiscoveryConfig._DiscoveryType
+  fullName: wan24.AutoDiscover.Models.DiscoveryConfig._DiscoveryType
+  nameWithType: DiscoveryConfig._DiscoveryType
 - uid: wan24.AutoDiscover.Models.DomainConfig
   name: DomainConfig
   href: api/wan24.AutoDiscover.Models.DomainConfig.html
@@ -258,15 +418,15 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.DomainConfig.AcceptedDomains
   nameWithType: DomainConfig.AcceptedDomains
-- uid: wan24.AutoDiscover.Models.DomainConfig.CreateXml(System.Xml.XmlDocument,System.Xml.XmlNode,System.String[])
-  name: CreateXml(XmlDocument, XmlNode, string[])
-  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_CreateXml_System_Xml_XmlDocument_System_Xml_XmlNode_System_String___
-  commentId: M:wan24.AutoDiscover.Models.DomainConfig.CreateXml(System.Xml.XmlDocument,System.Xml.XmlNode,System.String[])
-  name.vb: CreateXml(XmlDocument, XmlNode, String())
-  fullName: wan24.AutoDiscover.Models.DomainConfig.CreateXml(System.Xml.XmlDocument, System.Xml.XmlNode, string[])
-  fullName.vb: wan24.AutoDiscover.Models.DomainConfig.CreateXml(System.Xml.XmlDocument, System.Xml.XmlNode, String())
-  nameWithType: DomainConfig.CreateXml(XmlDocument, XmlNode, string[])
-  nameWithType.vb: DomainConfig.CreateXml(XmlDocument, XmlNode, String())
+- uid: wan24.AutoDiscover.Models.DomainConfig.CreateXml(System.Xml.XmlWriter,System.ReadOnlyMemory{System.String})
+  name: CreateXml(XmlWriter, ReadOnlyMemory<string>)
+  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_CreateXml_System_Xml_XmlWriter_System_ReadOnlyMemory_System_String__
+  commentId: M:wan24.AutoDiscover.Models.DomainConfig.CreateXml(System.Xml.XmlWriter,System.ReadOnlyMemory{System.String})
+  name.vb: CreateXml(XmlWriter, ReadOnlyMemory(Of String))
+  fullName: wan24.AutoDiscover.Models.DomainConfig.CreateXml(System.Xml.XmlWriter, System.ReadOnlyMemory<string>)
+  fullName.vb: wan24.AutoDiscover.Models.DomainConfig.CreateXml(System.Xml.XmlWriter, System.ReadOnlyMemory(Of String))
+  nameWithType: DomainConfig.CreateXml(XmlWriter, ReadOnlyMemory<string>)
+  nameWithType.vb: DomainConfig.CreateXml(XmlWriter, ReadOnlyMemory(Of String))
 - uid: wan24.AutoDiscover.Models.DomainConfig.CreateXml*
   name: CreateXml
   href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_CreateXml_
@@ -274,6 +434,48 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.DomainConfig.CreateXml
   nameWithType: DomainConfig.CreateXml
+- uid: wan24.AutoDiscover.Models.DomainConfig.GetConfig(System.String,System.ReadOnlyMemory{System.String})
+  name: GetConfig(string, ReadOnlyMemory<string>)
+  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_GetConfig_System_String_System_ReadOnlyMemory_System_String__
+  commentId: M:wan24.AutoDiscover.Models.DomainConfig.GetConfig(System.String,System.ReadOnlyMemory{System.String})
+  name.vb: GetConfig(String, ReadOnlyMemory(Of String))
+  fullName: wan24.AutoDiscover.Models.DomainConfig.GetConfig(string, System.ReadOnlyMemory<string>)
+  fullName.vb: wan24.AutoDiscover.Models.DomainConfig.GetConfig(String, System.ReadOnlyMemory(Of String))
+  nameWithType: DomainConfig.GetConfig(string, ReadOnlyMemory<string>)
+  nameWithType.vb: DomainConfig.GetConfig(String, ReadOnlyMemory(Of String))
+- uid: wan24.AutoDiscover.Models.DomainConfig.GetConfig*
+  name: GetConfig
+  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_GetConfig_
+  commentId: Overload:wan24.AutoDiscover.Models.DomainConfig.GetConfig
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DomainConfig.GetConfig
+  nameWithType: DomainConfig.GetConfig
+- uid: wan24.AutoDiscover.Models.DomainConfig.LoginNameMapping
+  name: LoginNameMapping
+  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_LoginNameMapping
+  commentId: P:wan24.AutoDiscover.Models.DomainConfig.LoginNameMapping
+  fullName: wan24.AutoDiscover.Models.DomainConfig.LoginNameMapping
+  nameWithType: DomainConfig.LoginNameMapping
+- uid: wan24.AutoDiscover.Models.DomainConfig.LoginNameMapping*
+  name: LoginNameMapping
+  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_LoginNameMapping_
+  commentId: Overload:wan24.AutoDiscover.Models.DomainConfig.LoginNameMapping
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DomainConfig.LoginNameMapping
+  nameWithType: DomainConfig.LoginNameMapping
+- uid: wan24.AutoDiscover.Models.DomainConfig.LoginNameMappingRequired
+  name: LoginNameMappingRequired
+  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_LoginNameMappingRequired
+  commentId: P:wan24.AutoDiscover.Models.DomainConfig.LoginNameMappingRequired
+  fullName: wan24.AutoDiscover.Models.DomainConfig.LoginNameMappingRequired
+  nameWithType: DomainConfig.LoginNameMappingRequired
+- uid: wan24.AutoDiscover.Models.DomainConfig.LoginNameMappingRequired*
+  name: LoginNameMappingRequired
+  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_LoginNameMappingRequired_
+  commentId: Overload:wan24.AutoDiscover.Models.DomainConfig.LoginNameMappingRequired
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.DomainConfig.LoginNameMappingRequired
+  nameWithType: DomainConfig.LoginNameMappingRequired
 - uid: wan24.AutoDiscover.Models.DomainConfig.Protocols
   name: Protocols
   href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_Protocols
@@ -300,6 +502,73 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.DomainConfig.Registered
   nameWithType: DomainConfig.Registered
+- uid: wan24.AutoDiscover.Models.EmailMapping
+  name: EmailMapping
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html
+  commentId: T:wan24.AutoDiscover.Models.EmailMapping
+  fullName: wan24.AutoDiscover.Models.EmailMapping
+  nameWithType: EmailMapping
+- uid: wan24.AutoDiscover.Models.EmailMapping.#ctor
+  name: EmailMapping()
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping__ctor
+  commentId: M:wan24.AutoDiscover.Models.EmailMapping.#ctor
+  name.vb: New()
+  fullName: wan24.AutoDiscover.Models.EmailMapping.EmailMapping()
+  fullName.vb: wan24.AutoDiscover.Models.EmailMapping.New()
+  nameWithType: EmailMapping.EmailMapping()
+  nameWithType.vb: EmailMapping.New()
+- uid: wan24.AutoDiscover.Models.EmailMapping.#ctor*
+  name: EmailMapping
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping__ctor_
+  commentId: Overload:wan24.AutoDiscover.Models.EmailMapping.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: wan24.AutoDiscover.Models.EmailMapping.EmailMapping
+  fullName.vb: wan24.AutoDiscover.Models.EmailMapping.New
+  nameWithType: EmailMapping.EmailMapping
+  nameWithType.vb: EmailMapping.New
+- uid: wan24.AutoDiscover.Models.EmailMapping.Email
+  name: Email
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_Email
+  commentId: P:wan24.AutoDiscover.Models.EmailMapping.Email
+  fullName: wan24.AutoDiscover.Models.EmailMapping.Email
+  nameWithType: EmailMapping.Email
+- uid: wan24.AutoDiscover.Models.EmailMapping.Email*
+  name: Email
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_Email_
+  commentId: Overload:wan24.AutoDiscover.Models.EmailMapping.Email
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.EmailMapping.Email
+  nameWithType: EmailMapping.Email
+- uid: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.Collections.Generic.IEnumerable{wan24.AutoDiscover.Models.EmailMapping},System.String)
+  name: GetLoginUser(IEnumerable<EmailMapping>, string)
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_GetLoginUser_System_Collections_Generic_IEnumerable_wan24_AutoDiscover_Models_EmailMapping__System_String_
+  commentId: M:wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.Collections.Generic.IEnumerable{wan24.AutoDiscover.Models.EmailMapping},System.String)
+  name.vb: GetLoginUser(IEnumerable(Of EmailMapping), String)
+  fullName: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.Collections.Generic.IEnumerable<wan24.AutoDiscover.Models.EmailMapping>, string)
+  fullName.vb: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.Collections.Generic.IEnumerable(Of wan24.AutoDiscover.Models.EmailMapping), String)
+  nameWithType: EmailMapping.GetLoginUser(IEnumerable<EmailMapping>, string)
+  nameWithType.vb: EmailMapping.GetLoginUser(IEnumerable(Of EmailMapping), String)
+- uid: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser*
+  name: GetLoginUser
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_GetLoginUser_
+  commentId: Overload:wan24.AutoDiscover.Models.EmailMapping.GetLoginUser
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser
+  nameWithType: EmailMapping.GetLoginUser
+- uid: wan24.AutoDiscover.Models.EmailMapping.Targets
+  name: Targets
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_Targets
+  commentId: P:wan24.AutoDiscover.Models.EmailMapping.Targets
+  fullName: wan24.AutoDiscover.Models.EmailMapping.Targets
+  nameWithType: EmailMapping.Targets
+- uid: wan24.AutoDiscover.Models.EmailMapping.Targets*
+  name: Targets
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_Targets_
+  commentId: Overload:wan24.AutoDiscover.Models.EmailMapping.Targets
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.EmailMapping.Targets
+  nameWithType: EmailMapping.Targets
 - uid: wan24.AutoDiscover.Models.Protocol
   name: Protocol
   href: api/wan24.AutoDiscover.Models.Protocol.html
@@ -338,15 +607,15 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.Protocol.AuthRequired
   nameWithType: Protocol.AuthRequired
-- uid: wan24.AutoDiscover.Models.Protocol.CreateXml(System.Xml.XmlDocument,System.Xml.XmlNode,System.String[])
-  name: CreateXml(XmlDocument, XmlNode, string[])
-  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_CreateXml_System_Xml_XmlDocument_System_Xml_XmlNode_System_String___
-  commentId: M:wan24.AutoDiscover.Models.Protocol.CreateXml(System.Xml.XmlDocument,System.Xml.XmlNode,System.String[])
-  name.vb: CreateXml(XmlDocument, XmlNode, String())
-  fullName: wan24.AutoDiscover.Models.Protocol.CreateXml(System.Xml.XmlDocument, System.Xml.XmlNode, string[])
-  fullName.vb: wan24.AutoDiscover.Models.Protocol.CreateXml(System.Xml.XmlDocument, System.Xml.XmlNode, String())
-  nameWithType: Protocol.CreateXml(XmlDocument, XmlNode, string[])
-  nameWithType.vb: Protocol.CreateXml(XmlDocument, XmlNode, String())
+- uid: wan24.AutoDiscover.Models.Protocol.CreateXml(System.Xml.XmlWriter,System.ReadOnlyMemory{System.String},wan24.AutoDiscover.Models.DomainConfig)
+  name: CreateXml(XmlWriter, ReadOnlyMemory<string>, DomainConfig)
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_CreateXml_System_Xml_XmlWriter_System_ReadOnlyMemory_System_String__wan24_AutoDiscover_Models_DomainConfig_
+  commentId: M:wan24.AutoDiscover.Models.Protocol.CreateXml(System.Xml.XmlWriter,System.ReadOnlyMemory{System.String},wan24.AutoDiscover.Models.DomainConfig)
+  name.vb: CreateXml(XmlWriter, ReadOnlyMemory(Of String), DomainConfig)
+  fullName: wan24.AutoDiscover.Models.Protocol.CreateXml(System.Xml.XmlWriter, System.ReadOnlyMemory<string>, wan24.AutoDiscover.Models.DomainConfig)
+  fullName.vb: wan24.AutoDiscover.Models.Protocol.CreateXml(System.Xml.XmlWriter, System.ReadOnlyMemory(Of String), wan24.AutoDiscover.Models.DomainConfig)
+  nameWithType: Protocol.CreateXml(XmlWriter, ReadOnlyMemory<string>, DomainConfig)
+  nameWithType.vb: Protocol.CreateXml(XmlWriter, ReadOnlyMemory(Of String), DomainConfig)
 - uid: wan24.AutoDiscover.Models.Protocol.CreateXml*
   name: CreateXml
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_CreateXml_
@@ -354,6 +623,22 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.Protocol.CreateXml
   nameWithType: Protocol.CreateXml
+- uid: wan24.AutoDiscover.Models.Protocol.DefaultLoginName(System.ReadOnlyMemory{System.String},wan24.AutoDiscover.Models.DomainConfig,wan24.AutoDiscover.Models.Protocol)
+  name: DefaultLoginName(ReadOnlyMemory<string>, DomainConfig, Protocol)
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_DefaultLoginName_System_ReadOnlyMemory_System_String__wan24_AutoDiscover_Models_DomainConfig_wan24_AutoDiscover_Models_Protocol_
+  commentId: M:wan24.AutoDiscover.Models.Protocol.DefaultLoginName(System.ReadOnlyMemory{System.String},wan24.AutoDiscover.Models.DomainConfig,wan24.AutoDiscover.Models.Protocol)
+  name.vb: DefaultLoginName(ReadOnlyMemory(Of String), DomainConfig, Protocol)
+  fullName: wan24.AutoDiscover.Models.Protocol.DefaultLoginName(System.ReadOnlyMemory<string>, wan24.AutoDiscover.Models.DomainConfig, wan24.AutoDiscover.Models.Protocol)
+  fullName.vb: wan24.AutoDiscover.Models.Protocol.DefaultLoginName(System.ReadOnlyMemory(Of String), wan24.AutoDiscover.Models.DomainConfig, wan24.AutoDiscover.Models.Protocol)
+  nameWithType: Protocol.DefaultLoginName(ReadOnlyMemory<string>, DomainConfig, Protocol)
+  nameWithType.vb: Protocol.DefaultLoginName(ReadOnlyMemory(Of String), DomainConfig, Protocol)
+- uid: wan24.AutoDiscover.Models.Protocol.DefaultLoginName*
+  name: DefaultLoginName
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_DefaultLoginName_
+  commentId: Overload:wan24.AutoDiscover.Models.Protocol.DefaultLoginName
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.Protocol.DefaultLoginName
+  nameWithType: Protocol.DefaultLoginName
 - uid: wan24.AutoDiscover.Models.Protocol.LoginName
   name: LoginName
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_LoginName
@@ -380,6 +665,32 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.Protocol.LoginNameIsEmailAlias
   nameWithType: Protocol.LoginNameIsEmailAlias
+- uid: wan24.AutoDiscover.Models.Protocol.LoginNameMapping
+  name: LoginNameMapping
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_LoginNameMapping
+  commentId: P:wan24.AutoDiscover.Models.Protocol.LoginNameMapping
+  fullName: wan24.AutoDiscover.Models.Protocol.LoginNameMapping
+  nameWithType: Protocol.LoginNameMapping
+- uid: wan24.AutoDiscover.Models.Protocol.LoginNameMapping*
+  name: LoginNameMapping
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_LoginNameMapping_
+  commentId: Overload:wan24.AutoDiscover.Models.Protocol.LoginNameMapping
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.Protocol.LoginNameMapping
+  nameWithType: Protocol.LoginNameMapping
+- uid: wan24.AutoDiscover.Models.Protocol.LoginNameMappingRequired
+  name: LoginNameMappingRequired
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_LoginNameMappingRequired
+  commentId: P:wan24.AutoDiscover.Models.Protocol.LoginNameMappingRequired
+  fullName: wan24.AutoDiscover.Models.Protocol.LoginNameMappingRequired
+  nameWithType: Protocol.LoginNameMappingRequired
+- uid: wan24.AutoDiscover.Models.Protocol.LoginNameMappingRequired*
+  name: LoginNameMappingRequired
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_LoginNameMappingRequired_
+  commentId: Overload:wan24.AutoDiscover.Models.Protocol.LoginNameMappingRequired
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Models.Protocol.LoginNameMappingRequired
+  nameWithType: Protocol.LoginNameMappingRequired
 - uid: wan24.AutoDiscover.Models.Protocol.LoginName_Delegate
   name: Protocol.LoginName_Delegate
   href: api/wan24.AutoDiscover.Models.Protocol.LoginName_Delegate.html
@@ -482,12 +793,12 @@ references:
   fullName.vb: wan24.AutoDiscover.Services.CommandLineInterface.New
   nameWithType: CommandLineInterface.CommandLineInterface
   nameWithType.vb: CommandLineInterface.New
-- uid: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync
-  name: CreateSystemdServiceAsync()
-  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync
-  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync
-  fullName: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync()
-  nameWithType: CommandLineInterface.CreateSystemdServiceAsync()
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync(System.Threading.CancellationToken)
+  name: CreateSystemdServiceAsync(CancellationToken)
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync_System_Threading_CancellationToken_
+  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync(System.Threading.CancellationToken)
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync(System.Threading.CancellationToken)
+  nameWithType: CommandLineInterface.CreateSystemdServiceAsync(CancellationToken)
 - uid: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync*
   name: CreateSystemdServiceAsync
   href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync_
@@ -495,59 +806,51 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync
   nameWithType: CommandLineInterface.CreateSystemdServiceAsync
-- uid: wan24.AutoDiscover.Services.ConfigChangeEventThrottle
-  name: ConfigChangeEventThrottle
-  href: api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.html
-  commentId: T:wan24.AutoDiscover.Services.ConfigChangeEventThrottle
-  fullName: wan24.AutoDiscover.Services.ConfigChangeEventThrottle
-  nameWithType: ConfigChangeEventThrottle
-- uid: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.#ctor
-  name: ConfigChangeEventThrottle()
-  href: api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.html#wan24_AutoDiscover_Services_ConfigChangeEventThrottle__ctor
-  commentId: M:wan24.AutoDiscover.Services.ConfigChangeEventThrottle.#ctor
-  name.vb: New()
-  fullName: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChangeEventThrottle()
-  fullName.vb: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.New()
-  nameWithType: ConfigChangeEventThrottle.ConfigChangeEventThrottle()
-  nameWithType.vb: ConfigChangeEventThrottle.New()
-- uid: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.#ctor*
-  name: ConfigChangeEventThrottle
-  href: api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.html#wan24_AutoDiscover_Services_ConfigChangeEventThrottle__ctor_
-  commentId: Overload:wan24.AutoDiscover.Services.ConfigChangeEventThrottle.#ctor
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync(System.Threading.CancellationToken)
+  name: ParsePostfixEmailMappingsAsync(CancellationToken)
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_ParsePostfixEmailMappingsAsync_System_Threading_CancellationToken_
+  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync(System.Threading.CancellationToken)
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync(System.Threading.CancellationToken)
+  nameWithType: CommandLineInterface.ParsePostfixEmailMappingsAsync(CancellationToken)
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync*
+  name: ParsePostfixEmailMappingsAsync
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_ParsePostfixEmailMappingsAsync_
+  commentId: Overload:wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync
   isSpec: "True"
-  name.vb: New
-  fullName: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChangeEventThrottle
-  fullName.vb: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.New
-  nameWithType: ConfigChangeEventThrottle.ConfigChangeEventThrottle
-  nameWithType.vb: ConfigChangeEventThrottle.New
-- uid: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChange_Delegate
-  name: ConfigChangeEventThrottle.ConfigChange_Delegate
-  href: api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChange_Delegate.html
-  commentId: T:wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChange_Delegate
-  fullName: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.ConfigChange_Delegate
-  nameWithType: ConfigChangeEventThrottle.ConfigChange_Delegate
-- uid: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.HandleEvent(System.DateTime@,System.Int32@)
-  name: HandleEvent(in DateTime, in int)
-  href: api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.html#wan24_AutoDiscover_Services_ConfigChangeEventThrottle_HandleEvent_System_DateTime__System_Int32__
-  commentId: M:wan24.AutoDiscover.Services.ConfigChangeEventThrottle.HandleEvent(System.DateTime@,System.Int32@)
-  name.vb: HandleEvent(Date, Integer)
-  fullName: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.HandleEvent(in System.DateTime, in int)
-  fullName.vb: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.HandleEvent(Date, Integer)
-  nameWithType: ConfigChangeEventThrottle.HandleEvent(in DateTime, in int)
-  nameWithType.vb: ConfigChangeEventThrottle.HandleEvent(Date, Integer)
-- uid: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.HandleEvent*
-  name: HandleEvent
-  href: api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.html#wan24_AutoDiscover_Services_ConfigChangeEventThrottle_HandleEvent_
-  commentId: Overload:wan24.AutoDiscover.Services.ConfigChangeEventThrottle.HandleEvent
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync
+  nameWithType: CommandLineInterface.ParsePostfixEmailMappingsAsync
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(System.String,System.String,System.Threading.CancellationToken)
+  name: PostUpgradeAsync(string, string, CancellationToken)
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_PostUpgradeAsync_System_String_System_String_System_Threading_CancellationToken_
+  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(System.String,System.String,System.Threading.CancellationToken)
+  name.vb: PostUpgradeAsync(String, String, CancellationToken)
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(string, string, System.Threading.CancellationToken)
+  fullName.vb: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(String, String, System.Threading.CancellationToken)
+  nameWithType: CommandLineInterface.PostUpgradeAsync(string, string, CancellationToken)
+  nameWithType.vb: CommandLineInterface.PostUpgradeAsync(String, String, CancellationToken)
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync*
+  name: PostUpgradeAsync
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_PostUpgradeAsync_
+  commentId: Overload:wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync
   isSpec: "True"
-  fullName: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.HandleEvent
-  nameWithType: ConfigChangeEventThrottle.HandleEvent
-- uid: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.OnConfigChange
-  name: OnConfigChange
-  href: api/wan24.AutoDiscover.Services.ConfigChangeEventThrottle.html#wan24_AutoDiscover_Services_ConfigChangeEventThrottle_OnConfigChange
-  commentId: E:wan24.AutoDiscover.Services.ConfigChangeEventThrottle.OnConfigChange
-  fullName: wan24.AutoDiscover.Services.ConfigChangeEventThrottle.OnConfigChange
-  nameWithType: ConfigChangeEventThrottle.OnConfigChange
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync
+  nameWithType: CommandLineInterface.PostUpgradeAsync
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(System.String[],System.String[],System.Boolean,System.Boolean,System.Threading.CancellationToken)
+  name: UpgradeAsync(string[]?, string[]?, bool, bool, CancellationToken)
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_UpgradeAsync_System_String___System_String___System_Boolean_System_Boolean_System_Threading_CancellationToken_
+  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(System.String[],System.String[],System.Boolean,System.Boolean,System.Threading.CancellationToken)
+  name.vb: UpgradeAsync(String(), String(), Boolean, Boolean, CancellationToken)
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(string[]?, string[]?, bool, bool, System.Threading.CancellationToken)
+  fullName.vb: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(String(), String(), Boolean, Boolean, System.Threading.CancellationToken)
+  nameWithType: CommandLineInterface.UpgradeAsync(string[]?, string[]?, bool, bool, CancellationToken)
+  nameWithType.vb: CommandLineInterface.UpgradeAsync(String(), String(), Boolean, Boolean, CancellationToken)
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync*
+  name: UpgradeAsync
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_UpgradeAsync_
+  commentId: Overload:wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync
+  nameWithType: CommandLineInterface.UpgradeAsync
 - uid: wan24.AutoDiscover.Services.ExceptionHandler
   name: ExceptionHandler
   href: api/wan24.AutoDiscover.Services.ExceptionHandler.html
@@ -573,6 +876,12 @@ references:
   fullName.vb: wan24.AutoDiscover.Services.ExceptionHandler.New
   nameWithType: ExceptionHandler.ExceptionHandler
   nameWithType.vb: ExceptionHandler.New
+- uid: wan24.AutoDiscover.Services.ExceptionHandler.TEXT_MIME_TYPE
+  name: TEXT_MIME_TYPE
+  href: api/wan24.AutoDiscover.Services.ExceptionHandler.html#wan24_AutoDiscover_Services_ExceptionHandler_TEXT_MIME_TYPE
+  commentId: F:wan24.AutoDiscover.Services.ExceptionHandler.TEXT_MIME_TYPE
+  fullName: wan24.AutoDiscover.Services.ExceptionHandler.TEXT_MIME_TYPE
+  nameWithType: ExceptionHandler.TEXT_MIME_TYPE
 - uid: wan24.AutoDiscover.Services.ExceptionHandler.TryHandleAsync(Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.CancellationToken)
   name: TryHandleAsync(HttpContext, Exception, CancellationToken)
   href: api/wan24.AutoDiscover.Services.ExceptionHandler.html#wan24_AutoDiscover_Services_ExceptionHandler_TryHandleAsync_Microsoft_AspNetCore_Http_HttpContext_System_Exception_System_Threading_CancellationToken_
@@ -586,37 +895,102 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Services.ExceptionHandler.TryHandleAsync
   nameWithType: ExceptionHandler.TryHandleAsync
-- uid: wan24.AutoDiscover.Services.XmlDocumentInstances
-  name: XmlDocumentInstances
-  href: api/wan24.AutoDiscover.Services.XmlDocumentInstances.html
-  commentId: T:wan24.AutoDiscover.Services.XmlDocumentInstances
-  fullName: wan24.AutoDiscover.Services.XmlDocumentInstances
-  nameWithType: XmlDocumentInstances
-- uid: wan24.AutoDiscover.Services.XmlDocumentInstances.#ctor
-  name: XmlDocumentInstances()
-  href: api/wan24.AutoDiscover.Services.XmlDocumentInstances.html#wan24_AutoDiscover_Services_XmlDocumentInstances__ctor
-  commentId: M:wan24.AutoDiscover.Services.XmlDocumentInstances.#ctor
+- uid: wan24.AutoDiscover.VersionInfo
+  name: VersionInfo
+  href: api/wan24.AutoDiscover.VersionInfo.html
+  commentId: T:wan24.AutoDiscover.VersionInfo
+  fullName: wan24.AutoDiscover.VersionInfo
+  nameWithType: VersionInfo
+- uid: wan24.AutoDiscover.VersionInfo.Current
+  name: Current
+  href: api/wan24.AutoDiscover.VersionInfo.html#wan24_AutoDiscover_VersionInfo_Current
+  commentId: P:wan24.AutoDiscover.VersionInfo.Current
+  fullName: wan24.AutoDiscover.VersionInfo.Current
+  nameWithType: VersionInfo.Current
+- uid: wan24.AutoDiscover.VersionInfo.Current*
+  name: Current
+  href: api/wan24.AutoDiscover.VersionInfo.html#wan24_AutoDiscover_VersionInfo_Current_
+  commentId: Overload:wan24.AutoDiscover.VersionInfo.Current
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.VersionInfo.Current
+  nameWithType: VersionInfo.Current
+- uid: wan24.AutoDiscover.XmlResponse
+  name: XmlResponse
+  href: api/wan24.AutoDiscover.XmlResponse.html
+  commentId: T:wan24.AutoDiscover.XmlResponse
+  fullName: wan24.AutoDiscover.XmlResponse
+  nameWithType: XmlResponse
+- uid: wan24.AutoDiscover.XmlResponse.#ctor
+  name: XmlResponse()
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse__ctor
+  commentId: M:wan24.AutoDiscover.XmlResponse.#ctor
   name.vb: New()
-  fullName: wan24.AutoDiscover.Services.XmlDocumentInstances.XmlDocumentInstances()
-  fullName.vb: wan24.AutoDiscover.Services.XmlDocumentInstances.New()
-  nameWithType: XmlDocumentInstances.XmlDocumentInstances()
-  nameWithType.vb: XmlDocumentInstances.New()
-- uid: wan24.AutoDiscover.Services.XmlDocumentInstances.#ctor(System.Int32@)
-  name: XmlDocumentInstances(in int)
-  href: api/wan24.AutoDiscover.Services.XmlDocumentInstances.html#wan24_AutoDiscover_Services_XmlDocumentInstances__ctor_System_Int32__
-  commentId: M:wan24.AutoDiscover.Services.XmlDocumentInstances.#ctor(System.Int32@)
-  name.vb: New(Integer)
-  fullName: wan24.AutoDiscover.Services.XmlDocumentInstances.XmlDocumentInstances(in int)
-  fullName.vb: wan24.AutoDiscover.Services.XmlDocumentInstances.New(Integer)
-  nameWithType: XmlDocumentInstances.XmlDocumentInstances(in int)
-  nameWithType.vb: XmlDocumentInstances.New(Integer)
-- uid: wan24.AutoDiscover.Services.XmlDocumentInstances.#ctor*
-  name: XmlDocumentInstances
-  href: api/wan24.AutoDiscover.Services.XmlDocumentInstances.html#wan24_AutoDiscover_Services_XmlDocumentInstances__ctor_
-  commentId: Overload:wan24.AutoDiscover.Services.XmlDocumentInstances.#ctor
+  fullName: wan24.AutoDiscover.XmlResponse.XmlResponse()
+  fullName.vb: wan24.AutoDiscover.XmlResponse.New()
+  nameWithType: XmlResponse.XmlResponse()
+  nameWithType.vb: XmlResponse.New()
+- uid: wan24.AutoDiscover.XmlResponse.#ctor*
+  name: XmlResponse
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse__ctor_
+  commentId: Overload:wan24.AutoDiscover.XmlResponse.#ctor
   isSpec: "True"
   name.vb: New
-  fullName: wan24.AutoDiscover.Services.XmlDocumentInstances.XmlDocumentInstances
-  fullName.vb: wan24.AutoDiscover.Services.XmlDocumentInstances.New
-  nameWithType: XmlDocumentInstances.XmlDocumentInstances
-  nameWithType.vb: XmlDocumentInstances.New
+  fullName: wan24.AutoDiscover.XmlResponse.XmlResponse
+  fullName.vb: wan24.AutoDiscover.XmlResponse.New
+  nameWithType: XmlResponse.XmlResponse
+  nameWithType.vb: XmlResponse.New
+- uid: wan24.AutoDiscover.XmlResponse.Dispose(System.Boolean)
+  name: Dispose(bool)
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse_Dispose_System_Boolean_
+  commentId: M:wan24.AutoDiscover.XmlResponse.Dispose(System.Boolean)
+  name.vb: Dispose(Boolean)
+  fullName: wan24.AutoDiscover.XmlResponse.Dispose(bool)
+  fullName.vb: wan24.AutoDiscover.XmlResponse.Dispose(Boolean)
+  nameWithType: XmlResponse.Dispose(bool)
+  nameWithType.vb: XmlResponse.Dispose(Boolean)
+- uid: wan24.AutoDiscover.XmlResponse.Dispose*
+  name: Dispose
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse_Dispose_
+  commentId: Overload:wan24.AutoDiscover.XmlResponse.Dispose
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.XmlResponse.Dispose
+  nameWithType: XmlResponse.Dispose
+- uid: wan24.AutoDiscover.XmlResponse.FinalizeXmlOutput
+  name: FinalizeXmlOutput()
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse_FinalizeXmlOutput
+  commentId: M:wan24.AutoDiscover.XmlResponse.FinalizeXmlOutput
+  fullName: wan24.AutoDiscover.XmlResponse.FinalizeXmlOutput()
+  nameWithType: XmlResponse.FinalizeXmlOutput()
+- uid: wan24.AutoDiscover.XmlResponse.FinalizeXmlOutput*
+  name: FinalizeXmlOutput
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse_FinalizeXmlOutput_
+  commentId: Overload:wan24.AutoDiscover.XmlResponse.FinalizeXmlOutput
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.XmlResponse.FinalizeXmlOutput
+  nameWithType: XmlResponse.FinalizeXmlOutput
+- uid: wan24.AutoDiscover.XmlResponse.XML
+  name: XML
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse_XML
+  commentId: P:wan24.AutoDiscover.XmlResponse.XML
+  fullName: wan24.AutoDiscover.XmlResponse.XML
+  nameWithType: XmlResponse.XML
+- uid: wan24.AutoDiscover.XmlResponse.XML*
+  name: XML
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse_XML_
+  commentId: Overload:wan24.AutoDiscover.XmlResponse.XML
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.XmlResponse.XML
+  nameWithType: XmlResponse.XML
+- uid: wan24.AutoDiscover.XmlResponse.XmlOutput
+  name: XmlOutput
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse_XmlOutput
+  commentId: P:wan24.AutoDiscover.XmlResponse.XmlOutput
+  fullName: wan24.AutoDiscover.XmlResponse.XmlOutput
+  nameWithType: XmlResponse.XmlOutput
+- uid: wan24.AutoDiscover.XmlResponse.XmlOutput*
+  name: XmlOutput
+  href: api/wan24.AutoDiscover.XmlResponse.html#wan24_AutoDiscover_XmlResponse_XmlOutput_
+  commentId: Overload:wan24.AutoDiscover.XmlResponse.XmlOutput
+  isSpec: "True"
+  fullName: wan24.AutoDiscover.XmlResponse.XmlOutput
+  nameWithType: XmlResponse.XmlOutput

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml;
+using wan24.ObjectValidation;
 
 // https://learn.microsoft.com/en-us/exchange/client-developer/web-service-reference/protocol-pox
 
@@ -8,7 +9,7 @@ namespace wan24.AutoDiscover.Models
     /// <summary>
     /// Protocol (POX)
     /// </summary>
-    public record class Protocol
+    public record class Protocol : ValidatableRecordBase
     {
         /// <summary>
         /// <c>Protocol</c> node name
@@ -54,19 +55,17 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Constructor
         /// </summary>
-        public Protocol() { }
+        public Protocol() : base() { }
 
         /// <summary>
         /// Login name getter delegate
         /// </summary>
-        public static LoginName_Delegate LoginName { get; set; } = (xml, account, emailParts, protocol) => protocol.LoginNameIsEmailAlias
-            ? emailParts[0]
-            : string.Join('@', emailParts);
+        public static LoginName_Delegate LoginName { get; set; } = DefaultLoginName;
 
         /// <summary>
         /// Type
         /// </summary>
-        [Required]
+        [Required, StringLength(byte.MaxValue, MinimumLength = 1)]
         public required string Type { get; init; }
 
         /// <summary>
@@ -80,6 +79,17 @@ namespace wan24.AutoDiscover.Models
         /// </summary>
         [Range(1, ushort.MaxValue)]
         public int Port { get; init; }
+
+        /// <summary>
+        /// Login name mapping (key is the email address or alias, value the mapped login name)
+        /// </summary>
+        [RequiredIf(nameof(LoginNameMappingRequired), true)]
+        public IReadOnlyDictionary<string, string>? LoginNameMapping { get; init; }
+
+        /// <summary>
+        /// If a successfule login name mapping is required (if no mapping was possible, the email address will be used as login name)
+        /// </summary>
+        public bool LoginNameMappingRequired { get; init; }
 
         /// <summary>
         /// If the login name is the alias of the email address
@@ -105,32 +115,56 @@ namespace wan24.AutoDiscover.Models
         /// Create XML
         /// </summary>
         /// <param name="xml">XML</param>
-        /// <param name="account">Account node</param>
         /// <param name="emailParts">Splitted email parts</param>
-        public virtual void CreateXml(XmlDocument xml, XmlNode account, string[] emailParts)
+        /// <param name="domain">Domain</param>
+        public virtual void CreateXml(XmlWriter xml, ReadOnlyMemory<string> emailParts, DomainConfig domain)
         {
-            XmlNode protocol = account.AppendChild(xml.CreateElement(PROTOCOL_NODE_NAME, Constants.RESPONSE_NS))!;
+            xml.WriteStartElement(PROTOCOL_NODE_NAME);
             foreach (KeyValuePair<string, string> kvp in new Dictionary<string, string>()
             {
                 {TYPE_NODE_NAME, Type },
                 {SERVER_NODE_NAME, Server },
                 {PORT_NODE_NAME, Port.ToString() },
-                {LOGINNAME_NODE_NAME, LoginName(xml, account, emailParts, this) },
+                {LOGINNAME_NODE_NAME, LoginName(emailParts, domain, this) },
                 {SPA_NODE_NAME, SPA ? ON : OFF },
                 {SSL_NODE_NAME, SSL ? ON : OFF },
                 {AUTHREQUIRED_NODE_NAME, AuthRequired ? ON : OFF }
             })
-                protocol.AppendChild(xml.CreateElement(kvp.Key, Constants.RESPONSE_NS))!.InnerText = kvp.Value;
+                xml.WriteElementString(kvp.Key, kvp.Value);
+            xml.WriteEndElement();
+            xml.Flush();
         }
 
         /// <summary>
-        /// Delegate for a login name getter
+        /// Delegate for a login name resolver
         /// </summary>
-        /// <param name="xml">XML</param>
-        /// <param name="account">Account node</param>
         /// <param name="emailParts">Splitted email parts</param>
+        /// <param name="domain">Domain</param>
         /// <param name="protocol">Protocol</param>
         /// <returns>Login name</returns>
-        public delegate string LoginName_Delegate(XmlDocument xml, XmlNode account, string[] emailParts, Protocol protocol);
+        public delegate string LoginName_Delegate(ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol);
+
+        /// <summary>
+        /// Default login name resolver
+        /// </summary>
+        /// <param name="emailParts">Splitted email parts</param>
+        /// <param name="domain">Domain</param>
+        /// <param name="protocol">Protocol</param>
+        /// <returns>Login name</returns>
+        public static string DefaultLoginName(ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol)
+        {
+            string emailAddress = string.Join('@', emailParts),
+                res = protocol.LoginNameIsEmailAlias
+                    ? emailParts.Span[0]
+                    : emailAddress;
+            string? loginName = null;
+            return (protocol.LoginNameMapping?.TryGetValue(emailAddress, out loginName) ?? false) ||
+                (protocol.LoginNameIsEmailAlias && (protocol.LoginNameMapping?.TryGetValue(res, out loginName) ?? false)) ||
+                (domain.LoginNameMapping?.TryGetValue(emailAddress, out loginName) ?? false) ||
+                (protocol.LoginNameIsEmailAlias && (domain.LoginNameMapping?.TryGetValue(res, out loginName) ?? false)) ||
+                (loginName is null && (domain.LoginNameMappingRequired || protocol.LoginNameMappingRequired))
+                ? loginName ?? emailAddress
+                : res;
+        }
     }
 }

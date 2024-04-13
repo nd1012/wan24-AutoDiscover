@@ -18,6 +18,8 @@ jobs:
         dotnet-version: 8.0.x
     - name: Setup docfx
       run: dotnet tool update -g docfx
+    - name: Install .NET Aspire workload
+      run: dotnet workload install aspire
     - name: Copy README
       run: cp README.md "./src/wan24-AutoDiscover Docs/index.md"
     - name: Build docs

@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Text;
+using System.Xml;
 using wan24.Core;
 
 namespace wan24.AutoDiscover
@@ -9,15 +10,30 @@ namespace wan24.AutoDiscover
     public class XmlResponse : DisposableBase
     {
         /// <summary>
+        /// Buffer size in bytes
+        /// </summary>
+        private const int BUFFER_SIZE = 1024;
+
+        /// <summary>
+        /// XML writer settings
+        /// </summary>
+        private static readonly XmlWriterSettings Settings = new()
+        {
+            Indent = false,
+            Encoding = Encoding.UTF8,
+            OmitXmlDeclaration = true
+        };
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public XmlResponse() : base(asyncDisposing: false)
         {
-            XmlOutput = new(bufferSize: 1024)
+            XmlOutput = new(BUFFER_SIZE)
             {
                 AggressiveReadBlocking = false
             };
-            XML = XmlWriter.Create(XmlOutput);
+            XML = XmlWriter.Create(XmlOutput, Settings);
             XML.WriteStartElement(Constants.AUTODISCOVER_NODE_NAME, Constants.AUTO_DISCOVER_NS);
             XML.WriteStartElement(Constants.RESPONSE_NODE_NAME, Constants.RESPONSE_NS);
             XML.WriteStartElement(Constants.ACCOUNT_NODE_NAME);

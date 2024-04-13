@@ -45,7 +45,7 @@ Settings.LogLevel = config.GetValue<LogLevel>("Logging:LogLevel:Default");
 Logging.Logger ??= !string.IsNullOrWhiteSpace(DiscoveryConfig.Current.LogFile)
     ? await FileLogger.CreateAsync(DiscoveryConfig.Current.LogFile, next: new VividConsoleLogger(), cancellationToken: cts.Token).DynamicContext()
     : new VividConsoleLogger();
-Logging.WriteInfo($"wan24-AutoDiscover {VersionInfo.Current} Using configuration \"{configFile}\"");
+Logging.WriteInfo($"wan24-AutoDiscover {VersionInfo.Current} using configuration \"{configFile}\"");
 
 // Watch configuration changes
 using SemaphoreSync configSync = new();
@@ -128,11 +128,11 @@ builder.Logging.ClearProviders()
 if (ENV.IsLinux)
     builder.Logging.AddSystemdConsole();
 builder.Services.AddControllers();
-builder.Services.AddSingleton(typeof(XmlResponseInstances), services => new XmlResponseInstances(capacity: DiscoveryConfig.Current.PreForkResponses))
+builder.Services.AddExceptionHandler<ExceptionHandler>()
+    .AddSingleton(typeof(InstancePool<XmlResponse>), services => new InstancePool<XmlResponse>(capacity: DiscoveryConfig.Current.PreForkResponses))
     .AddSingleton(cts)
-    .AddHostedService(services => services.GetRequiredService<XmlResponseInstances>())
+    .AddHostedService(services => services.GetRequiredService<InstancePool<XmlResponse>>())
     .AddHostedService(services => fsw)
-    .AddExceptionHandler<ExceptionHandler>()
     .AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders);
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -150,7 +150,8 @@ try
             Logging.WriteInfo("Autodiscovery service app shutdown");
             cts.Cancel();
         });
-        app.MapDefaultEndpoints();
+        app.UseExceptionHandler(builder => { });// .NET 8 bugfix :(
+        app.MapDefaultEndpoints();// Aspire
         app.UseForwardedHeaders();
         if (app.Environment.IsDevelopment())
         {
@@ -158,8 +159,7 @@ try
                 Logging.WriteTrace("Using development environment");
             app.UseHttpLogging();
         }
-        app.UseExceptionHandler(builder => { });// .NET 8 bugfix :(
-        if (!app.Environment.IsDevelopment())
+        else
         {
             if (Logging.Trace)
                 Logging.WriteTrace("Using production environment");

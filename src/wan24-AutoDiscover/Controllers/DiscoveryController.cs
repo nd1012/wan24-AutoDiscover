@@ -16,7 +16,7 @@ namespace wan24.AutoDiscover.Controllers
     /// </remarks>
     /// <param name="responses">Responses</param>
     [ApiController, Route("autodiscover")]
-    public sealed class DiscoveryController(XmlResponseInstances responses) : ControllerBase()
+    public sealed class DiscoveryController(InstancePool<XmlResponse> responses) : ControllerBase()
     {
         /// <summary>
         /// Max. request length in bytes
@@ -40,22 +40,26 @@ namespace wan24.AutoDiscover.Controllers
         private const string EMAIL_NODE_NAME = "EMailAddress";
 
         /// <summary>
-        /// Missing email address message
+        /// Invalid request XML message bytes
         /// </summary>
-        private static readonly byte[] MissingEmailMessage = "Missing email address in request".GetBytes();
+        private static readonly byte[] InvalidRequestMessage = "Invalid Request XML".GetBytes();
         /// <summary>
-        /// Invalid email address message
+        /// Missing email address message bytes
         /// </summary>
-        private static readonly byte[] InvalidEmailMessage = "Invalid email address in request".GetBytes();
+        private static readonly byte[] MissingEmailMessage = "Missing Email Address".GetBytes();
         /// <summary>
-        /// Unknown domain name message
+        /// Invalid email address message bytes
         /// </summary>
-        private static readonly byte[] UnknownDomainMessage = "Unknown domain name".GetBytes();
+        private static readonly byte[] InvalidEmailMessage = "Invalid Email Address".GetBytes();
+        /// <summary>
+        /// Unknown domain name message bytes
+        /// </summary>
+        private static readonly byte[] UnknownDomainMessage = "Unknown Domain Name".GetBytes();
 
         /// <summary>
         /// Responses
         /// </summary>
-        private readonly XmlResponseInstances Responses = responses;
+        private readonly InstancePool<XmlResponse> Responses = responses;
 
         /// <summary>
         /// Autodiscover (POX request body required)
@@ -72,17 +76,28 @@ namespace wan24.AutoDiscover.Controllers
             {
                 await HttpContext.Request.Body.CopyToAsync(ms, HttpContext.RequestAborted).DynamicContext();
                 ms.Position = 0;
-                using XmlReader xmlRequest = XmlReader.Create(ms);
-                while (xmlRequest.Read())
+                try
                 {
-                    if (xmlRequest.Name != EMAIL_NODE_NAME) continue;
-                    emailAddress = xmlRequest.ReadElementContentAsString();
-                    break;
+                    using XmlReader requestXml = XmlReader.Create(ms);
+                    while (requestXml.Read())
+                    {
+                        if (!requestXml.Name.Equals(EMAIL_NODE_NAME, StringComparison.OrdinalIgnoreCase))
+                            continue;
+                        emailAddress = requestXml.ReadElementContentAsString();
+                        break;
+                    }
+                }
+                catch(XmlException ex)
+                {
+                    if (Logging.Debug)
+                        Logging.WriteDebug($"Parsing POX request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort} failed: {ex}");
+                    RespondBadRequest(InvalidRequestMessage);
+                    return;
                 }
             }
             if(emailAddress is null)
             {
-                await BadRequestAsync(MissingEmailMessage).DynamicContext();
+                RespondBadRequest(MissingEmailMessage);
                 return;
             }
             if (Logging.Trace)
@@ -90,41 +105,45 @@ namespace wan24.AutoDiscover.Controllers
             string[] emailParts = emailAddress.Split('@', 2);// @ splitted email alias and domain name
             if (emailParts.Length != 2 || !MailAddress.TryCreate(emailAddress, out _))
             {
-                await BadRequestAsync(InvalidEmailMessage).DynamicContext();
+                RespondBadRequest(InvalidEmailMessage);
                 return;
             }
             // Generate the response
-            using XmlResponse xml = await Responses.GetOneAsync(HttpContext.RequestAborted).DynamicContext();// Response XML
             if (DomainConfig.GetConfig(HttpContext.Request.Host.Host, emailParts) is not DomainConfig config)
             {
-                await BadRequestAsync(UnknownDomainMessage).DynamicContext();
+                RespondBadRequest(UnknownDomainMessage);
                 return;
             }
             if (Logging.Trace)
                 Logging.WriteTrace($"Creating POX response for \"{emailAddress}\" request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}");
             HttpContext.Response.StatusCode = OK_STATUS_CODE;
             HttpContext.Response.ContentType = XML_MIME_TYPE;
-            await HttpContext.Response.StartAsync(HttpContext.RequestAborted).DynamicContext();
-            Task sendXmlOutput = xml.XmlOutput.CopyToAsync(HttpContext.Response.Body, HttpContext.RequestAborted);
-            config.CreateXml(xml.XML, emailParts);
-            xml.FinalizeXmlOutput();
-            await sendXmlOutput.DynamicContext();
-            await HttpContext.Response.CompleteAsync().DynamicContext();
-            if (Logging.Trace)
-                Logging.WriteTrace($"POX response for \"{emailAddress}\" request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort} sent");
+            using XmlResponse responseXml = await Responses.GetOneAsync(HttpContext.RequestAborted).DynamicContext();// Response XML
+            Task sendXmlOutput = responseXml.XmlOutput.CopyToAsync(HttpContext.Response.Body, HttpContext.RequestAborted);
+            try
+            {
+                config.CreateXml(responseXml.XML, emailParts);
+                responseXml.FinalizeXmlOutput();
+            }
+            finally
+            {
+                await sendXmlOutput.DynamicContext();
+                if (Logging.Trace)
+                    Logging.WriteTrace($"POX response for \"{emailAddress}\" request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort} sent");
+            }
         }
 
         /// <summary>
         /// Respond with a bad request message
         /// </summary>
         /// <param name="message">Message</param>
-        private async Task BadRequestAsync(ReadOnlyMemory<byte> message)
+        private void RespondBadRequest(byte[] message)
         {
             if (Logging.Trace)
                 Logging.WriteTrace($"Invalid POX request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}: \"{message.ToUtf8String()}\"");
             HttpContext.Response.StatusCode = BAD_REQUEST_STATUS_CODE;
             HttpContext.Response.ContentType = ExceptionHandler.TEXT_MIME_TYPE;
-            await HttpContext.Response.Body.WriteAsync(message, HttpContext.RequestAborted).DynamicContext();
+            HttpContext.Response.Body = new MemoryStream(message);
         }
     }
 }

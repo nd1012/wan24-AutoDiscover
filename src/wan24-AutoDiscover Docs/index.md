@@ -25,9 +25,9 @@ For example on a Debian Linux server:
 ```bash
 mkdir /home/autodiscover
 cd /home/autodiscover
-wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.1.0/wan24-AutoDiscover.v1.1.0.zip
-unzip wan24-AutoDiscover.v1.1.0.zip
-rm wan24-AutoDiscover.v1.1.0.zip
+wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.2.0/wan24-AutoDiscover.v1.2.0.zip
+unzip wan24-AutoDiscover.v1.2.0.zip
+rm wan24-AutoDiscover.v1.2.0.zip
 ```
 
 ### `appsettings.json`

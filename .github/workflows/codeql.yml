@@ -80,7 +80,6 @@ jobs:
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        dotnet workload install aspire
         dotnet restore ./src/wan24-AutoDiscover.sln --ignore-failed-sources
         dotnet build "./src/wan24-AutoDiscover/wan24-AutoDiscover.csproj" --no-restore
 

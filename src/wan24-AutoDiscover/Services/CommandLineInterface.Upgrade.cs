@@ -232,6 +232,7 @@ namespace wan24.AutoDiscover.Services
                             }
                             Logging.WriteInfo("All backup files have been restored during rollback of a failed transaction");
                         },
+                        commit: null,
                         CancellationToken.None
                         ).DynamicContext();
                     // Copy new files

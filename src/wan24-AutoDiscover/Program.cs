@@ -122,7 +122,6 @@ if (DiscoveryConfig.Current.WatchFiles is not null)
 // Build and run the app
 Logging.WriteInfo("Autodiscovery service app startup");
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-builder.AddServiceDefaults();
 builder.Logging.ClearProviders()
     .AddConsole();
 if (ENV.IsLinux)
@@ -151,7 +150,6 @@ try
             cts.Cancel();
         });
         app.UseExceptionHandler(builder => { });// .NET 8 bugfix :(
-        app.MapDefaultEndpoints();// Aspire
         app.UseForwardedHeaders();
         if (app.Environment.IsDevelopment())
         {

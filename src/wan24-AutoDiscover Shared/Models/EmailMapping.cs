@@ -6,15 +6,13 @@ namespace wan24.AutoDiscover.Models
     /// <summary>
     /// Email mapping
     /// </summary>
-    public record class EmailMapping : ValidatableRecordBase
+    /// <remarks>
+    /// Constructor
+    /// </remarks>
+    public record class EmailMapping() : ValidatableRecordBase()
     {
         /// <summary>
-        /// Constructor
-        /// </summary>
-        public EmailMapping() : base() { }
-
-        /// <summary>
-        /// Emailaddress
+        /// Email address
         /// </summary>
         [EmailAddress]
         public required string Email { get; init; }

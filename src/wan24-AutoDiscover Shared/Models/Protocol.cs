@@ -9,53 +9,51 @@ namespace wan24.AutoDiscover.Models
     /// <summary>
     /// Protocol (POX)
     /// </summary>
-    public record class Protocol : ValidatableRecordBase
+    /// <remarks>
+    /// Constructor
+    /// </remarks>
+    public record class Protocol() : ValidatableRecordBase()
     {
         /// <summary>
         /// <c>Protocol</c> node name
         /// </summary>
-        private const string PROTOCOL_NODE_NAME = "Protocol";
+        protected const string PROTOCOL_NODE_NAME = "Protocol";
         /// <summary>
         /// <c>Type</c> node name
         /// </summary>
-        private const string TYPE_NODE_NAME = "Type";
+        protected const string TYPE_NODE_NAME = "Type";
         /// <summary>
         /// <c>Server</c> node name
         /// </summary>
-        private const string SERVER_NODE_NAME = "Server";
+        protected const string SERVER_NODE_NAME = "Server";
         /// <summary>
         /// <c>Port</c> node name
         /// </summary>
-        private const string PORT_NODE_NAME = "Port";
+        protected const string PORT_NODE_NAME = "Port";
         /// <summary>
         /// <c>LoginName</c> node name
         /// </summary>
-        private const string LOGINNAME_NODE_NAME = "LoginName";
+        protected const string LOGINNAME_NODE_NAME = "LoginName";
         /// <summary>
         /// <c>SPA</c> node name
         /// </summary>
-        private const string SPA_NODE_NAME = "SPA";
+        protected const string SPA_NODE_NAME = "SPA";
         /// <summary>
         /// <c>SSL</c> node name
         /// </summary>
-        private const string SSL_NODE_NAME = "SSL";
+        protected const string SSL_NODE_NAME = "SSL";
         /// <summary>
         /// <c>AuthRequired</c> node name
         /// </summary>
-        private const string AUTHREQUIRED_NODE_NAME = "AuthRequired";
+        protected const string AUTHREQUIRED_NODE_NAME = "AuthRequired";
         /// <summary>
         /// <c>ON</c>
         /// </summary>
-        private const string ON = "on";
+        protected const string ON = "on";
         /// <summary>
         /// <c>OFF</c>
         /// </summary>
-        private const string OFF = "off";
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public Protocol() : base() { }
+        protected const string OFF = "off";
 
         /// <summary>
         /// Login name getter delegate
@@ -71,7 +69,7 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Server
         /// </summary>
-        [RegularExpression(@"^[a-z|-|\.]{1,256}$")]
+        [Host]
         public required string Server { get; init; }
 
         /// <summary>
@@ -87,7 +85,7 @@ namespace wan24.AutoDiscover.Models
         public IReadOnlyDictionary<string, string>? LoginNameMapping { get; init; }
 
         /// <summary>
-        /// If a successfule login name mapping is required (if no mapping was possible, the email address will be used as login name)
+        /// If a successful login name mapping is required (if no mapping was possible, the email address will be used as login name)
         /// </summary>
         public bool LoginNameMappingRequired { get; init; }
 

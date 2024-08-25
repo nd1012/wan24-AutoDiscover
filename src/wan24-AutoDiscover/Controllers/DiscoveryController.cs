@@ -143,7 +143,9 @@ namespace wan24.AutoDiscover.Controllers
                 Logging.WriteTrace($"Invalid POX request from {HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}: \"{message.ToUtf8String()}\"");
             HttpContext.Response.StatusCode = BAD_REQUEST_STATUS_CODE;
             HttpContext.Response.ContentType = ExceptionHandler.TEXT_MIME_TYPE;
-            HttpContext.Response.Body = new MemoryStream(message);
+            MemoryStream body = new(message);
+            HttpContext.Response.RegisterForDispose(body);
+            HttpContext.Response.Body = body;
         }
     }
 }

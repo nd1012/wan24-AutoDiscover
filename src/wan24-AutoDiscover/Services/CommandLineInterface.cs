@@ -8,16 +8,14 @@ namespace wan24.AutoDiscover.Services
     /// <summary>
     /// CLI API
     /// </summary>
+    /// <remarks>
+    /// Constructor
+    /// </remarks>
     [CliApi("autodiscover")]
     [DisplayText("wan24-AutoDiscover API")]
     [Description("wan24-AutoDiscover CLI API methods")]
-    public sealed partial class CommandLineInterface
+    public sealed partial class CommandLineInterface()
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public CommandLineInterface() { }
-
         /// <summary>
         /// Create service information
         /// </summary>

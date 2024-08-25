@@ -13,17 +13,15 @@ namespace wan24.AutoDiscover.Models
     /// <summary>
     /// Discovery configuration
     /// </summary>
-    public record class DiscoveryConfig : ValidatableRecordBase
+    /// <remarks>
+    /// Constructor
+    /// </remarks>
+    public record class DiscoveryConfig() : ValidatableRecordBase()
     {
         /// <summary>
         /// Discovery configuration type
         /// </summary>
         protected Type? _DiscoveryType = null;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public DiscoveryConfig() : base() { }
 
         /// <summary>
         /// Current configuration
@@ -43,7 +41,7 @@ namespace wan24.AutoDiscover.Models
         public int PreForkResponses { get; init; } = 10;
 
         /// <summary>
-        /// Dicovery configuration type name
+        /// Discovery configuration type name
         /// </summary>
         [StringLength(byte.MaxValue, MinimumLength = 1)]
         public string? DiscoveryTypeName { get; init; }

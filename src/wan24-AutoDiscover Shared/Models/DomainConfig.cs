@@ -6,13 +6,11 @@ namespace wan24.AutoDiscover.Models
     /// <summary>
     /// Domain configuration
     /// </summary>
-    public record class DomainConfig : ValidatableRecordBase
+    /// <remarks>
+    /// Constructor
+    /// </remarks>
+    public record class DomainConfig() : ValidatableRecordBase()
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public DomainConfig() : base() { }
-
         /// <summary>
         /// Registered domains (key is the served domain name)
         /// </summary>
@@ -37,7 +35,7 @@ namespace wan24.AutoDiscover.Models
         public Dictionary<string, string>? LoginNameMapping { get; set; }
 
         /// <summary>
-        /// If a successfule login name mapping is required (if no mapping was possible, the email address will be used as login name)
+        /// If a successful login name mapping is required (if no mapping was possible, the email address will be used as login name)
         /// </summary>
         public bool LoginNameMappingRequired { get; init; }
 

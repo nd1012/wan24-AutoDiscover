@@ -505,6 +505,12 @@ references:
   fullName.vb: wan24.AutoDiscover.Models.Protocol.New
   nameWithType: Protocol.Protocol
   nameWithType.vb: Protocol.New
+- uid: wan24.AutoDiscover.Models.Protocol.AUTHREQUIRED_NODE_NAME
+  name: AUTHREQUIRED_NODE_NAME
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_AUTHREQUIRED_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Models.Protocol.AUTHREQUIRED_NODE_NAME
+  fullName: wan24.AutoDiscover.Models.Protocol.AUTHREQUIRED_NODE_NAME
+  nameWithType: Protocol.AUTHREQUIRED_NODE_NAME
 - uid: wan24.AutoDiscover.Models.Protocol.AuthRequired
   name: AuthRequired
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_AuthRequired
@@ -550,6 +556,12 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.Protocol.DefaultLoginName
   nameWithType: Protocol.DefaultLoginName
+- uid: wan24.AutoDiscover.Models.Protocol.LOGINNAME_NODE_NAME
+  name: LOGINNAME_NODE_NAME
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_LOGINNAME_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Models.Protocol.LOGINNAME_NODE_NAME
+  fullName: wan24.AutoDiscover.Models.Protocol.LOGINNAME_NODE_NAME
+  nameWithType: Protocol.LOGINNAME_NODE_NAME
 - uid: wan24.AutoDiscover.Models.Protocol.LoginName
   name: LoginName
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_LoginName
@@ -608,6 +620,30 @@ references:
   commentId: T:wan24.AutoDiscover.Models.Protocol.LoginName_Delegate
   fullName: wan24.AutoDiscover.Models.Protocol.LoginName_Delegate
   nameWithType: Protocol.LoginName_Delegate
+- uid: wan24.AutoDiscover.Models.Protocol.OFF
+  name: OFF
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_OFF
+  commentId: F:wan24.AutoDiscover.Models.Protocol.OFF
+  fullName: wan24.AutoDiscover.Models.Protocol.OFF
+  nameWithType: Protocol.OFF
+- uid: wan24.AutoDiscover.Models.Protocol.ON
+  name: ON
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_ON
+  commentId: F:wan24.AutoDiscover.Models.Protocol.ON
+  fullName: wan24.AutoDiscover.Models.Protocol.ON
+  nameWithType: Protocol.ON
+- uid: wan24.AutoDiscover.Models.Protocol.PORT_NODE_NAME
+  name: PORT_NODE_NAME
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_PORT_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Models.Protocol.PORT_NODE_NAME
+  fullName: wan24.AutoDiscover.Models.Protocol.PORT_NODE_NAME
+  nameWithType: Protocol.PORT_NODE_NAME
+- uid: wan24.AutoDiscover.Models.Protocol.PROTOCOL_NODE_NAME
+  name: PROTOCOL_NODE_NAME
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_PROTOCOL_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Models.Protocol.PROTOCOL_NODE_NAME
+  fullName: wan24.AutoDiscover.Models.Protocol.PROTOCOL_NODE_NAME
+  nameWithType: Protocol.PROTOCOL_NODE_NAME
 - uid: wan24.AutoDiscover.Models.Protocol.Port
   name: Port
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_Port
@@ -621,6 +657,12 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.Protocol.Port
   nameWithType: Protocol.Port
+- uid: wan24.AutoDiscover.Models.Protocol.SERVER_NODE_NAME
+  name: SERVER_NODE_NAME
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_SERVER_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Models.Protocol.SERVER_NODE_NAME
+  fullName: wan24.AutoDiscover.Models.Protocol.SERVER_NODE_NAME
+  nameWithType: Protocol.SERVER_NODE_NAME
 - uid: wan24.AutoDiscover.Models.Protocol.SPA
   name: SPA
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_SPA
@@ -634,6 +676,12 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.Protocol.SPA
   nameWithType: Protocol.SPA
+- uid: wan24.AutoDiscover.Models.Protocol.SPA_NODE_NAME
+  name: SPA_NODE_NAME
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_SPA_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Models.Protocol.SPA_NODE_NAME
+  fullName: wan24.AutoDiscover.Models.Protocol.SPA_NODE_NAME
+  nameWithType: Protocol.SPA_NODE_NAME
 - uid: wan24.AutoDiscover.Models.Protocol.SSL
   name: SSL
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_SSL
@@ -647,6 +695,12 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.Protocol.SSL
   nameWithType: Protocol.SSL
+- uid: wan24.AutoDiscover.Models.Protocol.SSL_NODE_NAME
+  name: SSL_NODE_NAME
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_SSL_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Models.Protocol.SSL_NODE_NAME
+  fullName: wan24.AutoDiscover.Models.Protocol.SSL_NODE_NAME
+  nameWithType: Protocol.SSL_NODE_NAME
 - uid: wan24.AutoDiscover.Models.Protocol.Server
   name: Server
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_Server
@@ -660,6 +714,12 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.Protocol.Server
   nameWithType: Protocol.Server
+- uid: wan24.AutoDiscover.Models.Protocol.TYPE_NODE_NAME
+  name: TYPE_NODE_NAME
+  href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_TYPE_NODE_NAME
+  commentId: F:wan24.AutoDiscover.Models.Protocol.TYPE_NODE_NAME
+  fullName: wan24.AutoDiscover.Models.Protocol.TYPE_NODE_NAME
+  nameWithType: Protocol.TYPE_NODE_NAME
 - uid: wan24.AutoDiscover.Models.Protocol.Type
   name: Type
   href: api/wan24.AutoDiscover.Models.Protocol.html#wan24_AutoDiscover_Models_Protocol_Type

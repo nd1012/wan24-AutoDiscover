@@ -37,7 +37,6 @@ namespace wan24.AutoDiscover.Services
         /// <param name="postCommand">Post-command</param>
         /// <param name="noUserInteraction">No user interaction?</param>
         /// <param name="checkOnly">Check for update only</param>
-        /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Exit code</returns>
         [CliApi("upgrade")]
         [DisplayText("wan24-AutoDiscover upgrade")]
@@ -63,9 +62,7 @@ namespace wan24.AutoDiscover.Services
             [CliApi]
             [DisplayText("Check only")]
             [Description("Exit with code #2, if there's a newer version available")]
-            bool checkOnly = false,
-
-            CancellationToken cancellationToken = default
+            bool checkOnly = false
             )
         {
             using HttpClient http = new();
@@ -75,13 +72,13 @@ namespace wan24.AutoDiscover.Services
                 string uri = $"{REPOSITORY_URI_RAW_CONTENT}/{RELEASE_INFORMATION_FILE_NAME}";
                 if (Logging.Trace)
                     Logging.WriteTrace($"Loading latest version information from \"{uri}\"");
-                using HttpResponseMessage response = await http.GetAsync(uri, cancellationToken).DynamicContext();
+                using HttpResponseMessage response = await http.GetAsync(uri, CancellationToken.None).DynamicContext();
                 if (!response.IsSuccessStatusCode)
                 {
                     Logging.WriteError($"Failed to download latest version information from \"{uri}\" - http status code is {response.StatusCode} (#{(int)response.StatusCode})");
                     return 1;
                 }
-                version = (await response.Content.ReadAsStringAsync(cancellationToken).DynamicContext()).Trim();
+                version = (await response.Content.ReadAsStringAsync(CancellationToken.None).DynamicContext()).Trim();
             }
             // Check if an upgrade is possible
             if (!Version.TryParse(version, out Version? latest))
@@ -129,7 +126,7 @@ namespace wan24.AutoDiscover.Services
                     string uri = GetReleaseUri(version),
                         fn = Path.Combine(tempDir, "update.zip");
                     Logging.WriteInfo($"Downloading update from \"{uri}\" to \"{fn}\"");
-                    using HttpResponseMessage response = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead, cancellationToken).DynamicContext();
+                    using HttpResponseMessage response = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead, CancellationToken.None).DynamicContext();
                     if (!response.IsSuccessStatusCode)
                     {
                         Logging.WriteError($"Failed to download latest version from {uri} - http status code is {response.StatusCode} (#{(int)response.StatusCode})");
@@ -138,13 +135,13 @@ namespace wan24.AutoDiscover.Services
                     FileStream targetZip = FsHelper.CreateFileStream(fn, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, overwrite: false);
                     await using (targetZip.DynamicContext())
                     {
-                        Stream updateZip = await response.Content.ReadAsStreamAsync(cancellationToken).DynamicContext();
+                        Stream updateZip = await response.Content.ReadAsStreamAsync(CancellationToken.None).DynamicContext();
                         await using (updateZip.DynamicContext())
-                            await updateZip.CopyToAsync(targetZip, cancellationToken).DynamicContext();
+                            await updateZip.CopyToAsync(targetZip, CancellationToken.None).DynamicContext();
                         Logging.WriteInfo($"Extracting \"{fn}\"");
                         targetZip.Position = 0;
                         using ZipArchive zip = new(targetZip, ZipArchiveMode.Read, leaveOpen: true);
-                        await zip.ExtractToDirectoryAsync(tempDir, overwriteFiles: false, cancellationToken).DynamicContext();
+                        await zip.ExtractToDirectoryAsync(tempDir, overwriteFiles: false, CancellationToken.None).DynamicContext();
                     }
                     if (Logging.Trace)
                         Logging.WriteTrace($"Deleting downloaded update");
@@ -159,7 +156,7 @@ namespace wan24.AutoDiscover.Services
                     fn = Path.Combine(tempDir, RELEASE_INFORMATION_FILE_NAME);
                     if (File.Exists(fn))
                     {
-                        string release = await File.ReadAllTextAsync(fn, cancellationToken).DynamicContext();
+                        string release = await File.ReadAllTextAsync(fn, CancellationToken.None).DynamicContext();
                         if (!IsReleaseInformation(release, version))
                         {
                             Logging.WriteError($"Download release mismatch: {release.Trim().MaxLength(byte.MaxValue).ToQuotedLiteral()}/{version}");
@@ -182,7 +179,7 @@ namespace wan24.AutoDiscover.Services
                     Logging.WriteInfo("Executing pre-update command");
                     int exitCode = await ProcessHelper.GetExitCodeAsync(
                         preCommand[0],
-                        cancellationToken: cancellationToken,
+                        cancellationToken: CancellationToken.None,
                         args: [.. preCommand.AsSpan(1)]
                         ).DynamicContext();
                     if (exitCode != 0)
@@ -195,13 +192,13 @@ namespace wan24.AutoDiscover.Services
                 // the replaced files)
                 Logging.WriteInfo($"Installing the update to \"{ENV.AppFolder}\"");
                 deleteTempDir = false;
-                InstallFiles(tempDir, ENV.AppFolder, cancellationToken);
+                InstallFiles(tempDir, ENV.AppFolder);
                 // Execute post-upgrade
                 Logging.WriteInfo("Executing post-upgrade action");
                 {
                     int exitCode = await ProcessHelper.GetExitCodeAsync(
                         "dotnet",
-                        cancellationToken: cancellationToken,
+                        cancellationToken: CancellationToken.None,
                         args: [
                             Path.Combine(ENV.AppFolder, APP_DLL_FILE_NAME),
                             "autodiscover",
@@ -222,7 +219,7 @@ namespace wan24.AutoDiscover.Services
                     Logging.WriteInfo("Executing post-update command");
                     int exitCode = await ProcessHelper.GetExitCodeAsync(
                         postCommand[0],
-                        cancellationToken: cancellationToken,
+                        cancellationToken: CancellationToken.None,
                         args: [.. postCommand.AsSpan(1)]
                         ).DynamicContext();
                     if (exitCode != 0)
@@ -266,7 +263,6 @@ namespace wan24.AutoDiscover.Services
         /// </summary>
         /// <param name="previousVersion">Previous version</param>
         /// <param name="currentVersion">Current version</param>
-        /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Task (faults with an <see cref="InvalidProgramException"/>, if a version or the installed release information doesn't match)</returns>
         [CliApi("post-upgrade")]
         [DisplayText("Post-upgrade")]
@@ -278,12 +274,11 @@ namespace wan24.AutoDiscover.Services
             [Description("Version number of the previous installation")]
             string previousVersion,
 
-            [CliApi(keyLessOffset: 1, Example = "2.0.0")]
+            // wan24-CLI counts the keyless offset from the keyless arguments which follow the previously parsed one, so 0 is the next argument
+            [CliApi(keyLessOffset: 0, Example = "2.0.0")]
             [DisplayText("Current version")]
             [Description("Expected current version number after the update was installed")]
-            string currentVersion,
-
-            CancellationToken cancellationToken = default
+            string currentVersion
             )
         {
             Version previous = new(previousVersion),
@@ -296,7 +291,7 @@ namespace wan24.AutoDiscover.Services
                 throw new InvalidProgramException($"Current version is {VersionInfo.Current} - upgrade version was {currentVersion.ToQuotedLiteral()}");
             // Validate release information
             if (!IsReleaseInformation(
-                await File.ReadAllTextAsync(Path.Combine(ENV.AppFolder, RELEASE_INFORMATION_FILE_NAME), cancellationToken).DynamicContext(),
+                await File.ReadAllTextAsync(Path.Combine(ENV.AppFolder, RELEASE_INFORMATION_FILE_NAME), CancellationToken.None).DynamicContext(),
                 currentVersion
                 ))
                 throw new InvalidProgramException("Release information mismatch");

@@ -18,20 +18,20 @@ namespace wan24.AutoDiscover.Services
         /// <summary>
         /// Parse Postfix email mappings
         /// </summary>
-        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Task</returns>
         [CliApi("postfix")]
         [DisplayText("Postfix email mapping")]
         [Description("Parse the email mapping from a Postfix hash text file")]
         [StdIn("/etc/postfix/virtual")]
         [StdOut("/home/autodiscover/postfix.json")]
-        public static async Task ParsePostfixEmailMappingsAsync(CancellationToken cancellationToken = default)
+        public static async Task ParsePostfixEmailMappingsAsync()
         {
             HashSet<EmailMapping> mappings = [];
             Stream stdIn = Console.OpenStandardInput();
             await using (stdIn.DynamicContext())
             {
                 using StreamReader reader = new(stdIn, Encoding.UTF8, leaveOpen: true);
-                while (await reader.ReadLineAsync(cancellationToken).DynamicContext() is string line)
+                while (await reader.ReadLineAsync(CancellationToken.None).DynamicContext() is string line)
                 {
                     if (!RX_POSTFIX.IsMatch(line)) continue;
                     string[] info = RX_POSTFIX.Replace(line, "$1\t$2").Split('\t', 2);
@@ -44,7 +44,7 @@ namespace wan24.AutoDiscover.Services
             }
             Stream stdOut = Console.OpenStandardOutput();
             await using (stdOut.DynamicContext())
-                await JsonHelper.EncodeAsync(mappings, stdOut, prettify: true, cancellationToken).DynamicContext();
+                await JsonHelper.EncodeAsync(mappings, stdOut, prettify: true, CancellationToken.None).DynamicContext();
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
 using wan24.AutoDiscover.Services;
+using wan24.CLI;
+using wan24.Core;
 
 namespace wan24.AutoDiscover.Tests
 {
@@ -8,6 +10,15 @@ namespace wan24.AutoDiscover.Tests
     [TestClass]
     public sealed class CommandLineInterface_Test
     {
+        /// <summary>
+        /// Arguments of the <c>systemd</c> CLI command
+        /// </summary>
+        private static readonly string[] SystemdArguments = ["autodiscover", "systemd"];
+        /// <summary>
+        /// Arguments of the <c>version</c> CLI command of the about API
+        /// </summary>
+        private static readonly string[] VersionArguments = ["about", "version"];
+
         /// <summary>
         /// Temporary root folder of the test
         /// </summary>
@@ -20,6 +31,18 @@ namespace wan24.AutoDiscover.Tests
         /// Target folder
         /// </summary>
         private string Target = string.Empty;
+
+        /// <summary>
+        /// Initialize wan24-Core like the app does before it runs a CLI command
+        /// </summary>
+        /// <param name="context">Test context</param>
+        /// <returns>Task</returns>
+        [ClassInitialize]
+        public static async Task ClassInitializeAsync(TestContext context)
+        {
+            await Bootstrap.Async();
+            Translation.Current = Translation.Dummy;
+        }
 
         /// <summary>
         /// Create the temporary folders
@@ -161,6 +184,42 @@ namespace wan24.AutoDiscover.Tests
             => await Assert.ThrowsAsync<InvalidProgramException>(
                 () => CommandLineInterface.PostUpgradeAsync("0.1.0", new Version(VersionInfo.Current.Major, VersionInfo.Current.Minor + 1, 0).ToString())
                 );
+
+        /// <summary>
+        /// The <c>post-upgrade</c> CLI command runs through the CLI dispatcher and fails for an invalid previous version
+        /// </summary>
+        /// <returns>Task</returns>
+        [TestMethod, Timeout(30000)]
+        public async Task Cli_PostUpgrade()
+        {
+            string current = VersionInfo.Current.ToString();
+            Assert.AreEqual(0, await RunCliAsync(["autodiscover", "post-upgrade", "0.1.0", current]));
+            Assert.AreNotEqual(0, await RunCliAsync(["autodiscover", "post-upgrade", current, current]));
+        }
+
+        /// <summary>
+        /// The <c>systemd</c> CLI command runs through the CLI dispatcher
+        /// </summary>
+        /// <returns>Task</returns>
+        [TestMethod, Timeout(30000)]
+        public async Task Cli_Systemd()
+            => Assert.AreEqual(0, await RunCliAsync(SystemdArguments));
+
+        /// <summary>
+        /// The <c>about version</c> CLI command runs through the CLI dispatcher
+        /// </summary>
+        /// <returns>Task</returns>
+        [TestMethod, Timeout(30000)]
+        public async Task Cli_AboutVersion()
+            => Assert.AreEqual(0, await RunCliAsync(VersionArguments));
+
+        /// <summary>
+        /// Run a CLI command with the APIs which the app exports
+        /// </summary>
+        /// <param name="args">Arguments</param>
+        /// <returns>Exit code</returns>
+        private static Task<int> RunCliAsync(string[] args)
+            => CliApi.RunAsync(args, CancellationToken.None, typeof(CliHelpApi), typeof(CommandLineInterface), typeof(AboutApi));
 
         /// <summary>
         /// Write a file

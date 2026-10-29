@@ -4,7 +4,7 @@ This is a micro-webservice which supports a small part of the Microsoft
 Exchange POX autodiscover standard, which allows email clients to receive 
 automatic configuration information for an email account.
 
-It was created using .NET 8 and ASP.NET. You find a published release build 
+It was created using .NET 10 and ASP.NET. You find a published release build 
 for each published release on GitHub as ZIP file download for self-hosting.
 
 The webservice is designed for working with dynamic MTA configurations and 
@@ -16,7 +16,8 @@ access is required for request handling.
 
 ### Pre-requirements
 
-This app is a .NET 8 app and needs the ASP.NET runtime environment.
+This app is a .NET 10 app and needs the ASP.NET Core 10 runtime environment 
+(`aspnetcore-runtime-10.0`).
 
 ### How to get it
 
@@ -25,9 +26,9 @@ For example on a Debian Linux server:
 ```bash
 mkdir /home/autodiscover
 cd /home/autodiscover
-wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.2.0/wan24-AutoDiscover.v1.2.0.zip
-unzip wan24-AutoDiscover.v1.2.0.zip
-rm wan24-AutoDiscover.v1.2.0.zip
+wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v2.0.0/wan24-AutoDiscover-2.0.0.zip
+unzip wan24-AutoDiscover-2.0.0.zip
+rm wan24-AutoDiscover-2.0.0.zip
 ```
 
 ### `appsettings.json`
@@ -158,19 +159,25 @@ systemctl restart apache2
 This is an example POX request to `/autodiscover/autodiscover.xml`:
 
 ```xml
-<Autodiscover xmlns="https://schemas.microsoft.com/exchange/autodiscover/outlook/requestschema/2006">
+<Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/outlook/requestschema/2006">
    <Request>
      <EMailAddress>alias@wan24.de</EMailAddress>
-     <AcceptableResponseSchema>https://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a</AcceptableResponseSchema>
+     <AcceptableResponseSchema>http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a</AcceptableResponseSchema>
    </Request>
  </Autodiscover>
 ```
+
+The endpoint `POST /autodiscover/autodiscover.xml` accepts any request 
+`Content-Type` (Outlook sends `text/xml`, other clients `application/xml`). 
+The request body is parsed as XML. Invalid XML, a missing or invalid email 
+address, or an unknown domain will cause a `400 Bad Request` http response. 
+The response has the content type `application/xml`.
 
 The response with the demo `appsettings.json`:
 
 ```xml
 <Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
-    <Response xmlns="https://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a">
+    <Response xmlns="http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a">
         <Account>
             <AccountType>email</AccountType>
             <Action>settings</Action>
@@ -321,8 +328,22 @@ To execute a command before reloading a changed configration, set the
 
 ## Automatic online upgrades
 
-You can upgrade `wan24-AutoDiscover` online and automatic. For this some steps 
-are recommended:
+**NOTE**: The automatic online upgrade works for installations of version 
+2.0.0 and later. Installations of version 1.x (1.0.0 - 1.3.0) can't be 
+upgraded automatically: their upgrader can't install a release correctly (it 
+writes the files outside of the installation folder). The release file name 
+`wan24-AutoDiscover-<version>.zip` makes a 1.x upgrader stop with a download 
+error before it executes the pre-command, so the service won't be stopped. 
+Upgrade a 1.x installation manually (see "Manual upgrade" below), after 
+installing the ASP.NET Core 10 runtime. If you want a clean installation 
+folder, delete the files of the old installation which the release doesn't 
+contain (they aren't being loaded).
+
+You can upgrade `wan24-AutoDiscover` online and automatic. The `upgrade` 
+command reads the latest version from the `latest-release.txt` file in the 
+`main` branch of the GitHub repository and downloads 
+`https://github.com/nd1012/wan24-AutoDiscover/releases/download/v<version>/wan24-AutoDiscover-<version>.zip`. 
+For this some steps are recommended:
 
 1. Create sheduled task for auto-upgrade (daily, for example)
 1. Stop the service before installing the newer version
@@ -343,6 +364,13 @@ executed, and the autodiscover service won't run. This'll give you the chance
 to investigate the broken upgrade and optional restore the running version 
 manually.
 
+If copying the files failed, the upgrader restores the previous files and 
+keeps the temporary folder with the backups.
+
+If the post-upgrade check or the post-upgrade command failed, the new files 
+stay installed, and the temporary folder with the backups of the replaced 
+files is kept (the log names its path).
+
 **CAUTION**: The auto-upgrade is being performed using the GitHub repository. 
 There are no security checks at present - so if the repository was hacked, you 
 could end up with upgrading to a compromised software which could harm your 
@@ -352,17 +380,23 @@ The upgrade setup should be done in less than a second, if everything was fine.
 
 ## Manual upgrade
 
-1. Download the latest release ZIP file from GitHub
+**NOTE**: Installations of version 1.x can't be upgraded automatically (see 
+"Automatic online upgrades" above) and need this manual upgrade.
+
+1. Install the runtime required by the release, if it's missing 
+(`aspnetcore-runtime-10.0`)
+1. Download the latest release ZIP file (`wan24-AutoDiscover-<version>.zip`) 
+from GitHub
 1. Extract the ZIP file to a temporary folder
 1. Stop the autodiscover service, if running
 1. Create a backup of your current installation
 1. Copy all extracted files/folders excluding `appsettings.json` to your 
 installation folder
-1. Remove files/folders that are no longer required and perform additional 
-upgrade steps, which are required for the new release (see upgrade 
+1. Remove files/folders that the release doesn't contain and perform 
+additional upgrade steps, which are required for the release (see upgrade 
 instructions)
 1. Start the autodiscover service
-1. Delete the previously created backup and the temporary folder
+1. Delete the created backup and the temporary folder
 
 These steps are being executed during an automatic upgrade like described 
 above also.

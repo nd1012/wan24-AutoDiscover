@@ -145,15 +145,16 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Default login name resolver
         /// </summary>
-        /// <param name="emailParts">Splitted email parts</param>
+        /// <param name="emailParts">Splitted email parts (alias and domain)</param>
         /// <param name="domain">Domain</param>
         /// <param name="protocol">Protocol</param>
-        /// <returns>Login name</returns>
+        /// <returns>Login name (the email address string is created once, because it's the login name mapping key and may be the result)</returns>
         public static string DefaultLoginName(ReadOnlyMemory<string> emailParts, DomainConfig domain, Protocol protocol)
         {
-            string emailAddress = string.Join('@', emailParts),
+            ReadOnlySpan<string> parts = emailParts.Span;
+            string emailAddress = string.Concat(parts[0], "@", parts[1]),
                 res = protocol.LoginNameIsEmailAlias
-                    ? emailParts.Span[0]
+                    ? parts[0]
                     : emailAddress;
             string? loginName = null;
             return (protocol.LoginNameMapping?.TryGetValue(emailAddress, out loginName) ?? false) ||

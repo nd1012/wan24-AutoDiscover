@@ -1,25 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>wan24.AutoDiscover</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>wan24AutoDiscoverShared</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Configurations>Debug;Release;Trunk</Configurations>
+    <NeutralLanguage>en</NeutralLanguage>
+    <AnalysisModePerformance>All</AnalysisModePerformance>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.14" />
     <PackageReference Include="ObjectValidation" Version="2.8.0" Condition="'$(Configuration)' != 'Trunk'" />
-    <PackageReference Include="wan24-Core" Version="2.38.0" Condition="'$(Configuration)' != 'Trunk'" />
-    <PackageReference Include="wan24-Core-Validation" Version="1.4.0" />
+    <PackageReference Include="wan24-Core" Version="2.45.0" Condition="'$(Configuration)' != 'Trunk'" />
+    <PackageReference Include="wan24-Core-Validation" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\ObjectValidation\src\ObjectValidation\ObjectValidation.csproj" Condition="'$(Configuration)' == 'Trunk'" />
     <ProjectReference Include="..\..\..\wan24-Core\src\Wan24-Core\Wan24-Core.csproj" Condition="'$(Configuration)' == 'Trunk'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="wan24AutoDiscoverTests" />
   </ItemGroup>
 
   <ItemGroup>

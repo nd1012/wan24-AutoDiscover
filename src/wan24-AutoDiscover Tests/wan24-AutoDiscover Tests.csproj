@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>wan24.AutoDiscover.Tests</RootNamespace>
+    <AssemblyName>wan24AutoDiscoverTests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Configurations>Debug;Release;Trunk</Configurations>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <AnalysisModePerformance>All</AnalysisModePerformance>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="MSTest" Version="4.5.2" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\wan24-AutoDiscover\wan24-AutoDiscover.csproj" />
+    <ProjectReference Include="..\wan24-AutoDiscover Shared\wan24-AutoDiscover Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+</Project>

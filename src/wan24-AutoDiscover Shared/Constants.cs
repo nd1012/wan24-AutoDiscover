@@ -10,9 +10,9 @@
         /// </summary>
         public const string AUTO_DISCOVER_NS = "http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006";
         /// <summary>
-        /// POX response node XML namespace
+        /// POX response node XML namespace (MS-OXDSCLI Outlook response schema; the <c>http</c> scheme is part of the namespace name)
         /// </summary>
-        public const string RESPONSE_NS = "https://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a";
+        public const string RESPONSE_NS = "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a";
         /// <summary>
         /// <c>Autodiscover</c> node name
         /// </summary>

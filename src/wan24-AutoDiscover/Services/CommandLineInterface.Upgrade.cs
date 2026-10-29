@@ -1,7 +1,6 @@
 ﻿using Spectre.Console;
 using System.ComponentModel;
 using System.IO.Compression;
-using System.Text;
 using wan24.CLI;
 using wan24.Core;
 
@@ -18,6 +17,18 @@ namespace wan24.AutoDiscover.Services
         /// wan24-AutoDiscover repository URI for raw content
         /// </summary>
         private const string REPOSITORY_URI_RAW_CONTENT = "https://raw.githubusercontent.com/nd1012/wan24-AutoDiscover/main";
+        /// <summary>
+        /// Release information file name (contains the version number of the release)
+        /// </summary>
+        private const string RELEASE_INFORMATION_FILE_NAME = "latest-release.txt";
+        /// <summary>
+        /// Configuration file name (not overwritten during an upgrade)
+        /// </summary>
+        private const string CONFIGURATION_FILE_NAME = "appsettings.json";
+        /// <summary>
+        /// App DLL file name
+        /// </summary>
+        private const string APP_DLL_FILE_NAME = "wan24AutoDiscover.dll";
 
         /// <summary>
         /// Upgrade wan24-AutoDiscover online
@@ -61,22 +72,16 @@ namespace wan24.AutoDiscover.Services
             // Get latest version information
             string version;
             {
-                string uri = $"{REPOSITORY_URI_RAW_CONTENT}/latest-release.txt";
+                string uri = $"{REPOSITORY_URI_RAW_CONTENT}/{RELEASE_INFORMATION_FILE_NAME}";
                 if (Logging.Trace)
                     Logging.WriteTrace($"Loading latest version information from \"{uri}\"");
-                using HttpRequestMessage request = new(HttpMethod.Get, uri);
-                using HttpResponseMessage response = await http.SendAsync(request, cancellationToken).DynamicContext();
+                using HttpResponseMessage response = await http.GetAsync(uri, cancellationToken).DynamicContext();
                 if (!response.IsSuccessStatusCode)
                 {
                     Logging.WriteError($"Failed to download latest version information from \"{uri}\" - http status code is {response.StatusCode} (#{(int)response.StatusCode})");
                     return 1;
                 }
-                Stream versionInfo = response.Content.ReadAsStream(cancellationToken);
-                await using (versionInfo.DynamicContext())
-                {
-                    using StreamReader reader = new(versionInfo, Encoding.UTF8, leaveOpen: true);
-                    version = (await reader.ReadToEndAsync(cancellationToken).DynamicContext()).Trim();
-                }
+                version = (await response.Content.ReadAsStringAsync(cancellationToken).DynamicContext()).Trim();
             }
             // Check if an upgrade is possible
             if (!Version.TryParse(version, out Version? latest))
@@ -98,7 +103,7 @@ namespace wan24.AutoDiscover.Services
             // Confirm upgrade
             if (!noUserInteraction)
             {
-                AnsiConsole.WriteLine($"[{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]You can read the release notes online: [link]{REPOSITORY_URI}[/][/]");
+                AnsiConsole.MarkupLine($"[{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]You can read the release notes online: [link]{REPOSITORY_URI}[/][/]");
                 string confirmation = AnsiConsole.Prompt(
                     new TextPrompt<string>($"[{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]Perform the upgrade to version \"{version}\" now?[/] (type [{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]\"yes\"[/] or [{CliApiInfo.HighlightColor} on {CliApiInfo.BackGroundColor}]\"no\"[/] and hit enter - default is \"yes\")")
                         .AllowEmpty()
@@ -110,7 +115,7 @@ namespace wan24.AutoDiscover.Services
                 }
             }
             // Perform the upgrade
-            bool deleteTempDir = true;// Temporary folder won't be deleted, if there was a problem during upgrade, and files have been modified already
+            bool deleteTempDir = true;// Temporary folder won't be deleted after the installation started, unless the upgrade succeeded (it contains the backup files)
             string tempDir = Path.Combine(Settings.TempFolder, Guid.NewGuid().ToString());
             while (Directory.Exists(tempDir))
                 tempDir = Path.Combine(Settings.TempFolder, Guid.NewGuid().ToString());
@@ -121,53 +126,43 @@ namespace wan24.AutoDiscover.Services
                 FsHelper.CreateFolder(tempDir);
                 // Download and extract the setup
                 {
-                    string uri = $"{REPOSITORY_URI}/releases/download/v{version}/wan24-AutoDiscover.v{version}.zip",
+                    string uri = GetReleaseUri(version),
                         fn = Path.Combine(tempDir, "update.zip");
                     Logging.WriteInfo($"Downloading update from \"{uri}\" to \"{fn}\"");
-                    using HttpRequestMessage request = new(HttpMethod.Get, uri);
-                    using HttpResponseMessage response = await http.SendAsync(request, cancellationToken).DynamicContext();
+                    using HttpResponseMessage response = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead, cancellationToken).DynamicContext();
                     if (!response.IsSuccessStatusCode)
                     {
                         Logging.WriteError($"Failed to download latest version from {uri} - http status code is {response.StatusCode} (#{(int)response.StatusCode})");
                         return 1;
                     }
-                    Stream? targetZip = null;
-                    Stream updateZip = response.Content.ReadAsStream(cancellationToken);
-                    await using (updateZip.DynamicContext())
-                        try
-                        {
-                            targetZip = FsHelper.CreateFileStream(fn, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, overwrite: false);
-                            await updateZip.CopyToAsync(targetZip, cancellationToken).DynamicContext();
-                        }
-                        catch
-                        {
-                            if (targetZip is not null) await targetZip.DisposeAsync().DynamicContext();
-                            throw;
-                        }
+                    FileStream targetZip = FsHelper.CreateFileStream(fn, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, overwrite: false);
                     await using (targetZip.DynamicContext())
                     {
+                        Stream updateZip = await response.Content.ReadAsStreamAsync(cancellationToken).DynamicContext();
+                        await using (updateZip.DynamicContext())
+                            await updateZip.CopyToAsync(targetZip, cancellationToken).DynamicContext();
                         Logging.WriteInfo($"Extracting \"{fn}\"");
                         targetZip.Position = 0;
                         using ZipArchive zip = new(targetZip, ZipArchiveMode.Read, leaveOpen: true);
-                        zip.ExtractToDirectory(tempDir, overwriteFiles: false);
+                        await zip.ExtractToDirectoryAsync(tempDir, overwriteFiles: false, cancellationToken).DynamicContext();
                     }
                     if (Logging.Trace)
                         Logging.WriteTrace($"Deleting downloaded update");
                     File.Delete(fn);
-                    fn = Path.Combine(tempDir, "appsettings.json");
+                    fn = Path.Combine(tempDir, CONFIGURATION_FILE_NAME);
                     if (File.Exists(fn))
                     {
                         if (Logging.Trace)
-                            Logging.WriteTrace($"Deleting appsettings.json from update");
+                            Logging.WriteTrace($"Deleting {CONFIGURATION_FILE_NAME} from update");
                         File.Delete(fn);
                     }
-                    fn = Path.Combine(tempDir, "latest-release.txt");
+                    fn = Path.Combine(tempDir, RELEASE_INFORMATION_FILE_NAME);
                     if (File.Exists(fn))
                     {
-                        string release = (await File.ReadAllTextAsync(fn, cancellationToken).DynamicContext()).Trim();
-                        if (release != version)
+                        string release = await File.ReadAllTextAsync(fn, cancellationToken).DynamicContext();
+                        if (!IsReleaseInformation(release, version))
                         {
-                            Logging.WriteError($"Download release mismatch: {release.MaxLength(byte.MaxValue).ToQuotedLiteral()}/{version}");
+                            Logging.WriteError($"Download release mismatch: {release.Trim().MaxLength(byte.MaxValue).ToQuotedLiteral()}/{version}");
                             return 1;
                         }
                         else if (Logging.Trace)
@@ -188,7 +183,7 @@ namespace wan24.AutoDiscover.Services
                     int exitCode = await ProcessHelper.GetExitCodeAsync(
                         preCommand[0],
                         cancellationToken: cancellationToken,
-                        args: [.. preCommand[1..]]
+                        args: [.. preCommand.AsSpan(1)]
                         ).DynamicContext();
                     if (exitCode != 0)
                     {
@@ -196,116 +191,19 @@ namespace wan24.AutoDiscover.Services
                         return 1;
                     }
                 }
-                // Install the update
-                Logging.WriteInfo("Installing the update");
-                HashSet<string> backupFiles = [];
-                Transaction transaction = new();
-                await using (transaction.DynamicContext())
-                {
-                    // Rollback which restores backed up files
-                    await transaction.ExecuteAsync(
-                        () => Task.CompletedTask,
-                        async (ta, ret, ct) =>
-                        {
-                            Logging.WriteWarning("Restoring backup up files during rollback of a failed transaction");
-                            foreach (string file in backupFiles)
-                            {
-                                if (ct.IsCancellationRequested)
-                                {
-                                    Logging.WriteWarning("Rollback action cancellation has been requested - stop restoring backed up files");
-                                    return;
-                                }
-                                Logging.WriteWarning($"Restoring backup \"{file}\"");
-                                if (!File.Exists(file))
-                                {
-                                    Logging.WriteWarning("Backup file not found - possibly because there was a problem when creating the backup of the file which was going to be overwritten");
-                                    continue;
-                                }
-                                Stream source = FsHelper.CreateFileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
-                                await using (source.DynamicContext())
-                                {
-                                    string targetFn = Path.Combine(ENV.AppFolder, file[tempDir.Length..]);
-                                    Stream target = FsHelper.CreateFileStream(targetFn, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, overwrite: true);
-                                    await using (target.DynamicContext())
-                                        await source.CopyToAsync(target, CancellationToken.None).DynamicContext();
-                                }
-                            }
-                            Logging.WriteInfo("All backup files have been restored during rollback of a failed transaction");
-                        },
-                        commit: null,
-                        CancellationToken.None
-                        ).DynamicContext();
-                    // Copy new files
-                    foreach (string file in FsHelper.FindFiles(tempDir))
-                    {
-                        string targetFn = Path.Combine(ENV.AppFolder, file[tempDir.Length..]),
-                            targetDir = Path.GetDirectoryName(targetFn)!;
-                        if (Logging.Trace)
-                            Logging.WriteTrace($"Copy file \"{file}\" to \"{targetFn}\"");
-                        Stream source = FsHelper.CreateFileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        await using (source.DynamicContext())
-                        {
-                            // Ensure an existing target folder
-                            if (!Directory.Exists(targetDir))
-                                transaction.Execute(
-                                    () => FsHelper.CreateFolder(targetDir),
-                                    (ta, ret) =>
-                                    {
-                                        if (Directory.Exists(targetDir))
-                                            try
-                                            {
-                                                Logging.WriteWarning($"Deleting previously created folder \"{targetDir}\" during rollback of a failed transaction");
-                                                Directory.Delete(targetDir, recursive: true);
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                Logging.WriteWarning($"Failed to delete previously created folder \"{targetDir}\" during rollback: {ex}");
-                                            }
-                                    }
-                                    );
-                            // Open/create the target file
-                            bool exists = File.Exists(targetFn);
-                            Stream target = FsHelper.CreateFileStream(
-                                targetFn,
-                                FileMode.OpenOrCreate,
-                                FileAccess.ReadWrite,
-                                FileShare.None,
-                                overwrite: false
-                                );
-                            await using (target.DynamicContext())
-                            {
-                                // Create a backup of the existing file, first
-                                if (exists)
-                                {
-                                    deleteTempDir = false;
-                                    string backupFn = $"{file}.backup";
-                                    if (Logging.Trace)
-                                        Logging.WriteTrace($"Create backup of existing file \"{targetFn}\" to \"{backupFn}\"");
-                                    backupFiles.Add(targetFn);
-                                    Stream backup = FsHelper.CreateFileStream(backupFn, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None);
-                                    await using (backup.DynamicContext())
-                                    {
-                                        target.Position = 0;
-                                        await target.CopyToAsync(backup, cancellationToken).DynamicContext();
-                                    }
-                                    target.SetLength(0);
-                                }
-                                // Copy the (new) file contents
-                                await source.CopyToAsync(target, cancellationToken).DynamicContext();
-                            }
-                        }
-                    }
-                    // Signal success to the encapsulating transaction
-                    transaction.Commit();
-                }
+                // Install the update (from here on the temporary folder is kept until the upgrade succeeded, because it contains the backups of
+                // the replaced files)
+                Logging.WriteInfo($"Installing the update to \"{ENV.AppFolder}\"");
+                deleteTempDir = false;
+                InstallFiles(tempDir, ENV.AppFolder, cancellationToken);
                 // Execute post-upgrade
-                Logging.WriteInfo("Executing post-update command");
+                Logging.WriteInfo("Executing post-upgrade action");
                 {
                     int exitCode = await ProcessHelper.GetExitCodeAsync(
                         "dotnet",
                         cancellationToken: cancellationToken,
                         args: [
-                            "wan24AutoDiscover.dll",
+                            Path.Combine(ENV.AppFolder, APP_DLL_FILE_NAME),
                             "autodiscover",
                             "post-upgrade",
                             VersionInfo.Current.ToString(),
@@ -314,7 +212,7 @@ namespace wan24.AutoDiscover.Services
                         ).DynamicContext();
                     if (exitCode != 0)
                     {
-                        Logging.WriteError($"Post-upgrade acion failed to execute with exit code #{exitCode}");
+                        Logging.WriteError($"Post-upgrade action failed to execute with exit code #{exitCode} (the backups of the replaced files are in \"{tempDir}\")");
                         return 1;
                     }
                 }
@@ -325,11 +223,11 @@ namespace wan24.AutoDiscover.Services
                     int exitCode = await ProcessHelper.GetExitCodeAsync(
                         postCommand[0],
                         cancellationToken: cancellationToken,
-                        args: [.. postCommand[1..]]
+                        args: [.. postCommand.AsSpan(1)]
                         ).DynamicContext();
                     if (exitCode != 0)
                     {
-                        Logging.WriteError($"Post-update command failed to execute with exit code #{exitCode}");
+                        Logging.WriteError($"Post-update command failed to execute with exit code #{exitCode} (the backups of the replaced files are in \"{tempDir}\")");
                         return 1;
                     }
                 }
@@ -345,7 +243,7 @@ namespace wan24.AutoDiscover.Services
                 }
                 else
                 {
-                    Logging.WriteError($"Update failed (won't delete temporary folder \"{tempDir}\" 'cause it may contain backup files): {ex}");
+                    Logging.WriteError($"Update failed (won't delete temporary folder \"{tempDir}\" 'cause it contains the backup files): {ex}");
                 }
                 return 1;
             }
@@ -369,6 +267,7 @@ namespace wan24.AutoDiscover.Services
         /// <param name="previousVersion">Previous version</param>
         /// <param name="currentVersion">Current version</param>
         /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Task (faults with an <see cref="InvalidProgramException"/>, if a version or the installed release information doesn't match)</returns>
         [CliApi("post-upgrade")]
         [DisplayText("Post-upgrade")]
         [Description("Perform post-upgrade actions (used internal)")]
@@ -396,8 +295,28 @@ namespace wan24.AutoDiscover.Services
             if (current != VersionInfo.Current)
                 throw new InvalidProgramException($"Current version is {VersionInfo.Current} - upgrade version was {currentVersion.ToQuotedLiteral()}");
             // Validate release information
-            if (currentVersion != await File.ReadAllTextAsync(Path.Combine(ENV.AppFolder, "latest-release.txt"), cancellationToken).DynamicContext())
+            if (!IsReleaseInformation(
+                await File.ReadAllTextAsync(Path.Combine(ENV.AppFolder, RELEASE_INFORMATION_FILE_NAME), cancellationToken).DynamicContext(),
+                currentVersion
+                ))
                 throw new InvalidProgramException("Release information mismatch");
         }
+
+        /// <summary>
+        /// Get the download URI of a release
+        /// </summary>
+        /// <param name="version">Version number (used as URI segment; the returned URI is passed to <see cref="HttpClient"/>, which takes a
+        /// <see cref="string"/>)</param>
+        /// <returns>URI of the release ZIP file</returns>
+        internal static string GetReleaseUri(string version) => $"{REPOSITORY_URI}/releases/download/v{version}/wan24-AutoDiscover-{version}.zip";
+
+        /// <summary>
+        /// Determine if the content of a release information file names a version
+        /// </summary>
+        /// <param name="content">Release information file content (borrowed for the call; surrounding white space is ignored)</param>
+        /// <param name="version">Version number (borrowed for the call)</param>
+        /// <returns>If the release information names the version</returns>
+        internal static bool IsReleaseInformation(ReadOnlySpan<char> content, ReadOnlySpan<char> version)
+            => content.Trim().Equals(version, StringComparison.Ordinal);
     }
 }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
 
@@ -74,7 +74,7 @@
                   <div class="sr-items">
                     <p><i class="bi bi-hourglass-split index-loading"></i></p>
                   </div>
-                  <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+                  <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
                 </div>
  
 
@@ -98,7 +98,7 @@
 <p>This is a micro-webservice which supports a small part of the Microsoft
 Exchange POX autodiscover standard, which allows email clients to receive
 automatic configuration information for an email account.</p>
-<p>It was created using .NET 8 and ASP.NET. You find a published release build
+<p>It was created using .NET 10 and ASP.NET. You find a published release build
 for each published release on GitHub as ZIP file download for self-hosting.</p>
 <p>The webservice is designed for working with dynamic MTA configurations and
 tries to concentrate on the basics for fast request handling and response. All
@@ -106,14 +106,15 @@ required informations will be held in memory, so no database or filesystem
 access is required for request handling.</p>
 <h2 id="usage">Usage</h2>
 <h3 id="pre-requirements">Pre-requirements</h3>
-<p>This app is a .NET 8 app and needs the ASP.NET runtime environment.</p>
+<p>This app is a .NET 10 app and needs the ASP.NET Core 10 runtime environment
+(<code>aspnetcore-runtime-10.0</code>).</p>
 <h3 id="how-to-get-it">How to get it</h3>
 <p>For example on a Debian Linux server:</p>
 <pre><code class="lang-bash">mkdir /home/autodiscover
 cd /home/autodiscover
-wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v1.2.0/wan24-AutoDiscover.v1.2.0.zip
-unzip wan24-AutoDiscover.v1.2.0.zip
-rm wan24-AutoDiscover.v1.2.0.zip
+wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v2.0.0/wan24-AutoDiscover-2.0.0.zip
+unzip wan24-AutoDiscover-2.0.0.zip
+rm wan24-AutoDiscover-2.0.0.zip
 </code></pre>
 <h3 id="appsettingsjson"><code>appsettings.json</code></h3>
 <p>The <code>appsettings.json</code> file contains the  webservice configuration. The
@@ -219,16 +220,21 @@ systemctl restart apache2
 </code></pre>
 <h3 id="pox-request-and-response">POX request and response</h3>
 <p>This is an example POX request to <code>/autodiscover/autodiscover.xml</code>:</p>
-<pre><code class="lang-xml">&lt;Autodiscover xmlns=&quot;https://schemas.microsoft.com/exchange/autodiscover/outlook/requestschema/2006&quot;&gt;
+<pre><code class="lang-xml">&lt;Autodiscover xmlns=&quot;http://schemas.microsoft.com/exchange/autodiscover/outlook/requestschema/2006&quot;&gt;
    &lt;Request&gt;
      &lt;EMailAddress&gt;alias@wan24.de&lt;/EMailAddress&gt;
-     &lt;AcceptableResponseSchema&gt;https://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&lt;/AcceptableResponseSchema&gt;
+     &lt;AcceptableResponseSchema&gt;http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&lt;/AcceptableResponseSchema&gt;
    &lt;/Request&gt;
  &lt;/Autodiscover&gt;
 </code></pre>
+<p>The endpoint <code>POST /autodiscover/autodiscover.xml</code> accepts any request
+<code>Content-Type</code> (Outlook sends <code>text/xml</code>, other clients <code>application/xml</code>).
+The request body is parsed as XML. Invalid XML, a missing or invalid email
+address, or an unknown domain will cause a <code>400 Bad Request</code> http response.
+The response has the content type <code>application/xml</code>.</p>
 <p>The response with the demo <code>appsettings.json</code>:</p>
 <pre><code class="lang-xml">&lt;Autodiscover xmlns=&quot;http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006&quot;&gt;
-    &lt;Response xmlns=&quot;https://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&quot;&gt;
+    &lt;Response xmlns=&quot;http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a&quot;&gt;
         &lt;Account&gt;
             &lt;AccountType&gt;email&lt;/AccountType&gt;
             &lt;Action&gt;settings&lt;/Action&gt;
@@ -329,8 +335,21 @@ reloaded.</p>
 }
 </code></pre>
 <h2 id="automatic-online-upgrades">Automatic online upgrades</h2>
-<p>You can upgrade <code>wan24-AutoDiscover</code> online and automatic. For this some steps
-are recommended:</p>
+<p><strong>NOTE</strong>: The automatic online upgrade works for installations of version
+2.0.0 and later. Installations of version 1.x (1.0.0 - 1.3.0) can't be
+upgraded automatically: their upgrader can't install a release correctly (it
+writes the files outside of the installation folder). The release file name
+<code>wan24-AutoDiscover-&lt;version&gt;.zip</code> makes a 1.x upgrader stop with a download
+error before it executes the pre-command, so the service won't be stopped.
+Upgrade a 1.x installation manually (see &quot;Manual upgrade&quot; below), after
+installing the ASP.NET Core 10 runtime. If you want a clean installation
+folder, delete the files of the old installation which the release doesn't
+contain (they aren't being loaded).</p>
+<p>You can upgrade <code>wan24-AutoDiscover</code> online and automatic. The <code>upgrade</code>
+command reads the latest version from the <code>latest-release.txt</code> file in the
+<code>main</code> branch of the GitHub repository and downloads
+<code>https://github.com/nd1012/wan24-AutoDiscover/releases/download/v&lt;version&gt;/wan24-AutoDiscover-&lt;version&gt;.zip</code>.
+For this some steps are recommended:</p>
 <ol>
 <li>Create sheduled task for auto-upgrade (daily, for example)</li>
 <li>Stop the service before installing the newer version</li>
@@ -346,24 +365,34 @@ installed only and being re-tried at the next sheduled auto-upgrade time.</p>
 executed, and the autodiscover service won't run. This'll give you the chance
 to investigate the broken upgrade and optional restore the running version
 manually.</p>
+<p>If copying the files failed, the upgrader restores the previous files and
+keeps the temporary folder with the backups.</p>
+<p>If the post-upgrade check or the post-upgrade command failed, the new files
+stay installed, and the temporary folder with the backups of the replaced
+files is kept (the log names its path).</p>
 <p><strong>CAUTION</strong>: The auto-upgrade is being performed using the GitHub repository.
 There are no security checks at present - so if the repository was hacked, you
 could end up with upgrading to a compromised software which could harm your
 system!</p>
 <p>The upgrade setup should be done in less than a second, if everything was fine.</p>
 <h2 id="manual-upgrade">Manual upgrade</h2>
+<p><strong>NOTE</strong>: Installations of version 1.x can't be upgraded automatically (see
+&quot;Automatic online upgrades&quot; above) and need this manual upgrade.</p>
 <ol>
-<li>Download the latest release ZIP file from GitHub</li>
+<li>Install the runtime required by the release, if it's missing
+(<code>aspnetcore-runtime-10.0</code>)</li>
+<li>Download the latest release ZIP file (<code>wan24-AutoDiscover-&lt;version&gt;.zip</code>)
+from GitHub</li>
 <li>Extract the ZIP file to a temporary folder</li>
 <li>Stop the autodiscover service, if running</li>
 <li>Create a backup of your current installation</li>
 <li>Copy all extracted files/folders excluding <code>appsettings.json</code> to your
 installation folder</li>
-<li>Remove files/folders that are no longer required and perform additional
-upgrade steps, which are required for the new release (see upgrade
+<li>Remove files/folders that the release doesn't contain and perform
+additional upgrade steps, which are required for the release (see upgrade
 instructions)</li>
 <li>Start the autodiscover service</li>
-<li>Delete the previously created backup and the temporary folder</li>
+<li>Delete the created backup and the temporary folder</li>
 </ol>
 <p>These steps are being executed during an automatic upgrade like described
 above also.</p>

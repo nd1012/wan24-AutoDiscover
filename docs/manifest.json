@@ -1,4 +1,5 @@
 {
+  "docfx_version": "2.81.0+ba844df625370a6bd7c1ecab0d0ec4d1d9128ac4",
   "source_base_path": "/home/runner/work/wan24-AutoDiscover/wan24-AutoDiscover/src/wan24-AutoDiscover Docs",
   "xrefmap": "xrefmap.yml",
   "files": [
@@ -41,7 +42,11 @@
           "relative_path": "api/wan24.AutoDiscover.Constants.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Constants",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Constants.yml\" sourcestartlinenumber=\"1\">Constants</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -51,7 +56,11 @@
           "relative_path": "api/wan24.AutoDiscover.Controllers.DiscoveryController.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Controllers.DiscoveryController",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Controllers.DiscoveryController.yml\" sourcestartlinenumber=\"1\">Discovery controller</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -61,7 +70,11 @@
           "relative_path": "api/wan24.AutoDiscover.Controllers.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Controllers",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -71,7 +84,11 @@
           "relative_path": "api/wan24.AutoDiscover.Models.DiscoveryConfig.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Models.DiscoveryConfig",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Models.DiscoveryConfig.yml\" sourcestartlinenumber=\"1\">Discovery configuration</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -81,7 +98,11 @@
           "relative_path": "api/wan24.AutoDiscover.Models.DomainConfig.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Models.DomainConfig",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Models.DomainConfig.yml\" sourcestartlinenumber=\"1\">Domain configuration</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -91,7 +112,11 @@
           "relative_path": "api/wan24.AutoDiscover.Models.EmailMapping.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Models.EmailMapping",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Models.EmailMapping.yml\" sourcestartlinenumber=\"1\">Email mapping</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -101,7 +126,11 @@
           "relative_path": "api/wan24.AutoDiscover.Models.Protocol.LoginName_Delegate.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Models.Protocol.LoginName_Delegate",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Models.Protocol.LoginName_Delegate.yml\" sourcestartlinenumber=\"1\">Delegate for a login name resolver</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -111,7 +140,11 @@
           "relative_path": "api/wan24.AutoDiscover.Models.Protocol.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Models.Protocol",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Models.Protocol.yml\" sourcestartlinenumber=\"1\">Protocol (POX)</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -121,7 +154,11 @@
           "relative_path": "api/wan24.AutoDiscover.Models.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Models",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -131,7 +168,11 @@
           "relative_path": "api/wan24.AutoDiscover.Services.CommandLineInterface.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Services.CommandLineInterface",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Services.CommandLineInterface.yml\" sourcestartlinenumber=\"1\">CLI API</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -141,7 +182,11 @@
           "relative_path": "api/wan24.AutoDiscover.Services.ExceptionHandler.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Services.ExceptionHandler",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.Services.ExceptionHandler.yml\" sourcestartlinenumber=\"1\">Exception handler</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -151,7 +196,11 @@
           "relative_path": "api/wan24.AutoDiscover.Services.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.Services",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -161,7 +210,11 @@
           "relative_path": "api/wan24.AutoDiscover.VersionInfo.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.VersionInfo",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.VersionInfo.yml\" sourcestartlinenumber=\"1\">Version information</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -171,7 +224,11 @@
           "relative_path": "api/wan24.AutoDiscover.XmlResponse.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover.XmlResponse",
+      "Summary": "<p sourcefile=\"api/wan24.AutoDiscover.XmlResponse.yml\" sourcestartlinenumber=\"1\">XML response</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -181,7 +238,11 @@
           "relative_path": "api/wan24.AutoDiscover.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "wan24.AutoDiscover",
+      "Summary": null
     },
     {
       "type": "Conceptual",

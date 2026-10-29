@@ -773,12 +773,12 @@ references:
   fullName.vb: wan24.AutoDiscover.Services.CommandLineInterface.New
   nameWithType: CommandLineInterface.CommandLineInterface
   nameWithType.vb: CommandLineInterface.New
-- uid: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync(System.Threading.CancellationToken)
-  name: CreateSystemdServiceAsync(CancellationToken)
-  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync_System_Threading_CancellationToken_
-  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync(System.Threading.CancellationToken)
-  fullName: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync(System.Threading.CancellationToken)
-  nameWithType: CommandLineInterface.CreateSystemdServiceAsync(CancellationToken)
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync
+  name: CreateSystemdServiceAsync()
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync
+  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync()
+  nameWithType: CommandLineInterface.CreateSystemdServiceAsync()
 - uid: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync*
   name: CreateSystemdServiceAsync
   href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_CreateSystemdServiceAsync_
@@ -786,12 +786,12 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Services.CommandLineInterface.CreateSystemdServiceAsync
   nameWithType: CommandLineInterface.CreateSystemdServiceAsync
-- uid: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync(System.Threading.CancellationToken)
-  name: ParsePostfixEmailMappingsAsync(CancellationToken)
-  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_ParsePostfixEmailMappingsAsync_System_Threading_CancellationToken_
-  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync(System.Threading.CancellationToken)
-  fullName: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync(System.Threading.CancellationToken)
-  nameWithType: CommandLineInterface.ParsePostfixEmailMappingsAsync(CancellationToken)
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync
+  name: ParsePostfixEmailMappingsAsync()
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_ParsePostfixEmailMappingsAsync
+  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync()
+  nameWithType: CommandLineInterface.ParsePostfixEmailMappingsAsync()
 - uid: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync*
   name: ParsePostfixEmailMappingsAsync
   href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_ParsePostfixEmailMappingsAsync_
@@ -799,15 +799,15 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Services.CommandLineInterface.ParsePostfixEmailMappingsAsync
   nameWithType: CommandLineInterface.ParsePostfixEmailMappingsAsync
-- uid: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(System.String,System.String,System.Threading.CancellationToken)
-  name: PostUpgradeAsync(string, string, CancellationToken)
-  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_PostUpgradeAsync_System_String_System_String_System_Threading_CancellationToken_
-  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(System.String,System.String,System.Threading.CancellationToken)
-  name.vb: PostUpgradeAsync(String, String, CancellationToken)
-  fullName: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(string, string, System.Threading.CancellationToken)
-  fullName.vb: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(String, String, System.Threading.CancellationToken)
-  nameWithType: CommandLineInterface.PostUpgradeAsync(string, string, CancellationToken)
-  nameWithType.vb: CommandLineInterface.PostUpgradeAsync(String, String, CancellationToken)
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(System.String,System.String)
+  name: PostUpgradeAsync(string, string)
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_PostUpgradeAsync_System_String_System_String_
+  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(System.String,System.String)
+  name.vb: PostUpgradeAsync(String, String)
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(string, string)
+  fullName.vb: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync(String, String)
+  nameWithType: CommandLineInterface.PostUpgradeAsync(string, string)
+  nameWithType.vb: CommandLineInterface.PostUpgradeAsync(String, String)
 - uid: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync*
   name: PostUpgradeAsync
   href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_PostUpgradeAsync_
@@ -815,15 +815,15 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Services.CommandLineInterface.PostUpgradeAsync
   nameWithType: CommandLineInterface.PostUpgradeAsync
-- uid: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(System.String[],System.String[],System.Boolean,System.Boolean,System.Threading.CancellationToken)
-  name: UpgradeAsync(string[]?, string[]?, bool, bool, CancellationToken)
-  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_UpgradeAsync_System_String___System_String___System_Boolean_System_Boolean_System_Threading_CancellationToken_
-  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(System.String[],System.String[],System.Boolean,System.Boolean,System.Threading.CancellationToken)
-  name.vb: UpgradeAsync(String(), String(), Boolean, Boolean, CancellationToken)
-  fullName: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(string[]?, string[]?, bool, bool, System.Threading.CancellationToken)
-  fullName.vb: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(String(), String(), Boolean, Boolean, System.Threading.CancellationToken)
-  nameWithType: CommandLineInterface.UpgradeAsync(string[]?, string[]?, bool, bool, CancellationToken)
-  nameWithType.vb: CommandLineInterface.UpgradeAsync(String(), String(), Boolean, Boolean, CancellationToken)
+- uid: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(System.String[],System.String[],System.Boolean,System.Boolean)
+  name: UpgradeAsync(string[]?, string[]?, bool, bool)
+  href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_UpgradeAsync_System_String___System_String___System_Boolean_System_Boolean_
+  commentId: M:wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(System.String[],System.String[],System.Boolean,System.Boolean)
+  name.vb: UpgradeAsync(String(), String(), Boolean, Boolean)
+  fullName: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(string[]?, string[]?, bool, bool)
+  fullName.vb: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync(String(), String(), Boolean, Boolean)
+  nameWithType: CommandLineInterface.UpgradeAsync(string[]?, string[]?, bool, bool)
+  nameWithType.vb: CommandLineInterface.UpgradeAsync(String(), String(), Boolean, Boolean)
 - uid: wan24.AutoDiscover.Services.CommandLineInterface.UpgradeAsync*
   name: UpgradeAsync
   href: api/wan24.AutoDiscover.Services.CommandLineInterface.html#wan24_AutoDiscover_Services_CommandLineInterface_UpgradeAsync_

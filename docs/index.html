@@ -112,9 +112,9 @@ access is required for request handling.</p>
 <p>For example on a Debian Linux server:</p>
 <pre><code class="lang-bash">mkdir /home/autodiscover
 cd /home/autodiscover
-wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v2.0.0/wan24-AutoDiscover-2.0.0.zip
-unzip wan24-AutoDiscover-2.0.0.zip
-rm wan24-AutoDiscover-2.0.0.zip
+wget https://github.com/nd1012/wan24-AutoDiscover/releases/download/v2.0.1/wan24-AutoDiscover-2.0.1.zip
+unzip wan24-AutoDiscover-2.0.1.zip
+rm wan24-AutoDiscover-2.0.1.zip
 </code></pre>
 <h3 id="appsettingsjson"><code>appsettings.json</code></h3>
 <p>The <code>appsettings.json</code> file contains the  webservice configuration. The
@@ -278,7 +278,7 @@ things for you:</p>
 <pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover postfix &lt; /etc/postfix/virtual &gt; /home/autodiscover/postfix.json
 </code></pre>
 <h4 id="display-version-number">Display version number</h4>
-<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll autodiscover version
+<pre><code class="lang-bash">dotnet wan24AutoDiscover.dll about version
 </code></pre>
 <h4 id="upgrade-online">Upgrade online</h4>
 <p>Check for an available newer version only:</p>
@@ -336,15 +336,16 @@ reloaded.</p>
 </code></pre>
 <h2 id="automatic-online-upgrades">Automatic online upgrades</h2>
 <p><strong>NOTE</strong>: The automatic online upgrade works for installations of version
-2.0.0 and later. Installations of version 1.x (1.0.0 - 1.3.0) can't be
-upgraded automatically: their upgrader can't install a release correctly (it
-writes the files outside of the installation folder). The release file name
-<code>wan24-AutoDiscover-&lt;version&gt;.zip</code> makes a 1.x upgrader stop with a download
-error before it executes the pre-command, so the service won't be stopped.
-Upgrade a 1.x installation manually (see &quot;Manual upgrade&quot; below), after
-installing the ASP.NET Core 10 runtime. If you want a clean installation
-folder, delete the files of the old installation which the release doesn't
-contain (they aren't being loaded).</p>
+2.0.1 and later. Installations of version 1.x (1.0.0 - 1.3.0) and 2.0.0 can't
+be upgraded automatically: the upgrader of 1.x can't install a release
+correctly (it writes the files outside of the installation folder), and the
+CLI commands of 2.0.0 fail with a <code>NullReferenceException</code>. The release file
+name <code>wan24-AutoDiscover-&lt;version&gt;.zip</code> makes a 1.x upgrader stop with a
+download error before it executes the pre-command, so the service won't be
+stopped. Upgrade a 1.x or 2.0.0 installation manually (see &quot;Manual upgrade&quot;
+below), after installing the ASP.NET Core 10 runtime. If you want a clean
+installation folder, delete the files of the old installation which the
+release doesn't contain (they aren't being loaded).</p>
 <p>You can upgrade <code>wan24-AutoDiscover</code> online and automatic. The <code>upgrade</code>
 command reads the latest version from the <code>latest-release.txt</code> file in the
 <code>main</code> branch of the GitHub repository and downloads
@@ -376,8 +377,9 @@ could end up with upgrading to a compromised software which could harm your
 system!</p>
 <p>The upgrade setup should be done in less than a second, if everything was fine.</p>
 <h2 id="manual-upgrade">Manual upgrade</h2>
-<p><strong>NOTE</strong>: Installations of version 1.x can't be upgraded automatically (see
-&quot;Automatic online upgrades&quot; above) and need this manual upgrade.</p>
+<p><strong>NOTE</strong>: Installations of version 1.x and 2.0.0 can't be upgraded
+automatically (see &quot;Automatic online upgrades&quot; above) and need this manual
+upgrade.</p>
 <ol>
 <li>Install the runtime required by the release, if it's missing
 (<code>aspnetcore-runtime-10.0</code>)</li>

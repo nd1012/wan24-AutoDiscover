@@ -345,6 +345,15 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.DomainConfig.CreateXml
   nameWithType: DomainConfig.CreateXml
+- uid: wan24.AutoDiscover.Models.DomainConfig.GetConfig(System.Collections.Generic.IReadOnlyDictionary{System.String,wan24.AutoDiscover.Models.DomainConfig},System.String,System.ReadOnlyMemory{System.String})
+  name: GetConfig(IReadOnlyDictionary<string, DomainConfig>, string, ReadOnlyMemory<string>)
+  href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_GetConfig_System_Collections_Generic_IReadOnlyDictionary_System_String_wan24_AutoDiscover_Models_DomainConfig__System_String_System_ReadOnlyMemory_System_String__
+  commentId: M:wan24.AutoDiscover.Models.DomainConfig.GetConfig(System.Collections.Generic.IReadOnlyDictionary{System.String,wan24.AutoDiscover.Models.DomainConfig},System.String,System.ReadOnlyMemory{System.String})
+  name.vb: GetConfig(IReadOnlyDictionary(Of String, DomainConfig), String, ReadOnlyMemory(Of String))
+  fullName: wan24.AutoDiscover.Models.DomainConfig.GetConfig(System.Collections.Generic.IReadOnlyDictionary<string, wan24.AutoDiscover.Models.DomainConfig>, string, System.ReadOnlyMemory<string>)
+  fullName.vb: wan24.AutoDiscover.Models.DomainConfig.GetConfig(System.Collections.Generic.IReadOnlyDictionary(Of String, wan24.AutoDiscover.Models.DomainConfig), String, System.ReadOnlyMemory(Of String))
+  nameWithType: DomainConfig.GetConfig(IReadOnlyDictionary<string, DomainConfig>, string, ReadOnlyMemory<string>)
+  nameWithType.vb: DomainConfig.GetConfig(IReadOnlyDictionary(Of String, DomainConfig), String, ReadOnlyMemory(Of String))
 - uid: wan24.AutoDiscover.Models.DomainConfig.GetConfig(System.String,System.ReadOnlyMemory{System.String})
   name: GetConfig(string, ReadOnlyMemory<string>)
   href: api/wan24.AutoDiscover.Models.DomainConfig.html#wan24_AutoDiscover_Models_DomainConfig_GetConfig_System_String_System_ReadOnlyMemory_System_String__
@@ -451,15 +460,15 @@ references:
   isSpec: "True"
   fullName: wan24.AutoDiscover.Models.EmailMapping.Email
   nameWithType: EmailMapping.Email
-- uid: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.Collections.Generic.IEnumerable{wan24.AutoDiscover.Models.EmailMapping},System.String)
-  name: GetLoginUser(IEnumerable<EmailMapping>, string)
-  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_GetLoginUser_System_Collections_Generic_IEnumerable_wan24_AutoDiscover_Models_EmailMapping__System_String_
-  commentId: M:wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.Collections.Generic.IEnumerable{wan24.AutoDiscover.Models.EmailMapping},System.String)
-  name.vb: GetLoginUser(IEnumerable(Of EmailMapping), String)
-  fullName: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.Collections.Generic.IEnumerable<wan24.AutoDiscover.Models.EmailMapping>, string)
-  fullName.vb: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.Collections.Generic.IEnumerable(Of wan24.AutoDiscover.Models.EmailMapping), String)
-  nameWithType: EmailMapping.GetLoginUser(IEnumerable<EmailMapping>, string)
-  nameWithType.vb: EmailMapping.GetLoginUser(IEnumerable(Of EmailMapping), String)
+- uid: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.ReadOnlySpan{wan24.AutoDiscover.Models.EmailMapping},System.ReadOnlySpan{System.Char})
+  name: GetLoginUser(ReadOnlySpan<EmailMapping>, ReadOnlySpan<char>)
+  href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_GetLoginUser_System_ReadOnlySpan_wan24_AutoDiscover_Models_EmailMapping__System_ReadOnlySpan_System_Char__
+  commentId: M:wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.ReadOnlySpan{wan24.AutoDiscover.Models.EmailMapping},System.ReadOnlySpan{System.Char})
+  name.vb: GetLoginUser(ReadOnlySpan(Of EmailMapping), ReadOnlySpan(Of Char))
+  fullName: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.ReadOnlySpan<wan24.AutoDiscover.Models.EmailMapping>, System.ReadOnlySpan<char>)
+  fullName.vb: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser(System.ReadOnlySpan(Of wan24.AutoDiscover.Models.EmailMapping), System.ReadOnlySpan(Of Char))
+  nameWithType: EmailMapping.GetLoginUser(ReadOnlySpan<EmailMapping>, ReadOnlySpan<char>)
+  nameWithType.vb: EmailMapping.GetLoginUser(ReadOnlySpan(Of EmailMapping), ReadOnlySpan(Of Char))
 - uid: wan24.AutoDiscover.Models.EmailMapping.GetLoginUser*
   name: GetLoginUser
   href: api/wan24.AutoDiscover.Models.EmailMapping.html#wan24_AutoDiscover_Models_EmailMapping_GetLoginUser_

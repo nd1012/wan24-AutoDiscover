@@ -12,11 +12,14 @@ namespace wan24.AutoDiscover.Tests
         private const string RELEASE_FILE_NAME = "latest-release.txt";
 
         /// <summary>
-        /// The current version is 2.0.0
+        /// The current version has the three components of a release tag (major.minor.patch)
         /// </summary>
         [TestMethod, Timeout(5000)]
-        public void Current_Is_2_0_0()
-            => Assert.AreEqual(new Version(2, 0, 0), VersionInfo.Current);
+        public void Current_HasReleaseFormat()
+        {
+            Assert.IsTrue(VersionInfo.Current.Build >= 0, "Missing patch component");
+            Assert.AreEqual(-1, VersionInfo.Current.Revision);
+        }
 
         /// <summary>
         /// The current version equals the trimmed content of the release information file

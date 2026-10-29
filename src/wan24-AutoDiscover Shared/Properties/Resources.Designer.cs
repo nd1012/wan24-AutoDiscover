@@ -61,7 +61,7 @@ namespace wan24.AutoDiscover.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die 2.0.0 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die 2.0.1 ähnelt.
         /// </summary>
         internal static string VERSION {
             get {

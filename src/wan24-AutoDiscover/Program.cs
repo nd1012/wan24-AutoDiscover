@@ -70,7 +70,7 @@ fsw.OnEvents += async (s, e) =>
                 int exitCode = await ProcessHelper.GetExitCodeAsync(
                     DiscoveryConfig.Current.PreReloadCommand[0],
                     cancellationToken: cts.Token,
-                    args: [.. DiscoveryConfig.Current.PreReloadCommand[1..]]
+                    args: [.. DiscoveryConfig.Current.PreReloadCommand.AsSpan(1)]
                     ).DynamicContext();
                 if (exitCode != 0)
                     Logging.WriteWarning($"Pre-reload command exit code was #{exitCode}");
@@ -99,25 +99,26 @@ fsw.OnEvents += async (s, e) =>
         Logging.WriteError($"Failed to reload configuration from \"{configFile}\": {ex}");
     }
 };
-fsw.Add(new(ENV.AppFolder, "appsettings.json", NotifyFilters.LastWrite | NotifyFilters.CreationTime, throttle: 250, recursive: false));
+await fsw.AddAsync(new(ENV.AppFolder, "appsettings.json", NotifyFilters.LastWrite | NotifyFilters.CreationTime, throttle: 250, recursive: false), cts.Token)
+    .DynamicContext();
 if (DiscoveryConfig.Current.WatchEmailMappings && !string.IsNullOrWhiteSpace(DiscoveryConfig.Current.EmailMappings))
-    fsw.Add(new(
+    await fsw.AddAsync(new(
         Path.GetDirectoryName(Path.GetFullPath(DiscoveryConfig.Current.EmailMappings))!,
         Path.GetFileName(DiscoveryConfig.Current.EmailMappings),
         NotifyFilters.LastWrite | NotifyFilters.CreationTime,
         recursive: false,
         events: FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
-        ));
+        ), cts.Token).DynamicContext();
 if (DiscoveryConfig.Current.WatchFiles is not null)
     foreach (string file in DiscoveryConfig.Current.WatchFiles)
         if (!string.IsNullOrWhiteSpace(file))
-            fsw.Add(new(
+            await fsw.AddAsync(new(
                 Path.GetDirectoryName(Path.GetFullPath(file))!,
                 Path.GetFileName(file),
                 NotifyFilters.LastWrite | NotifyFilters.CreationTime,
                 recursive: false,
                 events: FileSystemEventTypes.Changes | FileSystemEventTypes.Created | FileSystemEventTypes.Deleted
-                ));
+                ), cts.Token).DynamicContext();
 
 // Build and run the app
 Logging.WriteInfo("Autodiscovery service app startup");
@@ -178,7 +179,7 @@ catch(Exception ex)
 }
 finally
 {
-    cts.Cancel();
+    await cts.CancelAsync().DynamicContext();
     Logging.WriteInfo("Autodiscovery service app exit");
 }
 return 0;

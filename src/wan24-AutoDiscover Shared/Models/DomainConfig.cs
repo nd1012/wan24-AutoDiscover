@@ -50,20 +50,36 @@ namespace wan24.AutoDiscover.Models
         }
 
         /// <summary>
-        /// Get a domain configuration which matches an email address
+        /// Get a domain configuration from <see cref="Registered"/> which matches an email address
         /// </summary>
         /// <param name="host">Hostname</param>
         /// <param name="emailParts">Splitted email parts</param>
         /// <returns>Domain configuration</returns>
-        public static DomainConfig? GetConfig(string host, ReadOnlyMemory<string> emailParts)
-            => !Registered.TryGetValue(emailParts.Span[1], out DomainConfig? config) &&
-                (host.Length == 0 || !Registered.TryGetValue(host, out config)) &&
-                !Registered.TryGetValue(
-                    Registered.Where(kvp => kvp.Value.AcceptedDomains?.Contains(emailParts.Span[1], StringComparer.OrdinalIgnoreCase) ?? false)
-                        .Select(kvp => kvp.Key)
-                        .FirstOrDefault() ?? string.Empty,
-                    out config)
-                ? null
-                : config;
+        public static DomainConfig? GetConfig(string host, ReadOnlyMemory<string> emailParts) => GetConfig(Registered, host, emailParts);
+
+        /// <summary>
+        /// Get a domain configuration which matches an email address (lookup order: email domain, hostname, the first configuration which has the
+        /// email domain in its <see cref="AcceptedDomains"/>, the configuration with an empty domain name as key)
+        /// </summary>
+        /// <param name="registered">Domain configurations to search (key is the served domain name)</param>
+        /// <param name="host">Hostname (an empty string skips the hostname lookup)</param>
+        /// <param name="emailParts">Splitted email parts (alias and domain)</param>
+        /// <returns>Domain configuration</returns>
+        public static DomainConfig? GetConfig(IReadOnlyDictionary<string, DomainConfig> registered, string host, ReadOnlyMemory<string> emailParts)
+        {
+            string domain = emailParts.Span[1];
+            if (registered.TryGetValue(domain, out DomainConfig? config) || (host.Length != 0 && registered.TryGetValue(host, out config)))
+                return config;
+            // IReadOnlyDictionary offers no struct enumerator, so this loop allocates its enumerator
+            foreach (KeyValuePair<string, DomainConfig> kvp in registered)
+            {
+                IReadOnlyList<string>? acceptedDomains = kvp.Value.AcceptedDomains;
+                if (acceptedDomains is null) continue;
+                for (int i = 0, len = acceptedDomains.Count; i < len; i++)
+                    if (domain.Equals(acceptedDomains[i], StringComparison.OrdinalIgnoreCase))
+                        return kvp.Value;
+            }
+            return registered.TryGetValue(string.Empty, out config) ? config : null;
+        }
     }
 }

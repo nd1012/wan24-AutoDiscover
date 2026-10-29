@@ -8,7 +8,7 @@
         /// <summary>
         /// Current version
         /// </summary>
-        private static Version? _Current = null;
+        private static Version? _Current;
 
         /// <summary>
         /// Current version

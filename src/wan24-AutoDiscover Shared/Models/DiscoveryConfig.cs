@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Frozen;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Mail;
 using System.Text.Json.Serialization;
@@ -21,7 +22,7 @@ namespace wan24.AutoDiscover.Models
         /// <summary>
         /// Discovery configuration type
         /// </summary>
-        protected Type? _DiscoveryType = null;
+        protected Type? _DiscoveryType;
 
         /// <summary>
         /// Current configuration
@@ -75,12 +76,14 @@ namespace wan24.AutoDiscover.Models
         /// Additional file paths to watch for an automatic configuration reload
         /// </summary>
         [CountLimit(1, byte.MaxValue), ItemStringLength(short.MaxValue)]
+        [SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Bound once from appsettings.json and read-only after binding")]
         public string[]? WatchFiles { get; init; }
 
         /// <summary>
         /// Command to execute (and optional arguments) before reloading the configuration
         /// </summary>
         [CountLimit(1, byte.MaxValue), ItemStringLength(short.MaxValue)]
+        [SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Bound once from appsettings.json and read-only after binding")]
         public string[]? PreReloadCommand { get; init; }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace wan24.AutoDiscover.Models
         /// </summary>
         /// <param name="config">Configuration</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Discovery configuration</returns>
+        /// <returns>Discovery configuration (keys are compared case-insensitive; the email mappings are applied)</returns>
         public virtual async Task<IReadOnlyDictionary<string, DomainConfig>> GetDiscoveryConfigAsync(IConfigurationRoot config, CancellationToken cancellationToken = default)
         {
             Type discoveryType = DiscoveryType;
@@ -107,18 +110,18 @@ namespace wan24.AutoDiscover.Models
             // Parse the discovery configuration
             IDictionary discovery = config.GetRequiredSection("DiscoveryConfig:Discovery").Get(discoveryType) as IDictionary
                 ?? throw new InvalidDataException("Failed to get discovery configuration from the \"DiscoveryConfig:Discovery section\"");
-            object[] keys = new object[discovery.Count],
-                values = new object[discovery.Count];
-            discovery.Keys.CopyTo(keys, index: 0);
-            discovery.Values.CopyTo(values, index: 0);
-            Dictionary<string, DomainConfig> discoveryDomains = new(
-                Enumerable.Range(0, discovery.Count).Select(i => new KeyValuePair<string, DomainConfig>((string)keys[i], (DomainConfig)values[i]))
-                );
-            // Apply email mappings
+            // The non-generic dictionary of the configuration binder enumerates boxed entries; domain names are compared case-insensitive (the
+            // configuration keys are case-insensitive, too)
+            Dictionary<string, DomainConfig> discoveryDomains = new(discovery.Count, StringComparer.OrdinalIgnoreCase);
+            foreach (DictionaryEntry entry in discovery)
+                discoveryDomains[(string)entry.Key] = entry.Value as DomainConfig
+                    ?? throw new InvalidDataException($"Invalid domain configuration {((string)entry.Key).ToQuotedLiteral()}");
+            // Apply email mappings to the domain configurations which are going to be returned
             if (!string.IsNullOrWhiteSpace(EmailMappings))
                 if (File.Exists(EmailMappings))
                 {
-                    Logging.WriteInfo($"Loading email mappings from {EmailMappings.ToQuotedLiteral()}");
+                    if (Logging.Info)
+                        Logging.WriteInfo($"Loading email mappings from {EmailMappings.ToQuotedLiteral()}");
                     FileStream fs = FsHelper.CreateFileStream(EmailMappings, FileMode.Open, FileAccess.Read, FileShare.Read);
                     EmailMapping[] mappings;
                     await using (fs.DynamicContext())
@@ -139,7 +142,7 @@ namespace wan24.AutoDiscover.Models
                             !MailAddress.TryCreate(email, out MailAddress? emailAddress) ||
                             (emailAddress.User.Length == 1 && (emailAddress.User[0] == '*' || emailAddress.User[0] == '@')) ||
                             EmailMapping.GetLoginUser(mappings, email) is not string loginUser ||
-                            DomainConfig.GetConfig(string.Empty, emailParts) is not DomainConfig domain
+                            DomainConfig.GetConfig(discoveryDomains, string.Empty, emailParts) is not DomainConfig domain
                             )
                         {
                             if (Logging.Debug)
@@ -154,11 +157,11 @@ namespace wan24.AutoDiscover.Models
                         domain.LoginNameMapping[email] = loginUser;
                     }
                 }
-                else
+                else if (Logging.Warning)
                 {
                     Logging.WriteWarning($"Email mappings file {EmailMappings.ToQuotedLiteral()} not found");
                 }
-            return discoveryDomains.ToFrozenDictionary();
+            return discoveryDomains.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Buffers;
+using System.ComponentModel.DataAnnotations;
 using wan24.ObjectValidation;
 
 namespace wan24.AutoDiscover.Models
@@ -24,34 +25,54 @@ namespace wan24.AutoDiscover.Models
         public required IReadOnlyList<string> Targets { get; init; }
 
         /// <summary>
-        /// Get the login user from email mappings for an email address
+        /// Get the login user from email mappings for an email address (redirections to other mapped email addresses are followed breadth-first, each
+        /// mapping is visited once)
         /// </summary>
-        /// <param name="mappings">Mappings</param>
-        /// <param name="email">Email address</param>
-        /// <returns>Login user</returns>
-        public static string? GetLoginUser(IEnumerable<EmailMapping> mappings, string email)
+        /// <param name="mappings">Mappings (borrowed for the call)</param>
+        /// <param name="email">Email address (compared case-insensitive; borrowed for the call)</param>
+        /// <returns>Login user (the first target without <c>@</c>), or <see langword="null"/>, if the address isn't mapped or redirects to external
+        /// targets only</returns>
+        public static string? GetLoginUser(ReadOnlySpan<EmailMapping> mappings, ReadOnlySpan<char> email)
         {
-            if (mappings.FirstOrDefault(m => m.Email.Equals(email, StringComparison.OrdinalIgnoreCase)) is not EmailMapping mapping)
-                return null;
-            if (mapping.Targets.FirstOrDefault(t => !t.Contains('@')) is string loginName)
-                return loginName;
-            HashSet<string> seen = [email];
-            Queue<string> emails = [];
-            foreach (string target in mapping.Targets)
-                emails.Enqueue(target.ToLower());
-            while(emails.TryDequeue(out string? target))
+            int index = IndexOf(mappings, email);
+            if (index < 0) return null;
+            int count = mappings.Length;
+            // Breadth-first queue of mapping indexes (first half) and visited flags (second half)
+            using IMemoryOwner<int> buffer = MemoryPool<int>.Shared.Rent(count << 1);
+            Span<int> queue = buffer.Memory.Span[..count],
+                visited = buffer.Memory.Span[count..(count << 1)];
+            visited.Clear();
+            queue[0] = index;
+            visited[index] = 1;
+            for (int head = 0, tail = 1; head < tail; head++)
             {
-                if (
-                    !seen.Add(target) || 
-                    mappings.FirstOrDefault(m => m.Email.Equals(email, StringComparison.OrdinalIgnoreCase)) is not EmailMapping targetMapping
-                    )
-                    continue;
-                if (targetMapping.Targets.FirstOrDefault(t => !t.Contains('@')) is string targetLoginName)
-                    return targetLoginName;
-                foreach (string subTarget in targetMapping.Targets)
-                    emails.Enqueue(subTarget.ToLower());
+                IReadOnlyList<string> targets = mappings[queue[head]].Targets;
+                for (int i = 0, len = targets.Count; i < len; i++)
+                    if (!targets[i].Contains('@'))
+                        return targets[i];
+                for (int i = 0, len = targets.Count; i < len; i++)
+                {
+                    index = IndexOf(mappings, targets[i]);
+                    if (index < 0 || visited[index] != 0) continue;
+                    visited[index] = 1;
+                    queue[tail++] = index;
+                }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Get the index of the mapping of an email address
+        /// </summary>
+        /// <param name="mappings">Mappings (borrowed for the call)</param>
+        /// <param name="email">Email address (compared case-insensitive; borrowed for the call)</param>
+        /// <returns>Mapping index or <c>-1</c>, if not found</returns>
+        private static int IndexOf(ReadOnlySpan<EmailMapping> mappings, ReadOnlySpan<char> email)
+        {
+            for (int i = 0, len = mappings.Length; i < len; i++)
+                if (email.Equals(mappings[i].Email, StringComparison.OrdinalIgnoreCase))
+                    return i;
+            return -1;
         }
     }
 }
